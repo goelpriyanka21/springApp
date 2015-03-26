@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+
+<project name="springapp" basedir="." default="usage">
+    <property file="build.properties"/>
+
+    <property name="src.dir" value="src"/>
+    <property name="web.dir" value="war"/>
+    <property name="build.dir" value="${web.dir}/WEB-INF/classes"/>
+    <property name="name" value="springapp"/>
+	<property name="test.dir" value="test"/>
+
+    <path id="master-classpath">
+        <fileset dir="${web.dir}/WEB-INF/lib">
+            <include name="*.jar"/>
+        </fileset>
+        <!-- We need the servlet API classes: -->
+        <!--  * for Tomcat 5/6 use servlet-api.jar -->
+        <!--  * for other app servers - check the docs -->
+        <fileset dir="${appserver.lib}">
+            <include name="servlet*.jar"/>
+        </fileset>
+    	<fileset dir="/Users/priyanka/Documents/spring_libraries_required/">
+    		<include name="*.jar"/>
+    	</fileset>
+    	
+        <pathelement path="${build.dir}"/>
+    </path>
+
+    <target name="usage">
+        <echo message=""/>
+        <echo message="${name} build file"/>
+        <echo message="-----------------------------------"/>
+        <echo message=""/>
+        <echo message="Available targets are:"/>
+        <echo message=""/>
+        <echo message="build     --> Build the application"/>
+        <echo message="deploy    --> Deploy application as directory"/>
+        <echo message="deploywar --> Deploy application as a WAR file"/>
+        <echo message="install   --> Install application in Tomcat"/>
+        <echo message="reload    --> Reload application in Tomcat"/>
+        <echo message="start     --> Start Tomcat application"/>
+        <echo message="stop      --> Stop Tomcat application"/>
+        <echo message="list      --> List Tomcat applications"/>
+        <echo message=""/>
+    </target>
+
+    <target name="build" description="Compile main source tree java files">
+        <mkdir dir="${build.dir}"/>
+        <javac destdir="${build.dir}" source="1.5" target="1.5" debug="true"
+               deprecation="false" optimize="false" failonerror="true">
+            <src path="${src.dir}"/>
+            <classpath refid="master-classpath"/>
+        </javac>
+    </target>
+
+    <target name="deploy" depends="build" description="Deploy application">
+        <copy todir="${deploy.path}/${name}" preservelastmodified="true">
+            <fileset dir="${web.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="deploywar" depends="build" description="Deploy application as a WAR file">
+        <war destfile="${name}.war"
+             webxml="${web.dir}/WEB-INF/web.xml">
+            <fileset dir="${web.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </war>
+        <copy todir="${deploy.path}" preservelastmodified="true">
+            <fileset dir=".">
+                <include name="*.war"/>
+            </fileset>
+        </copy>
+    </target>
+    
+<!-- ============================================================== -->
+<!-- Tomcat tasks - remove these if you don't have Tomcat installed -->
+<!-- ============================================================== -->
+
+	<path id="catalina-ant-classpath">
+	    <fileset dir="${appserver.home}/lib">
+	        <include name="catalina-ant.jar"/>
+	        <include name="tomcat-coyote.jar"/>
+	        <include name="tomcat-util.jar"/>
+	    </fileset>
+	    <fileset dir="${appserver.home}/bin">
+	        <include name="tomcat-juli.jar"/>
+	    </fileset>
+	</path>
+
+    
+    	<taskdef name="install" classname="org.apache.catalina.ant.DeployTask">
+        <classpath refid="catalina-ant-classpath"/>
+    </taskdef>
+    <taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask">
+        <classpath refid="catalina-ant-classpath"/>
+    </taskdef>
+    <taskdef name="list" classname="org.apache.catalina.ant.ListTask">
+        <classpath refid="catalina-ant-classpath"/>
+    </taskdef>
+    <taskdef name="start" classname="org.apache.catalina.ant.StartTask">
+        <classpath refid="catalina-ant-classpath"/>
+    </taskdef>
+    <taskdef name="stop" classname="org.apache.catalina.ant.StopTask">
+        <classpath refid="catalina-ant-classpath"/>
+    </taskdef>
+
+    <target name="install" description="Install application in Tomcat">
+        <install url="${tomcat.manager.url}"
+                 username="${tomcat.manager.username}"
+                 password="${tomcat.manager.password}"
+                 path="/${name}"
+                 war="${name}"/>
+    </target>
+
+    <target name="reload" description="Reload application in Tomcat">
+        <reload url="${tomcat.manager.url}"
+                 username="${tomcat.manager.username}"
+                 password="${tomcat.manager.password}"
+                 path="/${name}"/>
+    </target>
+
+    <target name="start" description="Start Tomcat application">
+        <start url="${tomcat.manager.url}"
+                 username="${tomcat.manager.username}"
+                 password="${tomcat.manager.password}"
+                 path="/${name}"/>
+    </target>
+
+    <target name="stop" description="Stop Tomcat application">
+        <stop url="${tomcat.manager.url}"
+                 username="${tomcat.manager.username}"
+                 password="${tomcat.manager.password}"
+                 path="/${name}"/>
+    </target>
+
+    <target name="list" description="List Tomcat applications">
+        <list url="${tomcat.manager.url}"
+                 username="${tomcat.manager.username}"
+                 password="${tomcat.manager.password}"/>
+    </target>
+	
+	<target name="buildtests" description="Compile test tree java files">
+	        <mkdir dir="${build.dir}"/>
+	        <javac destdir="${build.dir}" source="1.5" target="1.5" debug="true"
+	            deprecation="false" optimize="false" failonerror="true">
+	            <src path="${test.dir}"/>
+	            <classpath refid="master-classpath"/>
+	        </javac>
+	    </target>
+
+	    
+	    <target name="tests" depends="build, buildtests" description="Run tests">
+	        <junit printsummary="on"
+	            fork="false"
+	            haltonfailure="false"
+	            failureproperty="tests.failed"
+	            showoutput="true">
+	            <classpath refid="master-classpath"/>
+	            <formatter type="brief" usefile="false"/>
+	            
+	            <batchtest>
+	                <fileset dir="${build.dir}">
+	                    <include name="**/*Tests.*"/>
+	                </fileset>
+	            </batchtest>
+	            
+	        </junit>
+	        
+	        <fail if="tests.failed">
+	            tests.failed=${tests.failed}
+	            ***********************************************************
+	            ***********************************************************
+	            ****  One or more tests failed!  Check the output ...  ****
+	            ***********************************************************
+	            ***********************************************************
+	        </fail>
+	    </target>
+	
+	<!-- for maven ant tasks added by priyanka for create-an-ant-build-file-from-maven-pomxml-->
+
+
+	<target name="mvn-init" unless="compile.classpath" xmlns:artifact="urn:maven-artifact-ant">    
+
+	    <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
+
+	        classpath="lib/maven-ant-tasks.jar"/> 
+
+	    <condition property="maven.repo.local" value="${maven.repo.local}" else="${user.home}/.m2/repository">
+
+	        <isset property="maven.repo.local"/>
+
+	    </condition>           
+
+	    <echo>maven.repo.local=${maven.repo.local}</echo>
+
+	    <artifact:localRepository id="local.repository" path="${maven.repo.local}"/> 
+
+	    <artifact:pom file="pom.xml" id="maven.project"/>
+
+	    <artifact:dependencies pathId="compile.classpath" filesetId="compile.fileset" useScope="compile">
+
+	        <pom refid="maven.project"/>
+
+	        <localRepository refid="local.repository"/>
+
+	    </artifact:dependencies>
+
+	    <artifact:dependencies pathId="test.classpath" filesetId="test.fileset" useScope="test">
+
+	        <pom refid="maven.project"/>
+
+	        <localRepository refid="local.repository"/>
+
+	    </artifact:dependencies>
+
+	    <artifact:dependencies pathId="runtime.classpath" filesetId="runtime.fileset" useScope="runtime">
+
+	        <pom refid="maven.project"/>
+
+	        <localRepository refid="local.repository"/>
+
+	    </artifact:dependencies>
+
+	</target>
+	
+	
+	<target name="compile" depends="mvn-init">
+	    <mkdir dir="target/classes"/>        
+	    <javac srcdir="src/main/java" destdir="target/classes" classpathref="compile.classpath"/>
+	    <copy todir="target/classes">
+	        <fileset dir="src/main/java" excludes="**/*.java"/>
+	    </copy>         
+	    <copy todir="target/classes" failonerror="false">
+	        <fileset dir="src/main/resources"/>
+	    </copy>              
+	</target>
+	
+	
+	<macrodef name="war-exploded">
+	    <attribute name="deployDir" default="target/${war.name}"/>
+	    <sequential>
+	        <copy todir="@{deployDir}">
+	            <fileset dir="src/main/webapp"/>
+	        </copy>
+	        <copy todir="@{deployDir}/WEB-INF/classes">
+	            <fileset dir="target/classes"/>
+	        </copy>
+	        <copy todir="@{deployDir}/WEB-INF/lib" flatten="true">
+	            <fileset refid="runtime.fileset"/>         
+	        </copy>
+	    </sequential>
+	</macrodef>          
+	 
+	<target name="war-exploded" depends="compile">
+	    <war-exploded/>        
+	</target>
+	 
+	<target name="war" depends="war-exploded">       
+	    <zip destfile="target/${war.name}.war" basedir="target/${war.name}"/>
+	</target>
+
+	
+	<target name="tomcat-war-exploded" depends="war-exploded">
+	    <war-exploded deployDir="${tomcat.home}/webapps/${war.name}"/>
+	</target>
+
+	
+	
+
+	<!-- for maven ant tasks added by priyanka for create-an-ant-build-file-from-maven-pomxml-->
+
+<!-- End Tomcat tasks -->
+
+</project>
