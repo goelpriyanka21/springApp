@@ -2,6 +2,7 @@ import forms.PGAndTenantData;
 import forms.PGData;
 import forms.TenantData;
 import helperclasses.Commute;
+import helperclasses.ContactPerson;
 import helperclasses.FoodOptions;
 import helperclasses.RatingAndListOfEsAndString;
 import helperclasses.SectionListOfFileNamePair;
@@ -37,6 +38,7 @@ public class AddNewPGAndTenantDataJson {
 	    	SectionListOfFileNamePair sfp1= new SectionListOfFileNamePair("Building",  Arrays.asList("srisaimanasabuilding"));
 	    	SectionListOfFileNamePair sfp2= new SectionListOfFileNamePair("Rooms",  Arrays.asList("srisaimanasaroom1", "srisaimanasaroom2"));
 			DepositAmount da= new DepositAmount(1000, false);
+			ContactPerson contactperson= new ContactPerson("Person1", "+91-986667918", "Person2", "+91-986867918", "Person3", "+91-9866227918");
 			StudProfper spp= new StudProfper(30, 70);
 			TwoIntegerpair ab= new TwoIntegerpair(20, 35);
 			SharingTypeRentbedsCombo strbc1= new SharingTypeRentbedsCombo("2-sharing", 5000, 5);
@@ -49,7 +51,7 @@ public class AddNewPGAndTenantDataJson {
 			RatingAndListOfEs<AmenityTypePricePair> ca= new RatingAndListOfEs<>(5, Arrays.asList(atpp1, atpp2));
 			RatingAndListOfEs<String> restrictions = new RatingAndListOfEs<String>(4, Arrays.asList("Guardian allowed", "Smoking allowed"));
 			Location selectedlocation= new Location(47.608942, -122.340145);
-			PGData pgdata= new PGData("Sri Sai Manasa PG", Arrays.asList(sfp1, sfp2), "#506", "Kormangala 5th block", "Bangalore", 274304, "Forum Mall", da, Arrays.asList("Male", "Female"), spp, "IT", ab, true, true, typesandavailability, sa, fd, ca, restrictions, new EntryTime(7, 30, "pm"), 
+			PGData pgdata= new PGData("Sri Sai Manasa PG", Arrays.asList(sfp1, sfp2), "#506", "Kormangala 5th block", "Bangalore", 274304, "Forum Mall", contactperson, da, Arrays.asList("Male", "Female"), spp, "IT", ab, true, true, typesandavailability, sa, fd, ca, restrictions, new EntryTime(7, 30, "pm"), 
 					selectedlocation);
 			
 			String[] threebestthings= {"neighbouhood", "owner behaviour", "facilities"};

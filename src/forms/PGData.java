@@ -4,8 +4,6 @@ import helperclasses.*;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,6 +29,7 @@ public class PGData {
 	public Integer pincode;
 	@Size(max = 100)
 	public String landmark;
+	private ContactPerson contactperson;
 	public DepositAmount depositamount;
 	@NotNull
 	@Size(min = 1)
@@ -53,7 +52,8 @@ public class PGData {
 	/** Required for form instantiation. */
 	public PGData(String pgName, List<SectionListOfFileNamePair> picturelist,
 			String buildingname, String addressl1, String addressl2,
-			int pincode, String landmark, DepositAmount depositamount,
+			int pincode, String landmark, ContactPerson contactperson, DepositAmount depositamount,
+			
 			List<String> availableFor, StudProfper stdprofper,
 			String typeofprofessional, TwoIntegerpair ageband,
 			boolean spacious, boolean clean,
@@ -73,6 +73,7 @@ public class PGData {
 		this.pincode = pincode;
 		this.landmark = landmark;
 
+		this.setContactperson(contactperson);
 		this.depositamount = depositamount;
 		this.availableFor = availableFor;
 		this.stdprofper = stdprofper;
@@ -272,6 +273,14 @@ public class PGData {
 
 	public void setEntrytime(EntryTime entrytime) {
 		this.entrytime = entrytime;
+	}
+
+	public ContactPerson getContactperson() {
+		return contactperson;
+	}
+
+	public void setContactperson(ContactPerson contactperson) {
+		this.contactperson = contactperson;
 	}
 
 	// public List<RatingAndListOfEs> getTypesandavailability() {

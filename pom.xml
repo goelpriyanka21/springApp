@@ -79,6 +79,8 @@
 	</dependency>
  	-->
 	</dependencies>
+	
+	
  
 	<build>
 		<plugins>
@@ -110,6 +112,23 @@
 			<url>http://localhost:8080/manager/text</url>
 			<server>TomcatServer</server>
 			<path>/springapp</path>
+			<extraDependencies>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                        <version>1.7.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jul-to-slf4j</artifactId>
+                        <version>1.7.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                        <version>1.2.17</version>
+                    </dependency>
+                </extraDependencies>
 		</configuration>
 	</plugin>
 	
@@ -124,6 +143,7 @@
 		
 		
 	<!-- Tomcat Maven Plugin added by priyanka-->
+	
 	
 		</plugins>
 	</build>
