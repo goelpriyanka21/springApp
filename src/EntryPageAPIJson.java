@@ -1,3 +1,5 @@
+import forms.EntryPage;
+import forms.Login;
 import helperclasses.Location;
 import helperclasses.PropertyNameTypeisLocked;
 import helperclasses.PropertyNameTypeisLocked;
@@ -8,10 +10,6 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import models.AddNewPGData;
-import models.EntryPage;
-import models.Login;
 
 public class EntryPageAPIJson {
 	static FileWriter writer;

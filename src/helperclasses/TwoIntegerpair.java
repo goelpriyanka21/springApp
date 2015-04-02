@@ -10,4 +10,11 @@ public class TwoIntegerpair {
 		this.maxlimit=j;
 	}
 
+	public int getminlimit(){
+		return minlimit;
+	}
+	
+	public int getmaxlimit(){
+		return maxlimit;
+	}
 }

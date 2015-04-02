@@ -2,9 +2,9 @@ package springapp.web;
 
 import java.util.List;
 
-import models.User;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import forms.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
 

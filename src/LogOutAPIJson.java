@@ -1,3 +1,5 @@
+import forms.LogOut;
+import forms.Login;
 import helperclasses.Location;
 
 import java.io.FileWriter;
@@ -5,9 +7,6 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import models.LogOut;
-import models.Login;
 
 public class LogOutAPIJson {
 	static FileWriter writer;

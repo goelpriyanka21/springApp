@@ -2,18 +2,31 @@ package helperclasses;
 
 public class Location {
 
-	double longi;
-	double lat;
+	private double longi;
+	private double lat;
 	
 	public Location() {
 		// TODO Auto-generated constructor stub
-		longi=0;
-		lat=0;
+		setLongi(0);
+		setLat(0);
 	}
 	public Location(double longi, double lat) {
 		// TODO Auto-generated constructor stub
-		this.longi=longi;
-		this.lat=lat;
+		this.setLongi(longi);
+		this.setLat(lat);
 	}
+	public double getLongi() {
+		return longi;
+	}
+	public void setLongi(double longi) {
+		this.longi = longi;
+	}
+	public double getLat() {
+		return lat;
+	}
+	public void setLat(double lat) {
+		this.lat = lat;
+	}
+	
 
 }

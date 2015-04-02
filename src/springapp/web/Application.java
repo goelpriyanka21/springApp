@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import models.User;
+import forms.User;
 
 //import org.springframework.context.support.GenericXmlApplicationContext;
 
@@ -39,7 +39,7 @@ public @ResponseBody String testdb() throws Exception {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 
-		User user = new User("mkyong", "password123");
+		User user = new User("priyanka", "password123");
 
 		// save
 		mongoOperation.save(user);
@@ -49,7 +49,7 @@ public @ResponseBody String testdb() throws Exception {
 
 		// query to search user
 		Query searchUserQuery = new Query(Criteria.where("username").is(
-				"mkyong"));
+				"priyanka"));
 
 		// find the saved user again.
 		User savedUser = mongoOperation.findOne(searchUserQuery, User.class);

@@ -14,20 +14,14 @@ import org.springframework.data.annotation.Id;
 @Controller
 public class HelloController {
 
-//    protected final Log logger = LogFactory.getLog(HelloCon);
+
 	
-    @RequestMapping(value="/test", method=RequestMethod.GET)
+    @RequestMapping(value="/test", method=RequestMethod.POST)
+
     public @ResponseBody String testGet(@RequestParam String id, @RequestParam String name, @RequestParam String thanks) {
     	
     	return( "Hey "+name+" Your Id is " +id+ " And It worked! Thanks "+thanks+" ");
     }
 
-//    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//
-//        logger.info("Returning hello view");
-//
-//        return new ModelAndView("hello.jsp");
-//    }
-
+    
 }

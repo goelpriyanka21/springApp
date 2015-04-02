@@ -1,3 +1,7 @@
+import forms.AppointmentCheck;
+import forms.AppointmentList;
+import forms.EntryPage;
+import forms.Login;
 import helperclasses.Location;
 import helperclasses.PropertyNameTypeisLocked;
 import helperclasses.PropertyNameTypeisLocked;
@@ -11,11 +15,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import models.AppointmentCheck;
-import models.AppointmentList;
-import models.EntryPage;
-import models.Login;
 
 public class AppointmentCheckAPIJson {
 	static FileWriter writer;

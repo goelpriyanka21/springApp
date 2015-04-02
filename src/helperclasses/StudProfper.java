@@ -11,5 +11,13 @@ public class StudProfper {
 		this.profper=j;
 		
 	}
+	
+	public int getstudper(){
+		return studper;
+	}
+	
+	public int getprofper(){
+		return profper;
+	}
 
 }

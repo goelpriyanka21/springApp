@@ -1,5 +1,7 @@
 package helperclasses;
 
+import javax.validation.constraints.Max;
+
 public class SharingTypeRentbedsCombo {
 	public SharingTypeRentbedsCombo(String string, int i, int j) {
 		this.sharingtype= string;
@@ -9,5 +11,6 @@ public class SharingTypeRentbedsCombo {
 	}
 	String sharingtype;
 	int rent;
+	@Max(100)
 	int bedsavailable;
 }

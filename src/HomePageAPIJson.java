@@ -1,3 +1,6 @@
+import forms.AppointmentList;
+import forms.HomePage;
+import forms.Login;
 import helperclasses.Location;
 
 import java.io.FileWriter;
@@ -5,10 +8,6 @@ import java.io.IOException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import models.AppointmentList;
-import models.HomePage;
-import models.Login;
 
 public class HomePageAPIJson {
 	static FileWriter writer;

@@ -1,11 +1,10 @@
 package springapp.web;
 
+import forms.Login;
 import helperclasses.Location;
 
 import java.io.FileWriter;
 import java.io.IOException;
-
-import models.Login;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +19,7 @@ import com.google.gson.GsonBuilder;
 @Controller
 public class LoginAPI {
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
+	@RequestMapping(value="/login", method=RequestMethod.POST)
 public @ResponseBody JsonNull testGet(@RequestParam String username, @RequestParam String password, @RequestParam Location gpslocation, @RequestParam String deviceid) {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		Login login = new Login("Priyanka", "priya123",  "ba435a", gpslocation);
