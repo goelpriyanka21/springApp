@@ -13,7 +13,7 @@ import helperclasses.Location;
 import helperclasses.RatingAndListOfEs;
 //import helperclasses.RatingAndListOfStrings;
 import helperclasses.RatingAndListOfEsAndString;
-@Document(collection = "tenantdata")
+@Document(collection = "flatdata")
 public class FlatDataModel {
 	
 	private String propertyId;
