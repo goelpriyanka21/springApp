@@ -56,7 +56,7 @@
 //			   String[] cableoperators= {"Airtel", "TataSky"};
 //			   String[] broadbandoperators= {"Airtel", "HathWay"};
 //			   List<String> locality= Arrays.asList("Convenience Store", "24 hrs avaialble", "Bigbazaar");
-//			  RatingAndListOfEs safety= new RatingAndListOfEs<>(3, Arrays.asList("StreetDogs", "Mosquito"));;
+//			  RatingAndListOfEs<String> safety= new RatingAndListOfEs<>(3, Arrays.asList("StreetDogs", "Mosquito"));;
 //			  String othersafetyissuesifany="None";
 //			  String gatekeepercontact="9876543210";
 //			  String societymanagercontact="9876543212";;

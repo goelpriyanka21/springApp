@@ -110,7 +110,7 @@ public class PGAndTenantData {
 		// TODO Auto-generated constructor stub
 		this.setStatus(string);
 		this.setMessage(string2);
-		this.errorfieldandstring= errorfieldandstring;
+		this.setErrorfieldandstring(errorfieldandstring);
 	}
 
 	public String getpropertyId() {
@@ -160,6 +160,14 @@ public class PGAndTenantData {
 
 	public void setPgdata(PGData pgdata) {
 		this.pgdata = pgdata;
+	}
+
+	public List<ErrorFieldAndMessage> getErrorfieldandstring() {
+		return errorfieldandstring;
+	}
+
+	public void setErrorfieldandstring(List<ErrorFieldAndMessage> errorfieldandstring) {
+		this.errorfieldandstring = errorfieldandstring;
 	}
 
 	// public List<RatingAndListOfEs> getTypesandavailability() {
