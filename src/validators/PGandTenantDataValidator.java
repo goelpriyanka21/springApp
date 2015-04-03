@@ -1,7 +1,7 @@
 package validators;
 
 import helperclasses.ErrorFieldAndMessage;
-import helperclasses.SectionListOfFileNamePair;
+
 import helperclasses.SharingTypeRentbedsCombo;
 
 import java.util.ArrayList;

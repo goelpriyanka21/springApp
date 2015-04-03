@@ -4,14 +4,9 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import forms.PGData;
+
 import forms.TenantData;
-import helperclasses.Commute;
-import helperclasses.FoodOptions;
-import helperclasses.Location;
-import helperclasses.RatingAndListOfEs;
-//import helperclasses.RatingAndListOfStrings;
-import helperclasses.RatingAndListOfEsAndString;
+
 @Document(collection = "tenantdata")
 public class TenantDataModel {
 	
@@ -19,10 +14,26 @@ public class TenantDataModel {
 	 private List<TenantData> pgtenantlist;
 	 
 	 public TenantDataModel(String propertyId,  List<TenantData> pgtenantlist){
-			this.propertyId= propertyId;
-			this.pgtenantlist= pgtenantlist;
+			this.setPropertyId(propertyId);
+			this.setPgtenantlist(pgtenantlist);
 			
 		}
+
+	public String getPropertyId() {
+		return propertyId;
+	}
+
+	public void setPropertyId(String propertyId) {
+		this.propertyId = propertyId;
+	}
+
+	public List<TenantData> getPgtenantlist() {
+		return pgtenantlist;
+	}
+
+	public void setPgtenantlist(List<TenantData> pgtenantlist) {
+		this.pgtenantlist = pgtenantlist;
+	}
 
 	
 }

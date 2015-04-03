@@ -1,15 +1,13 @@
 package validators;
 
 import helperclasses.ErrorFieldAndMessage;
-import helperclasses.SectionListOfFileNamePair;
-import helperclasses.SharingTypeRentbedsCombo;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import forms.BuildingAndFlatData;
-import forms.PGAndTenantData;
-import forms.TenantData;
+
 
 public class BuildingAndFlatDataValidator {
 

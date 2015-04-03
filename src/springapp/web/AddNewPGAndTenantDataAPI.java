@@ -4,7 +4,6 @@ import helperclasses.ErrorFieldAndMessage;
 
 import java.util.List;
 
-import javax.validation.Valid;
 
 import models.PGDataModel;
 import models.TenantDataModel;
@@ -16,7 +15,6 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
