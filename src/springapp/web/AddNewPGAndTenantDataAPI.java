@@ -1,5 +1,7 @@
 package springapp.web;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import models.PGDataModel;
@@ -19,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import forms.PGAndTenantData;
-import validators.AddNewPGDataValidator;
+//import validators.AddNewPGDataValidator;
+import validators.PGandTenantDataValidator;
 
 @Controller
 public class AddNewPGAndTenantDataAPI {
@@ -50,10 +53,14 @@ public class AddNewPGAndTenantDataAPI {
 		// session expired please login again; will code later
 
 //		 DATA VALIDATION FAILURE:
-		AddNewPGDataValidator addNewPGDataValidator = new AddNewPGDataValidator();
-		addNewPGDataValidator.validate(pgAndTenantData, bindingResult);
+//		AddNewPGDataValidator addNewPGDataValidator = new AddNewPGDataValidator();
+//		addNewPGDataValidator.validate(pgAndTenantData, bindingResult);
+		List<String> errorfieldandstring= PGandTenantDataValidator.validate(pgAndTenantData);
+		
 		if (bindingResult.hasErrors())
 			return new PGAndTenantData("Failure", "Data validation failed");
+		if(errorfieldandstring.size()!=0)
+			return new  PGAndTenantData("Failure", "Data validation failed", errorfieldandstring);
 
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
 		// UNIQUE ID AND SAVE DATA

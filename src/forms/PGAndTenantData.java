@@ -30,6 +30,7 @@ public class PGAndTenantData {
 	// POST
 	private String status;
 	private String message;
+	private List<String> errorfieldandstring;
 	
 	
 	public String getUsername() {
@@ -104,6 +105,14 @@ public class PGAndTenantData {
 		this.setMessage(string2);
 	}
 	
+	public PGAndTenantData(String string, String string2,
+			List<String> errorfieldandstring) {
+		// TODO Auto-generated constructor stub
+		this.setStatus(string);
+		this.setMessage(string2);
+		this.errorfieldandstring= errorfieldandstring;
+	}
+
 	public String getpropertyId() {
 		return propertyId;
 	}
