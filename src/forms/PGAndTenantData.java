@@ -4,6 +4,7 @@ import helperclasses.*;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -20,7 +21,8 @@ public class PGAndTenantData {
 	private String token;
 	@NotNull
 	private String propertyId;
-
+	
+	@Valid
 	private PGData pgdata;
 
 	private List<TenantData> pgtenantlist;

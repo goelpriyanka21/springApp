@@ -11,31 +11,31 @@ import javax.validation.constraints.Size;
 public class PGData {
 
 	// specific to a pg
-	@NotNull
+//	@NotNull
 	public List<SectionListOfFileNamePair> picturelist;
 	@NotNull
-	@Size(max = 50)
+	@Size(min = 2, max = 50)
 	public String pgName;
-	@Size(max = 50)
+//	@Size(max = 50)
 	public String buildingname;
-	@NotNull
-	@Size(max = 100)
+//	@NotNull
+//	@Size(max = 100)
 	public String addressl1;
-	@NotNull
-	@Size(max = 100)
+//	@NotNull
+//	@Size(max = 100)
 	public String addressl2;
-	@NotNull
-	@Max(18)
+//	@NotNull
+//	@Max(6)
 	public Integer pincode;
-	@Size(max = 100)
+//	@Size(max = 100)
 	public String landmark;
 	private ContactPerson contactperson;
 	public DepositAmount depositamount;
-	@NotNull
-	@Size(min = 1)
+//	@NotNull
+//	@Size(min = 1)
 	private List<String> availableFor;
 	private StudProfper stdprofper;
-	@Size(max = 100)
+//	@Size(max = 100)
 	public String typeofprofessional;
 	private TwoIntegerpair ageband;
 	public Boolean spacious;
@@ -46,7 +46,7 @@ public class PGData {
 	public RatingAndListOfEs<AmenityTypePricePair> chargedamenities;
 	public RatingAndListOfEs<String> restrictions;
 	private EntryTime entrytime;
-	@NotNull
+//	@NotNull
 	private Location selectedlocation;
 
 	/** Required for form instantiation. */
