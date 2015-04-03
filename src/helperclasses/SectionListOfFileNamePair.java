@@ -7,12 +7,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class SectionListOfFileNamePair {
 	public String section;
-	public List<String> photoname;
+	public List<String> photonamelist;
 //	public MultipartFile file2;
 
 	public SectionListOfFileNamePair(String section, List<String> photoname){
 		this.section=section;
-		this.photoname=photoname;
+		this.photonamelist=photoname;
 		
 	}
 	

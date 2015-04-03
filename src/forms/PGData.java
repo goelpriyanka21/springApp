@@ -17,7 +17,7 @@ public class PGData {
 //	@Size(min = 2, max = 50)
 	public String pgName;
 //	@Size(max = 50)
-	public String buildingname;
+	private String buildingname;
 //	@NotNull
 //	@Size(max = 100)
 	public String addressl1;
@@ -37,7 +37,7 @@ public class PGData {
 	private StudProfper stdprofper;
 //	@Size(max = 100)
 	public String typeofprofessional;
-	private TwoIntegerpair ageband;
+	private TwoIntegerpair ageBand;
 	public Boolean spacious;
 	public Boolean clean;
 	public RatingAndListOfEs<SharingTypeRentbedsCombo> typesandavailability;
@@ -77,7 +77,7 @@ public class PGData {
 		this.depositamount = depositamount;
 		this.availableFor = availableFor;
 		this.stdprofper = stdprofper;
-		this.ageband = ageband;
+		this.ageBand = ageband;
 		this.typeofprofessional = typeofprofessional;
 		this.spacious = spacious;
 		this.clean = clean;
@@ -154,7 +154,7 @@ public class PGData {
 	}
 
 	public TwoIntegerpair getAgeband() {
-		return ageband;
+		return ageBand;
 	}
 
 	public List<SectionListOfFileNamePair> getPicturelist() {
@@ -264,7 +264,7 @@ public class PGData {
 	}
 
 	public void setAgeband(TwoIntegerpair ageband) {
-		this.ageband = ageband;
+		this.ageBand = ageband;
 	}
 
 	public EntryTime getEntrytime() {

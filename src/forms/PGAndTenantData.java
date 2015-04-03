@@ -16,7 +16,7 @@ public class PGAndTenantData {
 //	@Size(min = 2, max = 30)
 	private String DeviceId;
 //	@NotNull
-	private Location gpslocation;
+	private Location gpsLocation;
 //	@NotNull
 	private String token;
 //	@NotNull
@@ -30,7 +30,7 @@ public class PGAndTenantData {
 	// POST
 	private String status;
 	private String message;
-	private List<String> errorfieldandstring;
+	private List<ErrorFieldAndMessage> errorfieldandstring;
 	
 	
 	public String getUsername() {
@@ -50,11 +50,11 @@ public class PGAndTenantData {
 	}
 
 	public Location getGpslocation() {
-		return gpslocation;
+		return gpsLocation;
 	}
 
 	public void setGpslocation(Location gpslocation) {
-		this.gpslocation = gpslocation;
+		this.gpsLocation = gpslocation;
 	}
 
 	public String getToken() {
@@ -86,7 +86,7 @@ public class PGAndTenantData {
 			Location gpslocation, String token, String propertyId,
 			PGData pgdata, List<TenantData> pgtenantlist) {
 		this.username = username;
-		this.gpslocation = gpslocation;
+		this.gpsLocation = gpslocation;
 		this.DeviceId = DeviceId;
 		this.token = token;
 		this.propertyId = propertyId;
@@ -106,7 +106,7 @@ public class PGAndTenantData {
 	}
 	
 	public PGAndTenantData(String string, String string2,
-			List<String> errorfieldandstring) {
+			List<ErrorFieldAndMessage> errorfieldandstring) {
 		// TODO Auto-generated constructor stub
 		this.setStatus(string);
 		this.setMessage(string2);
@@ -126,11 +126,11 @@ public class PGAndTenantData {
 	}
 
 	public Location getgpslocation() {
-		return gpslocation;
+		return gpsLocation;
 	}
 
 	public void setgpslocation(Location gpslocation) {
-		this.gpslocation = gpslocation;
+		this.gpsLocation = gpslocation;
 	}
 
 	public void setusername(String username) {

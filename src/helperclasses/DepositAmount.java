@@ -1,9 +1,9 @@
 package helperclasses;
 
-import javax.validation.constraints.Digits;
+
 
 public class DepositAmount {
-	@Digits(fraction = 0, integer = 10)
+	
 	public int depositamount;
 	public Boolean onemonthrent;
 

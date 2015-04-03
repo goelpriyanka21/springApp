@@ -1,5 +1,7 @@
 package springapp.web;
 
+import helperclasses.ErrorFieldAndMessage;
+
 import java.util.List;
 
 import javax.validation.Valid;
@@ -55,12 +57,12 @@ public class AddNewPGAndTenantDataAPI {
 //		 DATA VALIDATION FAILURE:
 //		AddNewPGDataValidator addNewPGDataValidator = new AddNewPGDataValidator();
 //		addNewPGDataValidator.validate(pgAndTenantData, bindingResult);
-		List<String> errorfieldandstring= PGandTenantDataValidator.validate(pgAndTenantData);
+		List<ErrorFieldAndMessage> errorfieldandstringlist= PGandTenantDataValidator.validate(pgAndTenantData);
 		
 //		if (bindingResult.hasErrors())
 //			return new PGAndTenantData("Failure", "Data validation failed");
-		if(errorfieldandstring.size()!=0)
-			return new  PGAndTenantData("Failure", "Data validation failed", errorfieldandstring);
+		if(errorfieldandstringlist.size()!=0)
+			return new  PGAndTenantData("Failure", "Data validation failed", errorfieldandstringlist);
 
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
 		// UNIQUE ID AND SAVE DATA

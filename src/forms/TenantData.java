@@ -13,7 +13,6 @@ import helperclasses.RatingAndListOfEsAndString;
 
 public class TenantData {
 	// GET: specific to a pg tenant
-
 	public String tenantname;
 	public String contact;
 	public String emailId;
@@ -35,6 +34,169 @@ public class TenantData {
 	Boolean referralpossibilty;
 	String servicesInterested;
 	String additionalComments;
+
+	public String getTenantname() {
+		return tenantname;
+	}
+
+	public void setTenantname(String tenantname) {
+		this.tenantname = tenantname;
+	}
+
+	public String getContact() {
+		return contact;
+	}
+
+	public void setContact(String contact) {
+		this.contact = contact;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getProfession() {
+		return profession;
+	}
+
+	public void setProfession(String profession) {
+		this.profession = profession;
+	}
+
+	public String[] getThreeBestThingsAboutPG() {
+		return threeBestThingsAboutPG;
+	}
+
+	public void setThreeBestThingsAboutPG(String[] threeBestThingsAboutPG) {
+		this.threeBestThingsAboutPG = threeBestThingsAboutPG;
+	}
+
+	public String[] getThreethingsyoudontlikeaboutPG() {
+		return threethingsyoudontlikeaboutPG;
+	}
+
+	public void setThreethingsyoudontlikeaboutPG(
+			String[] threethingsyoudontlikeaboutPG) {
+		this.threethingsyoudontlikeaboutPG = threethingsyoudontlikeaboutPG;
+	}
+
+	public RatingAndListOfEsAndString getSafety() {
+		return safety;
+	}
+
+	public void setSafety(RatingAndListOfEsAndString safety) {
+		this.safety = safety;
+	}
+
+	public RatingAndListOfEs getCleanliness() {
+		return cleanliness;
+	}
+
+	public void setCleanliness(RatingAndListOfEs cleanliness) {
+		this.cleanliness = cleanliness;
+	}
+
+	public List<String> getOtherRoommates() {
+		return otherRoommates;
+	}
+
+	public void setOtherRoommates(List<String> otherRoommates) {
+		this.otherRoommates = otherRoommates;
+	}
+
+	public Commute getCommute() {
+		return commute;
+	}
+
+	public void setCommute(Commute commute) {
+		this.commute = commute;
+	}
+
+	public FoodOptions getFoodOptions() {
+		return foodOptions;
+	}
+
+	public void setFoodOptions(FoodOptions foodOptions) {
+		this.foodOptions = foodOptions;
+	}
+
+	public Integer getOwnerAndServiceFeedBack() {
+		return ownerAndServiceFeedBack;
+	}
+
+	public void setOwnerAndServiceFeedBack(Integer ownerAndServiceFeedBack) {
+		this.ownerAndServiceFeedBack = ownerAndServiceFeedBack;
+	}
+
+	public Integer getOwnerInteractionReview() {
+		return ownerInteractionReview;
+	}
+
+	public void setOwnerInteractionReview(Integer ownerInteractionReview) {
+		this.ownerInteractionReview = ownerInteractionReview;
+	}
+
+	public String getOwnerflexibility() {
+		return ownerflexibility;
+	}
+
+	public void setOwnerflexibility(String ownerflexibility) {
+		this.ownerflexibility = ownerflexibility;
+	}
+
+	public List<String> getRentPaymentMode() {
+		return rentPaymentMode;
+	}
+
+	public void setRentPaymentMode(List<String> rentPaymentMode) {
+		this.rentPaymentMode = rentPaymentMode;
+	}
+
+	public Integer getServiceReview() {
+		return serviceReview;
+	}
+
+	public void setServiceReview(Integer serviceReview) {
+		this.serviceReview = serviceReview;
+	}
+
+	public Boolean getReferralpossibilty() {
+		return referralpossibilty;
+	}
+
+	public void setReferralpossibilty(Boolean referralpossibilty) {
+		this.referralpossibilty = referralpossibilty;
+	}
+
+	public String getServicesInterested() {
+		return servicesInterested;
+	}
+
+	public void setServicesInterested(String servicesInterested) {
+		this.servicesInterested = servicesInterested;
+	}
+
+	public String getAdditionalComments() {
+		return additionalComments;
+	}
+
+	public void setAdditionalComments(String additionalComments) {
+		this.additionalComments = additionalComments;
+	}
+
+	
 
 	public TenantData(
 			String tenantname, String contact, String emailId, int age,
