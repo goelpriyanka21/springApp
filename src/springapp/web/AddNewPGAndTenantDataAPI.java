@@ -29,7 +29,7 @@ public class AddNewPGAndTenantDataAPI {
 
 	@RequestMapping(value = "/addnewpgandtenantdata", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody PGAndTenantData addNewPGandTenantData(
-			@Valid @RequestBody PGAndTenantData pgAndTenantData, BindingResult bindingResult)
+			 @RequestBody PGAndTenantData pgAndTenantData)
 			throws Exception {
 
 		ApplicationContext ctx = new GenericXmlApplicationContext(
@@ -57,8 +57,8 @@ public class AddNewPGAndTenantDataAPI {
 //		addNewPGDataValidator.validate(pgAndTenantData, bindingResult);
 		List<String> errorfieldandstring= PGandTenantDataValidator.validate(pgAndTenantData);
 		
-		if (bindingResult.hasErrors())
-			return new PGAndTenantData("Failure", "Data validation failed");
+//		if (bindingResult.hasErrors())
+//			return new PGAndTenantData("Failure", "Data validation failed");
 		if(errorfieldandstring.size()!=0)
 			return new  PGAndTenantData("Failure", "Data validation failed", errorfieldandstring);
 

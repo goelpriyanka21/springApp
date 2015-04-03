@@ -13,8 +13,8 @@ public class PGData {
 	// specific to a pg
 //	@NotNull
 	public List<SectionListOfFileNamePair> picturelist;
-	@NotNull
-	@Size(min = 2, max = 50)
+//	@NotNull
+//	@Size(min = 2, max = 50)
 	public String pgName;
 //	@Size(max = 50)
 	public String buildingname;

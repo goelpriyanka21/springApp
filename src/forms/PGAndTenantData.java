@@ -4,25 +4,25 @@ import helperclasses.*;
 
 import java.util.List;
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+//import javax.validation.Valid;
+//import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.Size;
 
 public class PGAndTenantData {
 	// GET must
-	@NotNull
+//	@NotNull
 	private String username;
-	@NotNull
-	@Size(min = 2, max = 30)
+//	@NotNull
+//	@Size(min = 2, max = 30)
 	private String DeviceId;
-	@NotNull
+//	@NotNull
 	private Location gpslocation;
-	@NotNull
+//	@NotNull
 	private String token;
-	@NotNull
+//	@NotNull
 	private String propertyId;
 	
-	@Valid
+//	@Valid
 	private PGData pgdata;
 
 	private List<TenantData> pgtenantlist;
