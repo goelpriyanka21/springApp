@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import forms.BuildingAndFlatData;
 import forms.PGAndTenantData;
+import forms.PostForm;
 //import validators.AddNewPGDataValidator;
 import validators.PGandTenantDataValidator;
 
@@ -28,9 +28,8 @@ import validators.PGandTenantDataValidator;
 public class AddNewPGAndTenantDataAPI {
 
 	@RequestMapping(value = "/addnewpgandtenantdata", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public @ResponseBody PGAndTenantData addNewPGandTenantData(
-			 @RequestBody PGAndTenantData pgAndTenantData)
-			throws Exception {
+	public @ResponseBody PostForm addNewPGandTenantData(
+			@RequestBody PGAndTenantData pgAndTenantData) throws Exception {
 
 		ApplicationContext ctx = new GenericXmlApplicationContext(
 				"springapp-servlet.xml");
@@ -40,38 +39,42 @@ public class AddNewPGAndTenantDataAPI {
 		// check in token db extract token for this username nd match with
 		// received token
 
-		UserNameToken usernametoken = mongoOperation
-				.findOne(
-						new Query(Criteria.where("username").is(
-								pgAndTenantData.getUsername())), UserNameToken.class);
-		
+		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
+				.where("username").is(pgAndTenantData.getUsername())),
+				UserNameToken.class);
+
 		if (usernametoken == null)
-			return new PGAndTenantData("Failure", "Username does not exist");
-		
-		
-				String token= usernametoken.gettoken();
+			return new PostForm("Failure", "Username does not exist");
+
+		String token = usernametoken.gettoken();
 
 		// TOKEN AUTHENTICATION FAILURE:
 		if (!token.equals(pgAndTenantData.getToken()))
-			return new PGAndTenantData("Failure", "Token authentication failed");
+			return new PostForm("Failure", "Token authentication failed");
 
 		// session expired please login again; will code later
 
-//		 DATA VALIDATION FAILURE:
-//		AddNewPGDataValidator addNewPGDataValidator = new AddNewPGDataValidator();
-//		addNewPGDataValidator.validate(pgAndTenantData, bindingResult);
-		List<ErrorFieldAndMessage> errorfieldandstringlist= PGandTenantDataValidator.validate(pgAndTenantData);
-		
-//		if (bindingResult.hasErrors())
-//			return new PGAndTenantData("Failure", "Data validation failed");
-		if(errorfieldandstringlist.size()!=0)
-			return new  PGAndTenantData("Failure", "Data validation failed", errorfieldandstringlist);
+		// DATA VALIDATION FAILURE:
+		// AddNewPGDataValidator addNewPGDataValidator = new
+		// AddNewPGDataValidator();
+		// addNewPGDataValidator.validate(pgAndTenantData, bindingResult);
+		List<ErrorFieldAndMessage> errorfieldandstringlist = PGandTenantDataValidator
+				.validate(pgAndTenantData);
+
+		// if (bindingResult.hasErrors())
+		// return new PGAndTenantData("Failure", "Data validation failed");
+		if (errorfieldandstringlist.size() != 0)
+			return new PostForm("Failure", "Data validation failed",
+					errorfieldandstringlist);
 
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
 		// UNIQUE ID AND SAVE DATA
-		mongoOperation.save(new PGDataModel(pgAndTenantData.getpropertyId(), pgAndTenantData.getPgdata()));
-		mongoOperation.save(new TenantDataModel(pgAndTenantData.getpropertyId(), pgAndTenantData.getpgtenantlist()));
-		return new PGAndTenantData("Success", "Data successfully stored on server");
+		mongoOperation.save(new PGDataModel(pgAndTenantData.getpropertyId(),
+				pgAndTenantData.getPgdata()));
+		mongoOperation.save(new TenantDataModel(
+				pgAndTenantData.getpropertyId(), pgAndTenantData
+						.getpgtenantlist()));
+		return new PostForm("Success", "Data successfully stored on server");
 	}
 
 }

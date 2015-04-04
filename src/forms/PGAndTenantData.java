@@ -9,30 +9,17 @@ import java.util.List;
 //import javax.validation.constraints.Size;
 
 public class PGAndTenantData {
-	// GET must
-//	@NotNull
+
 	private String username;
-//	@NotNull
-//	@Size(min = 2, max = 30)
 	private String DeviceId;
-//	@NotNull
 	private Location gpsLocation;
-//	@NotNull
 	private String token;
-//	@NotNull
 	private String propertyId;
-	
-//	@Valid
+
 	private PGData pgdata;
 
 	private List<TenantData> pgtenantlist;
 
-	// POST
-	private String status;
-	private String message;
-	private List<ErrorFieldAndMessage> errorfieldandstring;
-	
-	
 	public String getUsername() {
 		return username;
 	}
@@ -99,20 +86,6 @@ public class PGAndTenantData {
 		this.username = username;
 	}
 
-	public PGAndTenantData(String string, String string2) {
-		// TODO Auto-generated constructor stub
-		this.setStatus(string);
-		this.setMessage(string2);
-	}
-	
-	public PGAndTenantData(String string, String string2,
-			List<ErrorFieldAndMessage> errorfieldandstring) {
-		// TODO Auto-generated constructor stub
-		this.setStatus(string);
-		this.setMessage(string2);
-		this.setErrorfieldandstring(errorfieldandstring);
-	}
-
 	public String getpropertyId() {
 		return propertyId;
 	}
@@ -120,7 +93,7 @@ public class PGAndTenantData {
 	public void setpropertyId(String propertyId) {
 		this.propertyId = propertyId;
 	}
-	
+
 	public List<TenantData> getpgtenantlist() {
 		return pgtenantlist;
 	}
@@ -138,22 +111,6 @@ public class PGAndTenantData {
 		this.username = username;
 	}
 
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
 	public PGData getPgdata() {
 		return pgdata;
 	}
@@ -161,62 +118,5 @@ public class PGAndTenantData {
 	public void setPgdata(PGData pgdata) {
 		this.pgdata = pgdata;
 	}
-
-	public List<ErrorFieldAndMessage> getErrorfieldandstring() {
-		return errorfieldandstring;
-	}
-
-	public void setErrorfieldandstring(List<ErrorFieldAndMessage> errorfieldandstring) {
-		this.errorfieldandstring = errorfieldandstring;
-	}
-
-	// public List<RatingAndListOfEs> getTypesandavailability() {
-	// return typesandavailability;
-	// }
-	//
-	// public void setTypesandavailability(List<RatingAndListOfEs>
-	// typesandavailability) {
-	// this.typesandavailability = typesandavailability;
-	// }
-
-	// public ServiceAvailable getServiceavailable() {
-	// return serviceavailable;
-	// }
-	//
-	// public void setServiceavailable(ServiceAvailable serviceavailable) {
-	// this.serviceavailable = serviceavailable;
-	// }
-	//
-	// public FoodDetails getFooddetails() {
-	// return fooddetails;
-	// }
-	//
-	// public void setFooddetails(FoodDetails fooddetails) {
-	// this.fooddetails = fooddetails;
-	// }
-
-	// public List<String> getRestrictions() {
-	// return restrictions;
-	// }
-	//
-	// public void setRestrictions(List<String> restrictions) {
-	// this.restrictions = restrictions;
-	// }
-
-	// public ChargedAmenities getChargedamenities() {
-	// return chargedamenities;
-	// }
-	//
-	// public void setChargedamenities(ChargedAmenities chargedamenities) {
-	// this.chargedamenities = chargedamenities;
-	// }
-
-	// public List<SectionFilePair> getPicture() {
-	// return picturelist;
-	// }
-	//
-	// public void setPicturelist(List<SectionFilePair> picture) {
-	// this.picturelist = picture;
-	// }
 
 }
