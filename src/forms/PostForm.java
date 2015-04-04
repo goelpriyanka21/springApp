@@ -9,6 +9,7 @@ public class PostForm {
 	// POST
 		private String status;
 		private String message;
+		private String token;
 		  private List<ErrorFieldAndMessage> errorfieldandstring;
 		  
 		  public PostForm(String string, String string2) {
@@ -25,6 +26,13 @@ public class PostForm {
 				this.errorfieldandstring= errorfieldandstring;
 			}
 			
+			public PostForm(String status, String message, String token) {
+				// TODO Auto-generated constructor stub
+				this.status= status;
+				this.message= message;
+				this.token= token;
+			}
+
 			public String getStatus() {
 				return status;
 			}
@@ -43,6 +51,14 @@ public class PostForm {
 			public void setErrorfieldandstring(
 					List<ErrorFieldAndMessage> errorfieldandstring) {
 				this.errorfieldandstring = errorfieldandstring;
+			}
+
+			public String getToken() {
+				return token;
+			}
+
+			public void setToken(String token) {
+				this.token = token;
 			}
 
 

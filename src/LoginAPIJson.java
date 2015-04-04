@@ -1,4 +1,5 @@
-import forms.Login;
+import forms.LoginData;
+import forms.PostForm;
 import helperclasses.Location;
 
 import java.io.FileWriter;
@@ -16,35 +17,35 @@ public class LoginAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//LoginAPIJson.json"); 
 		
 		//GET
-		Login loginget = new Login("Priyanka", "priya123", "ba435a", new Location(47.608941, -122.340145));
+		LoginData loginget = new LoginData("Priyanka", "priya123", "ba435a", new Location(47.608941, -122.340145));
 		String logingetjson = gson.toJson(loginget);
 		System.out.println(logingetjson);
 		writer.append("//GET\n");
 		writer.append(logingetjson+"\n\n"); 
 		
 		//POST: Failure
-				Login loginpost = new Login("Failure", "UserName does not exist");
+		PostForm loginpost = new PostForm("Failure", "UserName does not exist");
 				String loginpostjson = gson.toJson(loginpost);
 				System.out.println(loginpostjson);	  
 				writer.append("//POST: Failure\n");
 				writer.append(loginpostjson+"\n\n");
 				
 				//POST: Failure
-				 loginpost = new Login("Failure", "UserName And Password does not match");
+				 loginpost = new PostForm("Failure", "UserName And Password does not match");
 				 loginpostjson = gson.toJson(loginpost);
 				System.out.println(loginpostjson);	  
 				writer.append("//POST: Failure\n");
 				writer.append(loginpostjson+"\n\n");
 				
 				//POST: Failure
-				 loginpost = new Login("Failure", "DeviceId Authentication failed");
+				 loginpost = new PostForm("Failure", "DeviceId Authentication failed");
 				 loginpostjson = gson.toJson(loginpost);
 				System.out.println(loginpostjson);	  
 				writer.append("//POST: Failure\n");
 				writer.append(loginpostjson+"\n\n");
 		
 		//POST: success
-		 loginpost = new Login("success", "Authentication successful, Keep the token for this session", "pritoken123");
+		 loginpost = new PostForm("success", "Authentication successful, Keep the token for this session", "pritoken123");
 		 loginpostjson = gson.toJson(loginpost);
 		System.out.println(loginpostjson);	  
 		writer.append("//POST\n");

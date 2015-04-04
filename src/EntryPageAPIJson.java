@@ -1,5 +1,4 @@
 import forms.EntryPage;
-import forms.Login;
 import helperclasses.Location;
 import helperclasses.PropertyNameTypeisLocked;
 import helperclasses.PropertyNameTypeisLocked;

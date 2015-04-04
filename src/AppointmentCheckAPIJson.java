@@ -1,16 +1,9 @@
 import forms.AppointmentCheck;
-import forms.AppointmentList;
-import forms.EntryPage;
-import forms.Login;
 import helperclasses.Location;
 import helperclasses.PropertyNameTypeisLocked;
-import helperclasses.PropertyNameTypeisLocked;
-
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import com.google.gson.Gson;
