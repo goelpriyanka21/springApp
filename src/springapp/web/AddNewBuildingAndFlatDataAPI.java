@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import forms.BuildingAndFlatData;
 import forms.PostForm;
 import validators.BuildingAndFlatDataValidator;
+import validators.TokenValidator;
 
 @Controller
 public class AddNewBuildingAndFlatDataAPI {
@@ -46,12 +47,10 @@ public class AddNewBuildingAndFlatDataAPI {
 		if (usernametoken == null)
 			return new PostForm("Failure", "Username does not exist");
 
-		String token = usernametoken.gettoken();
-
 		// TOKEN AUTHENTICATION FAILURE:
-		if (!token.equals(buildingAndFlatData.getToken()))
-			return new PostForm("Failure",
-					"Token authentication failed");
+		if (!TokenValidator.validate(usernametoken.gettoken(),
+				buildingAndFlatData.getToken()))
+			return new PostForm("Failure", "Token authentication failed");
 
 		// session expired please login again; will code later
 
@@ -68,8 +67,7 @@ public class AddNewBuildingAndFlatDataAPI {
 				.getPropertyId(), buildingAndFlatData.getBuildingData()));
 		mongoOperation.save(new FlatDataModel(buildingAndFlatData
 				.getPropertyId(), buildingAndFlatData.getFlatData()));
-		return new PostForm("Success",
-				"Data successfully stored on server");
+		return new PostForm("Success", "Data successfully stored on server");
 	}
 
 }

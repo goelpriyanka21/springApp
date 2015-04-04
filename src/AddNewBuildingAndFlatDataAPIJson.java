@@ -1,6 +1,7 @@
 import forms.BuildingAndFlatData;
 import forms.BuildingData;
 import forms.FlatData;
+import forms.PostForm;
 import helperclasses.FamilyBachPer;
 import helperclasses.Section24hrsAvailablePreferredPlace;
 import helperclasses.SectionListOfFileNamePair;
@@ -118,14 +119,14 @@ public class AddNewBuildingAndFlatDataAPIJson {
 		writer.append(addnewbuildingdatajson+"\n\n"); 
 		
 		//POST: failure
-		BuildingAndFlatData addnewbuildingdatapost = new BuildingAndFlatData("Failure", "Token Authentication failed");
+		PostForm addnewbuildingdatapost = new PostForm("Failure", "Token Authentication failed");
 		String addnewbuildingdatapostjson = gson.toJson(addnewbuildingdatapost);
 		System.out.println(addnewbuildingdatapostjson);	  
 		writer.append("//POST: failure\n");
 		writer.append(addnewbuildingdatapostjson+"\n\n");
 		
 		//Another POST: success
-		BuildingAndFlatData addNewBuildingDatapost2 = new BuildingAndFlatData("Success", "Data successfully stored on server");
+		PostForm addNewBuildingDatapost2 = new PostForm("Success", "Data successfully stored on server");
 				String addNewBuildingDatapost2json = gson.toJson(addNewBuildingDatapost2);
 				System.out.println(addNewBuildingDatapost2json);	  
 				writer.append("//Another POST Sample: success\n");

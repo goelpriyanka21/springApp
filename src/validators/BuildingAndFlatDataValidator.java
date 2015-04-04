@@ -29,10 +29,10 @@ public class BuildingAndFlatDataValidator {
 		if (buildingAndFlatData.getPropertyId() == null)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage("propertyId",
 					"Please provide PropertyId"));
-		if (buildingAndFlatData.getBuildingData().getPicturelist().size() == 0)
+		if (buildingAndFlatData.getBuildingData().getPicturelist()==null || buildingAndFlatData.getBuildingData().getPicturelist().size() == 0)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage("picturelist",
 					"Please provide Picture list"));
-		// else {
+//		 else {
 		// int photocount = 0;
 		// for (SectionListOfFileNamePair sectionListOfFileNamePair :
 		// pgAndTenantData

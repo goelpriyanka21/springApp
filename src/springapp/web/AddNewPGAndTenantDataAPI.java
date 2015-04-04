@@ -23,6 +23,7 @@ import forms.PGAndTenantData;
 import forms.PostForm;
 //import validators.AddNewPGDataValidator;
 import validators.PGandTenantDataValidator;
+import validators.TokenValidator;
 
 @Controller
 public class AddNewPGAndTenantDataAPI {
@@ -46,10 +47,9 @@ public class AddNewPGAndTenantDataAPI {
 		if (usernametoken == null)
 			return new PostForm("Failure", "Username does not exist");
 
-		String token = usernametoken.gettoken();
-
 		// TOKEN AUTHENTICATION FAILURE:
-		if (!token.equals(pgAndTenantData.getToken()))
+		if (!TokenValidator.validate(usernametoken.gettoken(),
+				pgAndTenantData.getToken()))
 			return new PostForm("Failure", "Token authentication failed");
 
 		// session expired please login again; will code later
