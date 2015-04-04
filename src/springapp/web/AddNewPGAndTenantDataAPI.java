@@ -4,6 +4,7 @@ import helperclasses.ErrorFieldAndMessage;
 
 import java.util.List;
 
+import models.AuthenticationDetails;
 import models.PGDataModel;
 import models.TenantDataModel;
 import models.UserNameToken;
@@ -37,17 +38,19 @@ public class AddNewPGAndTenantDataAPI {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 
-		// check in token db extract token for this username nd match with
-		// received token
-
-		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
+		// AuthenticationDetails Validators
+		AuthenticationDetails authenticationDetails = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(pgAndTenantData.getUsername())),
-				UserNameToken.class);
+				AuthenticationDetails.class);
 
-		if (usernametoken == null)
+		if (authenticationDetails == null)
 			return new PostForm("Failure", "Username does not exist");
 
 		// TOKEN AUTHENTICATION FAILURE:
+		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
+				.where("username").is(pgAndTenantData.getUsername())),
+				UserNameToken.class);
+		
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				pgAndTenantData.getToken()))
 			return new PostForm("Failure", "Token authentication failed");

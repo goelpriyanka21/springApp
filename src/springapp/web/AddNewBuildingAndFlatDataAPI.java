@@ -4,6 +4,7 @@ import helperclasses.ErrorFieldAndMessage;
 
 import java.util.List;
 
+import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.FlatDataModel;
 import models.UserNameToken;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import forms.BuildingAndFlatData;
 import forms.PostForm;
+import validators.AuthenticationDetailsValidator;
 import validators.BuildingAndFlatDataValidator;
 import validators.TokenValidator;
 
@@ -37,17 +39,19 @@ public class AddNewBuildingAndFlatDataAPI {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 
-		// check in token db extract token for this username nd match with
-		// received token
+		// AuthenticationDetails Validator
+		AuthenticationDetails authenticationDetails = mongoOperation.findOne(new Query(Criteria
+				.where("username").is(buildingAndFlatData.getUsername())),
+				AuthenticationDetails.class);
 
+		if (authenticationDetails == null)
+			return new PostForm("Failure", "Username does not exist");
+
+		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(buildingAndFlatData.getUsername())),
 				UserNameToken.class);
 
-		if (usernametoken == null)
-			return new PostForm("Failure", "Username does not exist");
-
-		// TOKEN AUTHENTICATION FAILURE:
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				buildingAndFlatData.getToken()))
 			return new PostForm("Failure", "Token authentication failed");
