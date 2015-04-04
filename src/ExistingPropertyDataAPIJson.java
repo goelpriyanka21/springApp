@@ -1,5 +1,5 @@
 import forms.ExistingPropertyData;
-import forms.LogOut;
+import forms.LogoutData;
 import helperclasses.Location;
 
 import java.io.FileWriter;

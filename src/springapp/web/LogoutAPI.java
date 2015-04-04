@@ -2,6 +2,7 @@ package springapp.web;
 
 import models.AuthenticationDetails;
 import models.UserNameToken;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -12,16 +13,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import forms.LoginData;
+import forms.LogoutData;
 import forms.PostForm;
 import validators.AuthenticationDetailsValidator;
 
 @Controller
-public class LoginAPI {
+public class LogoutAPI {
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@RequestMapping(value = "/logout", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody PostForm addNewPGandTenantData(
-			@RequestBody LoginData loginData) throws Exception {
+			@RequestBody LogoutData logoutData) throws Exception {
 
 		ApplicationContext ctx = new GenericXmlApplicationContext(
 				"springapp-servlet.xml");
@@ -29,30 +32,19 @@ public class LoginAPI {
 				.getBean("mongoTemplate");
 
 		// AuthenticationDetails Validator: AUTHENTICATION DETAILS FAILURE:
-		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
-				new Query(Criteria.where("username")
-						.is(loginData.getUsername())),
-				AuthenticationDetails.class);
+		AuthenticationDetails authenticationDetails = mongoOperation
+				.findOne(
+						new Query(Criteria.where("username").is(
+								logoutData.getUsername())),
+						AuthenticationDetails.class);
 
 		if (authenticationDetails == null)
 			return new PostForm("Failure", "Username does not exist");
 
-		if (!AuthenticationDetailsValidator.validatepassword(
-				authenticationDetails.getPassword(), loginData.getPassword()))
-			return new PostForm("Failure",
-					"Username and password doesnot match");
-
 		if (!AuthenticationDetailsValidator.validatedeviceId(
-				authenticationDetails.getDeviceId(), loginData.getDeviceId()))
-			return new PostForm("Failure", "Unauthorized Device Login");
+				authenticationDetails.getDeviceId(), logoutData.getDeviceId()))
+			return new PostForm("Failure", "Unauthorized Device Logout");
 
-		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
-				.where("username").is(loginData.getUsername())),
-				UserNameToken.class);
-
-		return new PostForm("Success",
-				"Authentication successful, Keep the token for this session",
-				usernametoken.gettoken());
+		return new PostForm("Success", "User successfully logged out");
 	}
-
 }

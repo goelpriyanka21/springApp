@@ -1,4 +1,5 @@
-import forms.LogOut;
+import forms.LogoutData;
+import forms.PostForm;
 import helperclasses.Location;
 
 import java.io.FileWriter;
@@ -16,21 +17,21 @@ public class LogOutAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//LogOutAPIJson.json"); 
 		
 		//GET
-		LogOut logoutget = new LogOut("Priyanka", "ba435a", new Location(47.608941, -122.340145));
+		LogoutData logoutget = new LogoutData("Priyanka", "ba435a", new Location(47.608941, -122.340145));
 		String logoutgetjson = gson.toJson(logoutget);
 		System.out.println(logoutgetjson);
 		writer.append("//GET\n");
 		writer.append(logoutgetjson+"\n\n"); 
 		
 		//POST: success
-		LogOut logoutpost = new LogOut("success", "User Logged out successfully");
+		PostForm logoutpost = new PostForm("success", "User Logged out successfully");
 		String logoutpostjson = gson.toJson(logoutpost);
 		System.out.println(logoutpostjson);	  
 		writer.append("//POST: success\n");
 		writer.append(logoutpostjson+"\n\n");
 		
 		//POST: failure
-				 logoutpost = new LogOut("Failure", "Looks like some error in logging out");
+				 logoutpost = new PostForm("Failure", "Looks like some error in logging out");
 				 logoutpostjson = gson.toJson(logoutpost);
 				System.out.println(logoutpostjson);	  
 				writer.append("//POST: failure\n");
