@@ -9,6 +9,24 @@ import java.util.List;
 public class FlatData {
 
 	public List<SectionListOfFileNamePair> picturelist;
+	String flatnumber;
+	Integer floornumber;
+	Integer numOfBathrooms;
+	Integer numOfBalconys;
+	String furnishingtype;
+	String flattype;
+	String facing;
+	Integer rent;
+	Integer maintainancecharges;
+	Integer deposit;
+	Boolean negotiable;
+	List<String> availableFor;
+	RatingAndListOfEs<String> amenities;
+	String servicesyouwillbeinterestedin;
+	String status;
+	String message;
+	
+	
 	public List<SectionListOfFileNamePair> getPicturelist() {
 		return picturelist;
 	}
@@ -146,22 +164,7 @@ public class FlatData {
 		this.message = message;
 	}
 
-	String flatnumber;
-	Integer floornumber;
-	Integer numOfBathrooms;
-	Integer numOfBalconys;
-	String furnishingtype;
-	String flattype;
-	String facing;
-	Integer rent;
-	Integer maintainancecharges;
-	Integer deposit;
-	Boolean negotiable;
-	List<String> availableFor;
-	RatingAndListOfEs<String> amenities;
-	String servicesyouwillbeinterestedin;
-	String status;
-	String message;
+	
 
 	public FlatData(
 			// GET

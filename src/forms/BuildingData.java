@@ -6,6 +6,7 @@ import helperclasses.FamilyBachPer;
 import helperclasses.FlatTypeAvailabilityFlatsCombo;
 import helperclasses.Location;
 import helperclasses.RatingAndListOfEs;
+import helperclasses.Section24hrsAvailablePreferredPlace;
 import helperclasses.SectionListOfFileNamePair;
 import helperclasses.TwoIntegerpair;
 
@@ -34,13 +35,13 @@ public class BuildingData {
 	private RatingAndListOfEs<String> servicesavailable;
 	private String[] cableoperators;
 	private String[] broadbandoperators;
-	private List<String> locality;
+	private List<Section24hrsAvailablePreferredPlace> locality;
 	private RatingAndListOfEs<String> safety;
 	private String othersafetyissuesifany;
 	private String gatekeepercontact;
 	private String societymanagercontact;
-	private String bestthingaboutsociety;
-	private String areaofimprovement;
+	private String[] bestthingaboutsociety;
+	private String[] areaofimprovement;
 	private Location selectedlocation;
 
 	public BuildingData(
@@ -66,10 +67,10 @@ public class BuildingData {
 			RatingAndListOfEs<String> amenities,
 			RatingAndListOfEs<String> servicesavailable,
 			String[] cableoperators, String[] broadbandoperators,
-			List<String> locality, RatingAndListOfEs<String> safety,
+			List<Section24hrsAvailablePreferredPlace> locality, RatingAndListOfEs<String> safety,
 			String othersafetyissuesifany, String gatekeepercontact,
-			String societymanagercontact, String bestthingaboutsociety,
-			String areaofimprovement, Location selectedlocation) {
+			String societymanagercontact, String[] bestthingaboutsociety,
+			String[] areaofimprovement, Location selectedlocation) {
 
 		this.societyname = societyname;
 		this.picturelist = picturelist;
@@ -97,7 +98,9 @@ public class BuildingData {
 		this.othersafetyissuesifany = othersafetyissuesifany;
 		this.gatekeepercontact = gatekeepercontact;
 		this.societymanagercontact = societymanagercontact;
+		//bestthingaboutsociety
 		this.bestthingaboutsociety = bestthingaboutsociety;
+//		areaofimprovement= new String[5];
 		this.areaofimprovement = areaofimprovement;
 		this.selectedlocation = selectedlocation;
 
@@ -272,11 +275,11 @@ public class BuildingData {
 		this.broadbandoperators = broadbandoperators;
 	}
 
-	public List<String> getLocality() {
+	public List<Section24hrsAvailablePreferredPlace> getLocality() {
 		return locality;
 	}
 
-	public void setLocality(List<String> locality) {
+	public void setLocality(List<Section24hrsAvailablePreferredPlace> locality) {
 		this.locality = locality;
 	}
 
@@ -312,19 +315,19 @@ public class BuildingData {
 		this.societymanagercontact = societymanagercontact;
 	}
 
-	public String getBestthingaboutsociety() {
+	public String[] getBestthingaboutsociety() {
 		return bestthingaboutsociety;
 	}
 
-	public void setBestthingaboutsociety(String bestthingaboutsociety) {
+	public void setBestthingaboutsociety(String[] bestthingaboutsociety) {
 		this.bestthingaboutsociety = bestthingaboutsociety;
 	}
 
-	public String getAreaofimprovement() {
+	public String[] getAreaofimprovement() {
 		return areaofimprovement;
 	}
 
-	public void setAreaofimprovement(String areaofimprovement) {
+	public void setAreaofimprovement(String[] areaofimprovement) {
 		this.areaofimprovement = areaofimprovement;
 	}
 

@@ -80,6 +80,7 @@ public class PGandTenantDataValidator {
 		if (pgAndTenantData.getPgdata().getLandmark().length() > 100)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage("landmark",
 					"landmark cant be more than 100 characters"));
+		// TODO null check for below list
 		if (pgAndTenantData.getPgdata().getAvailableFor().size() == 0)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(
 					"availableFor", "availableFor can't be left blank"));

@@ -2,12 +2,13 @@ import forms.BuildingAndFlatData;
 import forms.BuildingData;
 import forms.FlatData;
 import helperclasses.FamilyBachPer;
+import helperclasses.Section24hrsAvailablePreferredPlace;
 import helperclasses.SectionListOfFileNamePair;
 import helperclasses.TwoIntegerpair;
 import helperclasses.Location;
 import helperclasses.RatingAndListOfEs;
-
 import helperclasses.FlatTypeAvailabilityFlatsCombo;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
@@ -50,13 +51,17 @@ public class AddNewBuildingAndFlatDataAPIJson {
 			   RatingAndListOfEs<String> servicesavailable= new RatingAndListOfEs<String>(3, Arrays.asList("Electrician", " Plumber"));
 			   String[] cableoperators= {"Airtel", "TataSky"};
 			   String[] broadbandoperators= {"Airtel", "HathWay"};
-			   List<String> locality= Arrays.asList("Convenience Store", "24 hrs avaialble", "Bigbazaar");
+			   Section24hrsAvailablePreferredPlace section24hrsAvailablePreferredPlace1= new Section24hrsAvailablePreferredPlace("Convenience Store", true, "Bigbazaar");
+			   Section24hrsAvailablePreferredPlace section24hrsAvailablePreferredPlace2= new Section24hrsAvailablePreferredPlace("Restraunts/Pub", false, "Punjab Grill");
+			   Section24hrsAvailablePreferredPlace section24hrsAvailablePreferredPlace3= new Section24hrsAvailablePreferredPlace("Schools", "Ebenezer");
+				  
+			   List<Section24hrsAvailablePreferredPlace> locality= Arrays.asList(section24hrsAvailablePreferredPlace1, section24hrsAvailablePreferredPlace2, section24hrsAvailablePreferredPlace3);
 			  RatingAndListOfEs<String> safety= new RatingAndListOfEs<>(3, Arrays.asList("StreetDogs", "Mosquito"));;
 			  String othersafetyissuesifany="None";
 			  String gatekeepercontact="9876543210";
 			  String societymanagercontact="9876543212";;
-			  String bestthingaboutsociety="Good amenities";
-			  String areaofimprovement="Ambience";
+			  String[] bestthingaboutsociety={"Good amenities", "Safety", "ClubHouse"};
+			  String[] areaofimprovement={"Ambience", "Locality"};
 			  
 			Location selectedlocation= new Location(47.608942, -122.340145);
 			BuildingData buildingData= new BuildingData("Raheja Apartments", Arrays.asList(sfp1, sfp2), "#506", "Kormangala 5th block", "Bangalore", 274304, "Forum Mall",  rent,
