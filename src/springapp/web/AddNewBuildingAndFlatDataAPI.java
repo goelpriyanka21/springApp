@@ -4,7 +4,6 @@ import helperclasses.ErrorFieldAndMessage;
 
 import java.util.List;
 
-
 import models.BuildingDataModel;
 import models.FlatDataModel;
 
@@ -31,7 +30,7 @@ public class AddNewBuildingAndFlatDataAPI {
 
 	@RequestMapping(value = "/addnewbuildingandflatdata", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody BuildingAndFlatData addNewPGandTenantData(
-			 @RequestBody BuildingAndFlatData buildingAndFlatData)
+			@RequestBody BuildingAndFlatData buildingAndFlatData)
 			throws Exception {
 
 		ApplicationContext ctx = new GenericXmlApplicationContext(
@@ -42,28 +41,37 @@ public class AddNewBuildingAndFlatDataAPI {
 		// check in token db extract token for this username nd match with
 		// received token
 
-		String token = mongoOperation
-				.findOne(
-						new Query(Criteria.where("username").is(
-								buildingAndFlatData.getUsername())), UserNameToken.class)
-				.gettoken();
+		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
+				.where("username").is(buildingAndFlatData.getUsername())),
+				UserNameToken.class);
+
+		if (usernametoken == null)
+			return new BuildingAndFlatData("Failure", "Username does not exist");
+
+		String token = usernametoken.gettoken();
 
 		// TOKEN AUTHENTICATION FAILURE:
 		if (!token.equals(buildingAndFlatData.getToken()))
-			return new BuildingAndFlatData("Failure", "Token authentication failed");
+			return new BuildingAndFlatData("Failure",
+					"Token authentication failed");
 
 		// session expired please login again; will code later
 
-		List<ErrorFieldAndMessage> errorfieldandstringlist= BuildingAndFlatDataValidator.validate(buildingAndFlatData);
-		
-		if(errorfieldandstringlist.size()!=0)
-			return new  BuildingAndFlatData("Failure", "Data validation failed", errorfieldandstringlist);
+		List<ErrorFieldAndMessage> errorfieldandstringlist = BuildingAndFlatDataValidator
+				.validate(buildingAndFlatData);
+
+		if (errorfieldandstringlist.size() != 0)
+			return new BuildingAndFlatData("Failure", "Data validation failed",
+					errorfieldandstringlist);
 
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
 		// UNIQUE ID AND SAVE DATA
-		mongoOperation.save(new BuildingDataModel(buildingAndFlatData.getPropertyId(), buildingAndFlatData.getBuildingData()));
-		mongoOperation.save(new FlatDataModel(buildingAndFlatData.getPropertyId(), buildingAndFlatData.getFlatData()));
-		return new BuildingAndFlatData("Success", "Data successfully stored on server");
+		mongoOperation.save(new BuildingDataModel(buildingAndFlatData
+				.getPropertyId(), buildingAndFlatData.getBuildingData()));
+		mongoOperation.save(new FlatDataModel(buildingAndFlatData
+				.getPropertyId(), buildingAndFlatData.getFlatData()));
+		return new BuildingAndFlatData("Success",
+				"Data successfully stored on server");
 	}
 
 }

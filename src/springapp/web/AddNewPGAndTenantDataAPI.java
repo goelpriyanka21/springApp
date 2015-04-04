@@ -4,7 +4,6 @@ import helperclasses.ErrorFieldAndMessage;
 
 import java.util.List;
 
-
 import models.PGDataModel;
 import models.TenantDataModel;
 import models.UserNameToken;
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import forms.BuildingAndFlatData;
 import forms.PGAndTenantData;
 //import validators.AddNewPGDataValidator;
 import validators.PGandTenantDataValidator;
@@ -40,11 +40,16 @@ public class AddNewPGAndTenantDataAPI {
 		// check in token db extract token for this username nd match with
 		// received token
 
-		String token = mongoOperation
+		UserNameToken usernametoken = mongoOperation
 				.findOne(
 						new Query(Criteria.where("username").is(
-								pgAndTenantData.getUsername())), UserNameToken.class)
-				.gettoken();
+								pgAndTenantData.getUsername())), UserNameToken.class);
+		
+		if (usernametoken == null)
+			return new PGAndTenantData("Failure", "Username does not exist");
+		
+		
+				String token= usernametoken.gettoken();
 
 		// TOKEN AUTHENTICATION FAILURE:
 		if (!token.equals(pgAndTenantData.getToken()))
