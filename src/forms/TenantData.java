@@ -2,11 +2,8 @@ package forms;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import helperclasses.Commute;
 import helperclasses.FoodOptions;
-import helperclasses.Location;
 import helperclasses.RatingAndListOfEs;
 //import helperclasses.RatingAndListOfStrings;
 import helperclasses.RatingAndListOfEsAndString;
@@ -20,12 +17,12 @@ public class TenantData {
 	public String profession;
 	public String[] threeBestThingsAboutPG = new String[3];
 	public String[] threethingsyoudontlikeaboutPG = new String[3];
-	RatingAndListOfEsAndString safety;
+	RatingAndListOfEsAndString<String> safety;
 
-	RatingAndListOfEs cleanliness;
+	RatingAndListOfEs<String> cleanliness;
 	List<String> otherRoommates;
-	Commute commute;
-	FoodOptions foodOptions;
+	Commute<String> commute;
+	FoodOptions<String> foodOptions;
 	Integer ownerAndServiceFeedBack;
 	Integer ownerInteractionReview;
 	String ownerflexibility;
@@ -92,19 +89,19 @@ public class TenantData {
 		this.threethingsyoudontlikeaboutPG = threethingsyoudontlikeaboutPG;
 	}
 
-	public RatingAndListOfEsAndString getSafety() {
+	public RatingAndListOfEsAndString<String> getSafety() {
 		return safety;
 	}
 
-	public void setSafety(RatingAndListOfEsAndString safety) {
+	public void setSafety(RatingAndListOfEsAndString<String> safety) {
 		this.safety = safety;
 	}
 
-	public RatingAndListOfEs getCleanliness() {
+	public RatingAndListOfEs<String> getCleanliness() {
 		return cleanliness;
 	}
 
-	public void setCleanliness(RatingAndListOfEs cleanliness) {
+	public void setCleanliness(RatingAndListOfEs<String> cleanliness) {
 		this.cleanliness = cleanliness;
 	}
 
@@ -116,19 +113,19 @@ public class TenantData {
 		this.otherRoommates = otherRoommates;
 	}
 
-	public Commute getCommute() {
+	public Commute<String> getCommute() {
 		return commute;
 	}
 
-	public void setCommute(Commute commute) {
+	public void setCommute(Commute<String> commute) {
 		this.commute = commute;
 	}
 
-	public FoodOptions getFoodOptions() {
+	public FoodOptions<String> getFoodOptions() {
 		return foodOptions;
 	}
 
-	public void setFoodOptions(FoodOptions foodOptions) {
+	public void setFoodOptions(FoodOptions<String> foodOptions) {
 		this.foodOptions = foodOptions;
 	}
 
@@ -202,9 +199,9 @@ public class TenantData {
 			String tenantname, String contact, String emailId, int age,
 			String profession, String[] threeBestThingsAboutPG,
 			String[] threethingsyoudontlikeaboutPG,
-			RatingAndListOfEsAndString safety, RatingAndListOfEs cleanliness,
-			List<String> otherRoommates, Commute commute,
-			FoodOptions foodOptions, Integer ownerAndServiceFeedBack,
+			RatingAndListOfEsAndString<String> safety, RatingAndListOfEs<String> cleanliness,
+			List<String> otherRoommates, Commute<String> commute,
+			FoodOptions<String> foodOptions, Integer ownerAndServiceFeedBack,
 			Integer ownerInteractionReview, String ownerflexibility,
 			List<String> rentPaymentMode, Integer serviceReview,
 			Boolean referralpossibilty, String servicesInterested,

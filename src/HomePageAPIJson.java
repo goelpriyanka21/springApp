@@ -1,7 +1,4 @@
-import forms.AppointmentList;
 import forms.HomePage;
-import helperclasses.Location;
-
 import java.io.FileWriter;
 import java.io.IOException;
 

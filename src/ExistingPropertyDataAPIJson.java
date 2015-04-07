@@ -1,6 +1,4 @@
 import forms.ExistingPropertyData;
-import forms.LogoutData;
-import helperclasses.Location;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,7 +15,7 @@ public class ExistingPropertyDataAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//ExistingPropertyDataAPIJson.json"); 
 		
 		//GET
-		ExistingPropertyData existingpropertydataget = new ExistingPropertyData("RahejaApartmentUniqueId123");
+	    ExistingPropertyData existingpropertydataget = new ExistingPropertyData("RahejaApartmentUniqueId123");
 		String existingpropertydatagetjson = gson.toJson(existingpropertydataget);
 		System.out.println(existingpropertydatagetjson);
 		writer.append("//GET\n");

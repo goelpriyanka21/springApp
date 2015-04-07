@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import forms.PGAndTenantData;
 import forms.PostForm;
-//import validators.AddNewPGDataValidator;
 import validators.PGandTenantDataValidator;
 import validators.TokenValidator;
 
@@ -39,8 +38,9 @@ public class AddNewPGAndTenantDataAPI {
 				.getBean("mongoTemplate");
 
 		// AuthenticationDetails Validators
-		AuthenticationDetails authenticationDetails = mongoOperation.findOne(new Query(Criteria
-				.where("username").is(pgAndTenantData.getUsername())),
+		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
+				new Query(Criteria.where("username").is(
+						pgAndTenantData.getUsername())),
 				AuthenticationDetails.class);
 
 		if (authenticationDetails == null)
@@ -50,7 +50,7 @@ public class AddNewPGAndTenantDataAPI {
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(pgAndTenantData.getUsername())),
 				UserNameToken.class);
-		
+
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				pgAndTenantData.getToken()))
 			return new PostForm("Failure", "Token authentication failed");
@@ -58,25 +58,47 @@ public class AddNewPGAndTenantDataAPI {
 		// session expired please login again; will code later
 
 		// DATA VALIDATION FAILURE:
-		// AddNewPGDataValidator addNewPGDataValidator = new
-		// AddNewPGDataValidator();
-		// addNewPGDataValidator.validate(pgAndTenantData, bindingResult);
 		List<ErrorFieldAndMessage> errorfieldandstringlist = PGandTenantDataValidator
 				.validate(pgAndTenantData);
 
-		// if (bindingResult.hasErrors())
-		// return new PGAndTenantData("Failure", "Data validation failed");
 		if (errorfieldandstringlist.size() != 0)
 			return new PostForm("Failure", "Data validation failed",
 					errorfieldandstringlist);
 
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
-		// UNIQUE ID AND SAVE DATA
-		mongoOperation.save(new PGDataModel(pgAndTenantData.getpropertyId(),
-				pgAndTenantData.getPgdata()));
-		mongoOperation.save(new TenantDataModel(
-				pgAndTenantData.getpropertyId(), pgAndTenantData
-						.getpgtenantlist()));
+
+		// if tenant data!null; save tenant data
+		// if pg data ! null; if unique propertyId is not existing in db; fine; save pg
+		// data 
+		// if unique propertyId is existing; if is locked is false ; update pg data
+		// if is locked is true; status: entry already exist; u can add only
+		// tenant data; pg entry already exist & is locked
+
+		if (pgAndTenantData.getpgtenantlist() != null)
+			mongoOperation.save(new TenantDataModel(pgAndTenantData
+					.getpropertyId(), pgAndTenantData.getpgtenantlist()));
+		
+		if (pgAndTenantData.getPgdata() != null) { // has some pg data
+			PGDataModel pgDataModel = mongoOperation.findOne(new Query(Criteria
+					.where("propertyId").is(pgAndTenantData.getPropertyId())),
+					PGDataModel.class);
+			if (pgDataModel == null) // unique propertyId is not existing in db
+				mongoOperation.save(new PGDataModel(pgAndTenantData
+						.getpropertyId(), pgAndTenantData.getPgdata()));
+			else
+			{
+				if(pgDataModel.getIsLocked()== true){
+					return new PostForm("Failure", "PG Entry already exist and is locked u can add only tenant data");
+				}
+				else // is locked is false; u can update pg data
+				{
+					mongoOperation.remove(pgDataModel);
+					mongoOperation.save(new PGDataModel(pgAndTenantData
+							.getpropertyId(), pgAndTenantData.getPgdata()));
+					return new PostForm("Success", "Data successfully updated on server");
+				}
+			}
+		}
 		return new PostForm("Success", "Data successfully stored on server");
 	}
 

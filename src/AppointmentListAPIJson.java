@@ -1,5 +1,4 @@
 import forms.AppointmentList;
-import forms.EntryPage;
 import helperclasses.Location;
 import helperclasses.PropertyNameTypeisLocked;
 

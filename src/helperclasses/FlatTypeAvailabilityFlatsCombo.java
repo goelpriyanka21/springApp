@@ -1,13 +1,14 @@
 package helperclasses;
 
 public class FlatTypeAvailabilityFlatsCombo {
-	public FlatTypeAvailabilityFlatsCombo(String string, Boolean i, int j) {
-		this.sharingtype= string;
-		this.availability=i;
-		this.flatsavailable=j;
-		// TODO Auto-generated constructor stub
-	}
 	String sharingtype;
 	Boolean availability;
 	int flatsavailable;
+	
+	public FlatTypeAvailabilityFlatsCombo(String sharingtype, Boolean availability, int flatsavailable) {
+		this.sharingtype= sharingtype;
+		this.availability=availability;
+		this.flatsavailable=flatsavailable;
+		// TODO Auto-generated constructor stub
+	}
 }

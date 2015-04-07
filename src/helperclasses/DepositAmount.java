@@ -7,10 +7,10 @@ public class DepositAmount {
 	public int depositamount;
 	public Boolean onemonthrent;
 
-	public DepositAmount(int i, boolean b) {
+	public DepositAmount(int depositamount, boolean onemonthrent) {
 		// TODO Auto-generated constructor stub
-		this.depositamount=i;
-		this.onemonthrent=b;
+		this.depositamount=depositamount;
+		this.onemonthrent=onemonthrent;
 		
 	}
 	}

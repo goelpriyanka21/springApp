@@ -9,10 +9,13 @@ public class BuildingDataModel {
 
 	private String propertyId;
 	private BuildingData buildingData;
+	private Boolean isLocked;
 
 	public BuildingDataModel(String propertyId, BuildingData buildingData) {
 		this.propertyId = propertyId;
 		this.setBuildingData(buildingData);
+		this.setIsLocked(true);
+
 
 	}
 
@@ -30,6 +33,14 @@ public class BuildingDataModel {
 
 	public void setBuildingData(BuildingData buildingData) {
 		this.buildingData = buildingData;
+	}
+
+	public Boolean getIsLocked() {
+		return isLocked;
+	}
+
+	public void setIsLocked(Boolean isLocked) {
+		this.isLocked = isLocked;
 	}
 
 }

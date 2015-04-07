@@ -1,18 +1,16 @@
 package helperclasses;
 
-import java.io.File;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public class SectionListOfFileNamePair {
 	public String section;
 	public List<String> photonamelist;
 //	public MultipartFile file2;
 
-	public SectionListOfFileNamePair(String section, List<String> photoname){
+	public SectionListOfFileNamePair(String section, List<String> photonamelist){
 		this.section=section;
-		this.photonamelist=photoname;
+		this.photonamelist=photonamelist;
 		
 	}
 	

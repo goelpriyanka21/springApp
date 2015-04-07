@@ -4,38 +4,20 @@ import helperclasses.*;
 
 import java.util.List;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class PGData {
 
-	// specific to a pg
-//	@NotNull
 	public List<SectionListOfFileNamePair> picturelist;
-//	@NotNull
-//	@Size(min = 2, max = 50)
 	public String pgName;
-//	@Size(max = 50)
 	private String buildingname;
-//	@NotNull
-//	@Size(max = 100)
 	public String addressl1;
-//	@NotNull
-//	@Size(max = 100)
 	public String addressl2;
-//	@NotNull
-//	@Max(6)
 	public Integer pincode;
-//	@Size(max = 100)
 	public String landmark;
 	private ContactPerson contactperson;
 	public DepositAmount depositamount;
-//	@NotNull
-//	@Size(min = 1)
 	private List<String> availableFor;
 	private StudProfper stdprofper;
-//	@Size(max = 100)
 	public String typeofprofessional;
 	private TwoIntegerpair ageBand;
 	public Boolean spacious;
@@ -46,7 +28,6 @@ public class PGData {
 	public RatingAndListOfEs<AmenityTypePricePair> chargedamenities;
 	public RatingAndListOfEs<String> restrictions;
 	private EntryTime entrytime;
-//	@NotNull
 	private Location selectedlocation;
 
 	/** Required for form instantiation. */
@@ -55,7 +36,7 @@ public class PGData {
 			int pincode, String landmark, ContactPerson contactperson, DepositAmount depositamount,
 			
 			List<String> availableFor, StudProfper stdprofper,
-			String typeofprofessional, TwoIntegerpair ageband,
+			String typeofprofessional, TwoIntegerpair ageBand,
 			boolean spacious, boolean clean,
 			RatingAndListOfEs<SharingTypeRentbedsCombo> typesandavailability,
 			RatingAndListOfEs<String> serviceavailable,
@@ -77,7 +58,7 @@ public class PGData {
 		this.depositamount = depositamount;
 		this.availableFor = availableFor;
 		this.stdprofper = stdprofper;
-		this.ageBand = ageband;
+		this.ageBand = ageBand;
 		this.typeofprofessional = typeofprofessional;
 		this.spacious = spacious;
 		this.clean = clean;

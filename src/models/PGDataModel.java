@@ -9,10 +9,12 @@ public class PGDataModel {
 	
 	private String propertyId;
 	private PGData pgdata;
+	private Boolean isLocked;
 	
 	public PGDataModel(String propertyId, PGData pgdata){
 		this.propertyId= propertyId;
 		this.pgdata= pgdata;
+		this.isLocked= true;
 		
 	}
 	public String getPropertyId() {
@@ -26,6 +28,12 @@ public class PGDataModel {
 	}
 	public void setPgdata(PGData pgdata) {
 		this.pgdata = pgdata;
+	}
+	public Boolean getIsLocked() {
+		return isLocked;
+	}
+	public void setIsLocked(Boolean isLocked) {
+		this.isLocked = isLocked;
 	}
 
 }

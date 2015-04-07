@@ -5,10 +5,10 @@ public class StudProfper {
 	private int profper;
 	
 
-	public StudProfper(int i, int j) {
+	public StudProfper(int studper, int profper) {
 		// TODO Auto-generated constructor stub
-		this.studper=i;
-		this.profper=j;
+		this.studper=studper;
+		this.profper=profper;
 		
 	}
 	

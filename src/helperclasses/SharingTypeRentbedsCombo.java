@@ -2,14 +2,17 @@ package helperclasses;
 
 
 public class SharingTypeRentbedsCombo {
-	public SharingTypeRentbedsCombo(String string, int i, int j) {
-		this.sharingtype= string;
-		this.rent=i;
-		this.bedsavailable=j;
-		// TODO Auto-generated constructor stub
-	}
+	
 	String sharingtype;
 	int rent;
+	int bedsavailable;
+	
+	public SharingTypeRentbedsCombo(String sharingtype, int rent, int bedsavailable) {
+		this.sharingtype= sharingtype;
+		this.rent=rent;
+		this.bedsavailable=bedsavailable;
+		// TODO Auto-generated constructor stub
+	}
 	
 	public String getSharingtype() {
 		return sharingtype;
@@ -34,5 +37,5 @@ public class SharingTypeRentbedsCombo {
 	public void setBedsavailable(int bedsavailable) {
 		this.bedsavailable = bedsavailable;
 	}
-	int bedsavailable;
+	
 }

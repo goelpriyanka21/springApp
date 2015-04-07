@@ -4,10 +4,10 @@ public class TwoIntegerpair {
 	int minlimit;
 	int maxlimit;
 	
-	public TwoIntegerpair(int i, int j) {
+	public TwoIntegerpair(int minlimit, int maxlimit) {
 		// TODO Auto-generated constructor stub
-		this.minlimit=i;
-		this.maxlimit=j;
+		this.minlimit=minlimit;
+		this.maxlimit=maxlimit;
 	}
 
 	public int getminlimit(){

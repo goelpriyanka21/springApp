@@ -11,9 +11,10 @@ import java.util.List;
 public class PGAndTenantData {
 
 	private String username;
-	private String DeviceId;
 	private Location gpsLocation;
+	private String DeviceId;
 	private String token;
+	
 	private String propertyId;
 
 	private PGData pgdata;

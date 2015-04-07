@@ -2,15 +2,56 @@ package forms;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import helperclasses.Location;
-import helperclasses.PropertyNameTypeisLocked;
 import helperclasses.PropertyNameTypeisLocked;
 
 
 public class AppointmentCheck {
 	
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getDeviceId() {
+		return deviceId;
+	}
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+	public Location getGpslocation() {
+		return gpslocation;
+	}
+	public void setGpslocation(Location gpslocation) {
+		this.gpslocation = gpslocation;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public List<PropertyNameTypeisLocked> getAppointmentdoneList() {
+		return appointmentdoneList;
+	}
+	public void setAppointmentdoneList(
+			List<PropertyNameTypeisLocked> appointmentdoneList) {
+		this.appointmentdoneList = appointmentdoneList;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	public AppointmentCheck(String string, String string2, Location location,
 			String string3,  List<PropertyNameTypeisLocked> asList) {
 		// TODO Auto-generated constructor stub

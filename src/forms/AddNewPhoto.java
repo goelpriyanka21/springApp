@@ -1,7 +1,6 @@
 package forms;
 
 import java.io.File;
-import java.util.List;
 
 public class AddNewPhoto {
 	String pguniqueidentifier;

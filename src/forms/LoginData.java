@@ -3,10 +3,6 @@ package forms;
 import helperclasses.Location;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.google.gson.JsonObject;
-
 
 public class LoginData {
 	

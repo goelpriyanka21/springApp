@@ -2,16 +2,18 @@ package helperclasses;
 
 import java.util.List;
 
-import javax.validation.constraints.Size;
-
 public class RatingAndListOfEs<E> {
-	public RatingAndListOfEs(int i, List<E> asList) {
+	
+	int rating; //"scale of 0-10"
+	List<E> alldetails;
+	
+	public RatingAndListOfEs(int rating, List<E> alldetails) {
 		// TODO Auto-generated constructor stub
 		
-		this.rating=i;
-		this.alldetails= asList;
+		this.rating=rating;
+		this.alldetails= alldetails;
 	}
-	int rating; //"scale of 0-10"
+	
 	
 	public int getRating() {
 		return rating;
@@ -28,5 +30,5 @@ public class RatingAndListOfEs<E> {
 	public void setAlldetails(List<E> alldetails) {
 		this.alldetails = alldetails;
 	}
-	List<E> alldetails;
+	
 }

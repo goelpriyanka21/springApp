@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import forms.BuildingAndFlatData;
 import forms.PostForm;
-import validators.AuthenticationDetailsValidator;
 import validators.BuildingAndFlatDataValidator;
 import validators.TokenValidator;
 
@@ -30,7 +29,7 @@ import validators.TokenValidator;
 public class AddNewBuildingAndFlatDataAPI {
 
 	@RequestMapping(value = "/addnewbuildingandflatdata", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public @ResponseBody PostForm addNewPGandTenantData(
+	public @ResponseBody PostForm addNewBuildingAndFlatData(
 			@RequestBody BuildingAndFlatData buildingAndFlatData)
 			throws Exception {
 
@@ -65,13 +64,47 @@ public class AddNewBuildingAndFlatDataAPI {
 			return new PostForm("Failure", "Data validation failed",
 					errorfieldandstringlist);
 
+		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
-		// UNIQUE ID AND SAVE DATA
-		mongoOperation.save(new BuildingDataModel(buildingAndFlatData
-				.getPropertyId(), buildingAndFlatData.getBuildingData()));
-		mongoOperation.save(new FlatDataModel(buildingAndFlatData
-				.getPropertyId(), buildingAndFlatData.getFlatData()));
-		return new PostForm("Success", "Data successfully stored on server");
+
+				// if tenant data!null; save tenant data
+				// if pg data ! null; if unique id is not existing in db; fine; save pg
+				// data 
+				// if unique id is existing; if is locked is false ; update pg data
+				// if is locked is true; status: entry already exist; u can add only
+				// tenant data; pg entry already exist & is locked
+
+				if (buildingAndFlatData.getFlatData() != null)
+					mongoOperation.save(new FlatDataModel(buildingAndFlatData
+							.getPropertyId(), buildingAndFlatData.getFlatData()));
+				
+				if (buildingAndFlatData.getBuildingData() != null) { // has some building data
+					BuildingDataModel buildingDataModel = mongoOperation.findOne(new Query(Criteria
+							.where("propertyId").is(buildingAndFlatData.getPropertyId())),
+							BuildingDataModel.class);
+					if (buildingDataModel == null) // unique id is not existing in db
+						mongoOperation.save(new BuildingDataModel(buildingAndFlatData
+								.getPropertyId(), buildingAndFlatData.getBuildingData()));
+					else
+					{
+						if(buildingDataModel.getIsLocked()== true){
+							return new PostForm("Building Entry already exist and is locked", "  u can add only tenant data");
+						}
+						else // is locked is false; u can update pg data
+						{
+							mongoOperation.remove(buildingDataModel);
+							mongoOperation.save(new BuildingDataModel(buildingAndFlatData
+									.getPropertyId(), buildingAndFlatData.getBuildingData()));
+							return new PostForm("Success", "Data successfully updated on server");
+						}
+					}
+				}
+				return new PostForm("Success", "Data successfully stored on server");
+//		mongoOperation.save(new BuildingDataModel(buildingAndFlatData
+//				.getPropertyId(), buildingAndFlatData.getBuildingData()));
+//		mongoOperation.save(new FlatDataModel(buildingAndFlatData
+//				.getPropertyId(), buildingAndFlatData.getFlatData()));
+//		return new PostForm("Success", "Data successfully stored on server");
 	}
 
 }

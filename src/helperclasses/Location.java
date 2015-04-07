@@ -5,11 +5,7 @@ public class Location {
 	private double longi;
 	private double lat;
 	
-	public Location() {
-		// TODO Auto-generated constructor stub
-		setLongi(0);
-		setLat(0);
-	}
+	
 	public Location(double longi, double lat) {
 		// TODO Auto-generated constructor stub
 		this.setLongi(longi);
