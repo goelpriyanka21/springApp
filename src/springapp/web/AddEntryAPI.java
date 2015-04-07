@@ -62,12 +62,25 @@ public class AddEntryAPI {
 			
 			// send list of data on the basis of user's current location and all pg's & Building info lying in area or subarea of his location
 //					mongoOperation.find(new Query(Criteria.where("pgdata.$selectedlocation").withinCenter(circle)), PGDataModel.class);
-			Query query= new Query();
-			query.addCriteria(Criteria.where("pgdata.selectedlocation.longi").is(47.608942));
-			PGDataModel pgDataModel= mongoOperation.findOne(query, PGDataModel.class);
 			List<PropertyNameTypeisLocked> listofproperties= new ArrayList<>();
+			
+			Query query= new Query();
+			query.addCriteria(Criteria.where("pgdata.selectedlocation.longi").gt(addEntryData.getGpslocation().getLongi()-2).lt(addEntryData.getGpslocation().getLongi()+2));
+			query.addCriteria(Criteria.where("pgdata.selectedlocation.lat").gt(addEntryData.getGpslocation().getLat()-2).lt(addEntryData.getGpslocation().getLat()+2));
+			List<PGDataModel> pgDataModelList= mongoOperation.find(query, PGDataModel.class);
+			for(PGDataModel pgDataModel: pgDataModelList){
 			PropertyNameTypeisLocked pntp1= new PropertyNameTypeisLocked(pgDataModel.getPgdata().getPgName(), "PG", pgDataModel.getPropertyId(), pgDataModel.getIsLocked());
 			listofproperties.add(pntp1);
+			}
+			 
+			query= new Query();
+			query.addCriteria(Criteria.where("buildingData.selectedlocation.longi").gt(addEntryData.getGpslocation().getLongi()-2).lt(addEntryData.getGpslocation().getLongi()+2));
+			query.addCriteria(Criteria.where("buildingData.selectedlocation.lat").gt(addEntryData.getGpslocation().getLat()-2).lt(addEntryData.getGpslocation().getLat()+2));
+			List<BuildingDataModel> buildingDataModellist= mongoOperation.find(query, BuildingDataModel.class);
+			for(BuildingDataModel pgDataModel: buildingDataModellist){
+			PropertyNameTypeisLocked pntp1= new PropertyNameTypeisLocked(pgDataModel.getBuildingData().getSocietyname(), "Building", pgDataModel.getPropertyId(), pgDataModel.getIsLocked());
+			listofproperties.add(pntp1);
+			}
 			return new ExistingPropertyData(listofproperties);
 		}
 
