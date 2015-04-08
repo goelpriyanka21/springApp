@@ -2,19 +2,16 @@ package forms;
 
 import helperclasses.Location;
 
-import org.springframework.data.annotation.Id;
 
 
 public class LogoutData {
+	
+    private String username;
+    private String deviceId;
+	private Location gpslocation;
+	
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	
 	public String getUsername() {
 		return username;
 	}
@@ -23,12 +20,7 @@ public class LogoutData {
 		this.username = username;
 	}
 
-	@Id
-    private String id;
-//GET
-    private String username;
-    private String deviceId;
-	private Location gpslocation;
+	
 	
 	
     
@@ -45,8 +37,8 @@ public class LogoutData {
 	@Override
     public String toString() {
         return String.format(
-                "User[id=%s, username='%s', password='%s']",
-                id, username);
+                "User[ username='%s', password='%s']",
+                username);
     }
 
 	public String getDeviceId() {

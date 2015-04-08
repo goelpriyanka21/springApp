@@ -7,6 +7,7 @@ import java.util.List;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.FlatDataModel;
+import models.PGDataModel;
 import models.UserNameToken;
 
 import org.springframework.context.ApplicationContext;
@@ -68,9 +69,9 @@ public class AddNewBuildingAndFlatDataAPI {
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
 
 				// if tenant data!null; save tenant data
-				// if pg data ! null; if unique id is not existing in db; fine; save pg
+				// if pg data ! null; if unique propertyId is not existing in db; fine; save pg
 				// data 
-				// if unique id is existing; if is locked is false ; update pg data
+				// if unique propertyId is existing; if is locked is false ; update pg data
 				// if is locked is true; status: entry already exist; u can add only
 				// tenant data; pg entry already exist & is locked
 
@@ -79,10 +80,12 @@ public class AddNewBuildingAndFlatDataAPI {
 							.getPropertyId(), buildingAndFlatData.getFlatData()));
 				
 				if (buildingAndFlatData.getBuildingData() != null) { // has some building data
-					BuildingDataModel buildingDataModel = mongoOperation.findOne(new Query(Criteria
-							.where("propertyId").is(buildingAndFlatData.getPropertyId())),
+					Query query= new Query();
+					query.addCriteria(Criteria
+							.where("propertyId").is(buildingAndFlatData.getPropertyId()));
+					BuildingDataModel buildingDataModel = mongoOperation.findOne(query,
 							BuildingDataModel.class);
-					if (buildingDataModel == null) // unique id is not existing in db
+					if (buildingDataModel == null) // unique propertyId is not existing in db
 						mongoOperation.save(new BuildingDataModel(buildingAndFlatData
 								.getPropertyId(), buildingAndFlatData.getBuildingData()));
 					else
@@ -92,7 +95,7 @@ public class AddNewBuildingAndFlatDataAPI {
 						}
 						else // is locked is false; u can update pg data
 						{
-							mongoOperation.remove(buildingDataModel);
+							mongoOperation.remove(query, BuildingDataModel.class);
 							mongoOperation.save(new BuildingDataModel(buildingAndFlatData
 									.getPropertyId(), buildingAndFlatData.getBuildingData()));
 							return new PostForm("Success", "Data successfully updated on server");

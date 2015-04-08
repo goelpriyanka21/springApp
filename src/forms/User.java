@@ -1,13 +1,11 @@
 package forms;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public class User {
 
-	@Id
-    private String id;
+
 
     private String username;
     private String password;
@@ -22,8 +20,8 @@ public class User {
     @Override
     public String toString() {
         return String.format(
-                "User[id=%s, username='%s', password='%s']",
-                id, username, password);
+                "User[ username='%s', password='%s']",
+                 username, password);
     }
 
 }

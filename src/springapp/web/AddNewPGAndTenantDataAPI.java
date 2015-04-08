@@ -79,8 +79,10 @@ public class AddNewPGAndTenantDataAPI {
 					.getpropertyId(), pgAndTenantData.getpgtenantlist()));
 		
 		if (pgAndTenantData.getPgdata() != null) { // has some pg data
-			PGDataModel pgDataModel = mongoOperation.findOne(new Query(Criteria
-					.where("propertyId").is(pgAndTenantData.getPropertyId())),
+			Query query= new Query();
+			query.addCriteria(Criteria
+					.where("propertyId").is(pgAndTenantData.getPropertyId()));
+			PGDataModel pgDataModel = mongoOperation.findOne(query,
 					PGDataModel.class);
 			if (pgDataModel == null) // unique propertyId is not existing in db
 				mongoOperation.save(new PGDataModel(pgAndTenantData
@@ -92,7 +94,7 @@ public class AddNewPGAndTenantDataAPI {
 				}
 				else // is locked is false; u can update pg data
 				{
-					mongoOperation.remove(pgDataModel);
+					mongoOperation.remove(query, PGDataModel.class);
 					mongoOperation.save(new PGDataModel(pgAndTenantData
 							.getpropertyId(), pgAndTenantData.getPgdata()));
 					return new PostForm("Success", "Data successfully updated on server");

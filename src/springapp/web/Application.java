@@ -44,7 +44,6 @@ public @ResponseBody String testdb() throws Exception {
 		// save
 		mongoOperation.save(user);
 
-		// now user object got the created id.
 		System.out.println("1. user : " + user);
 
 		// query to search user

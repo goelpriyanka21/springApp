@@ -2,13 +2,11 @@ package forms;
 
 import helperclasses.Location;
 
-import org.springframework.data.annotation.Id;
 
 public class LoginData {
 	
 
-	@Id
-    private String id;
+	
 //GET
     private String username;
     private String password;
@@ -32,18 +30,11 @@ public class LoginData {
 	@Override
     public String toString() {
         return String.format(
-                "User[id=%s, username='%s', password='%s']",
-                id, username, password);
+                "User[, username='%s', password='%s']",
+                 username, password);
     }
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
+	
 	public String getUsername() {
 		return username;
 	}
