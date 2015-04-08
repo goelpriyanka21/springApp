@@ -28,6 +28,8 @@ public class PopulateCollections {
 		mongoOperation.dropCollection("flatdata");
 		mongoOperation.dropCollection("pgdata");
 		mongoOperation.dropCollection("tenantdata");
+		mongoOperation.dropCollection("photos");
+		
 
 		// authenticationDetails
 		mongoOperation.save(new AuthenticationDetails("User1", "user1password",
