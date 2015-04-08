@@ -8,23 +8,23 @@ import java.util.List;
 
 public class FlatData {
 
-	public List<SectionListOfFileNamePair> picturelist;
-	String flatnumber;
-	Integer floornumber;
-	Integer numOfBathrooms;
-	Integer numOfBalconys;
-	String furnishingtype;
-	String flattype;
-	String facing;
-	Integer rent;
-	Integer maintainancecharges;
-	Integer deposit;
-	Boolean negotiable;
-	List<String> availableFor;
-	RatingAndListOfEs<String> amenities;
-	String servicesyouwillbeinterestedin;
-	String status;
-	String message;
+	private  List<SectionListOfFileNamePair> picturelist;
+	private String flatnumber;
+	private Integer floornumber;
+	private Integer numOfBathrooms;
+	private Integer numOfBalconys;
+	private String furnishingtype;
+	private String flattype;
+	private String facing;
+	private Integer rent;
+	private Integer maintainancecharges;
+	private Integer deposit;
+	private Boolean negotiable;
+	private List<String> availableFor;
+	private RatingAndListOfEs<String> amenities;
+	private String servicesyouwillbeinterestedin;
+	private String status;
+	private String message;
 	
 	
 	public List<SectionListOfFileNamePair> getPicturelist() {

@@ -1,5 +1,4 @@
 package springapp.web;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import validators.PhotoAPIValidator;
+
 @Controller
 public class AddPhotoAPI {
 
 	@RequestMapping(value = "/uploadphoto", method = RequestMethod.POST)
-	public @ResponseBody String addphoto(@RequestHeader String propertyId,
+	public @ResponseBody String addphoto(@RequestHeader String propertyId, @RequestHeader String flatnumber,
 			@RequestHeader String propertyType, @RequestHeader String section,
 			@RequestHeader String photoname,
 			@RequestParam("file") MultipartFile file) throws Exception {
@@ -30,6 +31,10 @@ public class AddPhotoAPI {
 				"springapp-servlet.xml");
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
+		
+		String photoAPIValidatorresult= PhotoAPIValidator.validate(propertyId, flatnumber, propertyType, section, photoname);
+		if(!photoAPIValidatorresult.equals("Successful"))
+			return photoAPIValidatorresult;
 
 		// Create directory
 		File files = new File("/Users/priyanka/DataCollectionAppPhotos/"
@@ -63,6 +68,7 @@ public class AddPhotoAPI {
 		} else {
 			return "You failed to upload because the file was empty.";
 		}
+		
 
 	}
 }
