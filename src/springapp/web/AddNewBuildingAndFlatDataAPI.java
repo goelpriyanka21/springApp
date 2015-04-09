@@ -7,7 +7,6 @@ import java.util.List;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.FlatDataModel;
-import models.PGDataModel;
 import models.UserNameToken;
 
 import org.springframework.context.ApplicationContext;

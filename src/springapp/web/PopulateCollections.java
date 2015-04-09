@@ -1,5 +1,6 @@
 package springapp.web;
 
+import models.AttendenceModel;
 import models.AuthenticationDetails;
 import models.UserNameToken;
 
@@ -29,6 +30,7 @@ public class PopulateCollections {
 		mongoOperation.dropCollection("pgdata");
 		mongoOperation.dropCollection("tenantdata");
 		mongoOperation.dropCollection("photos");
+		mongoOperation.dropCollection("attendence");
 		
 
 		// authenticationDetails
@@ -42,6 +44,10 @@ public class PopulateCollections {
 		mongoOperation.save(new UserNameToken("User1", "user1token"));
 		mongoOperation.save(new UserNameToken("User2", "user2token"));
 		mongoOperation.save(new UserNameToken("User3", "user3token"));
+		//attendence
+		mongoOperation.save(new AttendenceModel("User1", 0, 0, 300, 0));
+		mongoOperation.save(new AttendenceModel("User2", 0, 0, 300, 0));
+		mongoOperation.save(new AttendenceModel("User3", 0, 0, 300, 0));
 
 		return ("populate collections worked: all collections populated");
 

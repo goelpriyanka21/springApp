@@ -15,7 +15,7 @@ public class ExistingPropertyDataAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//ExistingPropertyDataAPIJson.json"); 
 		
 		//GET
-	    ExistingPropertyData existingpropertydataget = new ExistingPropertyData("RahejaApartmentUniqueId123");
+	    ExistingPropertyData existingpropertydataget = new ExistingPropertyData("User1", "user1token", "RahejaApartmentUniqueId123");
 		String existingpropertydatagetjson = gson.toJson(existingpropertydataget);
 		System.out.println(existingpropertydatagetjson);
 		writer.append("//GET\n");

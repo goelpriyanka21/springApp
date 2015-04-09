@@ -1,7 +1,6 @@
 package springapp.web;
 
 import models.AuthenticationDetails;
-import models.UserNameToken;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import forms.LoginData;
 import forms.LogoutData;
 import forms.PostForm;
 import validators.AuthenticationDetailsValidator;

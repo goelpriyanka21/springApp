@@ -2,6 +2,9 @@ package springapp.web;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import models.PhotoModel;
 
@@ -9,7 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,11 +22,27 @@ import validators.PhotoAPIValidator;
 
 @Controller
 public class AddPhotoAPI {
-
+	
+	private static Properties prop;
+	
+	@RequestMapping(value = "/findconfigproperty", method = RequestMethod.POST)
+	private @ResponseBody String getConfigProperty() throws IOException {
+		if(prop == null){
+			prop = new Properties();
+			InputStream input = AddPhotoAPI.class.getClassLoader().getResourceAsStream("config.properties");
+			if(input==null){
+				return "config.properties file not found";  // make it null wen u dont want to use dis method anymore ..
+			}
+			prop.load(input);
+			input.close();
+		}
+		return prop.getProperty("filepath");
+	}
+	
 	@RequestMapping(value = "/uploadphoto", method = RequestMethod.POST)
-	public @ResponseBody String addphoto(@RequestHeader String propertyId, @RequestHeader String flatnumber,
-			@RequestHeader String propertyType, @RequestHeader String section,
-			@RequestHeader String photoname,
+	public @ResponseBody String addphoto(@RequestParam String propertyId, @RequestParam String flatnumber,
+			@RequestParam String propertyType, @RequestParam String section,
+			@RequestParam String photoname,
 			@RequestParam("file") MultipartFile file) throws Exception {
 
 		ApplicationContext ctx = new GenericXmlApplicationContext(
@@ -37,7 +55,8 @@ public class AddPhotoAPI {
 			return photoAPIValidatorresult;
 
 		// Create directory
-		File files = new File("/Users/priyanka/DataCollectionAppPhotos/"
+		if(getConfigProperty()==null) return "config.properties file not found";
+		File files = new File(getConfigProperty()
 				+ propertyId + "/" + section);
 		if (!files.exists()) {
 			if (files.mkdirs()) {
@@ -47,11 +66,9 @@ public class AddPhotoAPI {
 			}
 		}
 
-		String uploadedFileLocation = "/Users/priyanka/DataCollectionAppPhotos/"
+		String uploadedFileLocation = getConfigProperty()
 				+ propertyId + "/" + section + "/" + photoname;
-		// System.out.println(new File(uploadedFileLocation).getAbsolutePath());
-		System.out.println(uploadedFileLocation);
-
+// updated file if file already exists
 		if (!file.isEmpty()) {
 			try {
 				byte[] bytes = file.getBytes();

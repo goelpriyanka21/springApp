@@ -1,26 +1,29 @@
 package forms;
 
 
-public class HomePage {
+public class HomePageData {
 	
 	//GET
     private String username;
     private String deviceId;
 	private String token;
 	//POST
-Integer numoftodayentries;
-Integer numofcurrentmonthentries;
-Integer targetforthemonth;
-Integer targetachieved;
+	private String status;
+	private String message;
+	
+private Integer numoftodayentries;
+private Integer numofcurrentmonthentries;
+private Integer targetforthemonth;
+private Double targetachieved;
 
-public HomePage(String username, String deviceId, String token){
+public HomePageData(String username, String deviceId, String token){
 	this.username= username;
 	this.deviceId= deviceId;
 	this.token= token;
 	
 }
 
-public HomePage(int numoftodayentries, int numofcurrentmonthentries, int targetforthemonth, int targetachieved){
+public HomePageData(int numoftodayentries, int numofcurrentmonthentries, int targetforthemonth, Double targetachieved){
 	this.numoftodayentries=numoftodayentries;
 	this.numofcurrentmonthentries=numofcurrentmonthentries;
 	this.targetforthemonth=targetforthemonth;
@@ -28,6 +31,11 @@ public HomePage(int numoftodayentries, int numofcurrentmonthentries, int targetf
 	
 }
 
+public HomePageData(String status, String message) {
+	// TODO Auto-generated constructor stub
+	this.setStatus(status);
+	this.setMessage(message);
+}
 	
 	public String getUsername() {
 		return username;
@@ -77,12 +85,28 @@ public HomePage(int numoftodayentries, int numofcurrentmonthentries, int targetf
 		this.targetforthemonth = targetforthemonth;
 	}
 
-	public Integer getTargetachieved() {
+	public Double getTargetachieved() {
 		return targetachieved;
 	}
 
-	public void setTargetachieved(Integer targetachieved) {
+	public void setTargetachieved(Double targetachieved) {
 		this.targetachieved = targetachieved;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	

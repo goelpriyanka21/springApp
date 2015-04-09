@@ -1,4 +1,4 @@
-import forms.HomePage;
+import forms.HomePageData;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class HomePageAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//HomePageAPIJson.json"); 
 	    
 	  //GET
-	  		HomePage homepageget = new HomePage("Priyanka", "ba435a",  "priyatoken123");
+	    HomePageData homepageget = new HomePageData("Priyanka", "ba435a",  "priyatoken123");
 	  		String homepagegetjson = gson.toJson(homepageget);
 	  		System.out.println(homepagegetjson);
 	  		writer.append("//GET\n");
@@ -22,7 +22,7 @@ public class HomePageAPIJson {
 	  		
 		
 		//POST
-		HomePage homepagepost = new HomePage(9, 78, 300, 25);
+	  		HomePageData homepagepost = new HomePageData(9, 78, 300, (double) 25);
 		String homepagepostjson = gson.toJson(homepagepost);
 		System.out.println(homepagepostjson);
 		writer.append("//POST\n");
