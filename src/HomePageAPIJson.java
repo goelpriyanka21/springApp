@@ -14,7 +14,7 @@ public class HomePageAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//HomePageAPIJson.json"); 
 	    
 	  //GET
-	    HomePageData homepageget = new HomePageData("Priyanka", "ba435a",  "priyatoken123");
+	    HomePageData homepageget = new HomePageData("User1", "ba435a",  "user1token");
 	  		String homepagegetjson = gson.toJson(homepageget);
 	  		System.out.println(homepagegetjson);
 	  		writer.append("//GET\n");

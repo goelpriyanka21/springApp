@@ -86,7 +86,7 @@ public class AddNewBuildingAndFlatDataAPI {
 							BuildingDataModel.class);
 					if (buildingDataModel == null) // unique propertyId is not existing in db
 						mongoOperation.save(new BuildingDataModel(buildingAndFlatData
-								.getPropertyId(), buildingAndFlatData.getBuildingData()));
+								.getPropertyId(), buildingAndFlatData.getBuildingData(), buildingAndFlatData.getUsername()));
 					else
 					{
 						if(buildingDataModel.getIsLocked()== true){
@@ -94,9 +94,11 @@ public class AddNewBuildingAndFlatDataAPI {
 						}
 						else // is locked is false; u can update pg data
 						{
+							String createdBy_username= buildingDataModel.getCreatedBy_username();
+							 String createdDate= buildingDataModel.getCreatedDate();
 							mongoOperation.remove(query, BuildingDataModel.class);
 							mongoOperation.save(new BuildingDataModel(buildingAndFlatData
-									.getPropertyId(), buildingAndFlatData.getBuildingData()));
+									.getPropertyId(), buildingAndFlatData.getBuildingData(), createdBy_username, createdDate, buildingAndFlatData.getUsername()));
 							return new PostForm("Success", "Data successfully updated on server");
 						}
 					}

@@ -106,8 +106,8 @@ public class AddNewBuildingAndFlatDataAPIJson {
 					FlatData flatData2 = new FlatData(picturelist, "604", 6, 2, 2,
 							"Semi-furnished", "2BHK", "East", 26500, 3000, 200000, false,
 							flatavailableFor, flatamenities, "None");
-			BuildingAndFlatData buildingAndFlatData= new BuildingAndFlatData("Priyanka",  "ba435a", gpslocation, 
-					"priyankatoken123", "SriSaiKormanagalaattimesatmp10:23",
+			BuildingAndFlatData buildingAndFlatData= new BuildingAndFlatData("User1",  "ba435a", gpslocation, 
+					"user1token", "SriSaiKormanagalaattimesatmp10:23",
 					buildingData,
 					Arrays.asList(flatData1, flatData2));
 							 

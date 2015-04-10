@@ -73,7 +73,7 @@ public class AddNewPGAndTenantDataJson {
 			TenantData tenantData1= new TenantData("Ram", "+91-9877812345", "ram@gmail.com", 25, "Software Professional",  threebestthings, threethingsyoudontlikeaboutPG, safety, cleanliness, otherRoommates, commute, foodOptions, ownerAndServiceFeedBack, ownerInteractionReview,  ownerflexibility, rentPaymentMode, serviceReview, referralpossibilty, servicesInterested, additionalComments);  
 			TenantData tenantData2= new TenantData("Ashu", "+91-987781422", "ashu@gmail.com", 30, "Student",  threebestthings, threethingsyoudontlikeaboutPG, safety, cleanliness, otherRoommates, commute, foodOptions, ownerAndServiceFeedBack, ownerInteractionReview,  ownerflexibility, rentPaymentMode, serviceReview, referralpossibilty, servicesInterested, additionalComments);  
 			
-			PGAndTenantData addnewpgdata= new PGAndTenantData("Priyanka",  "ba435a", gpslocation, "priyankatoken123", "SriSaiKormanagalaattimesatmp10:23", pgdata, Arrays.asList(tenantData1, tenantData2));
+			PGAndTenantData addnewpgdata= new PGAndTenantData("User1",  "ba435a", gpslocation, "user1token", "SriSaiKormanagalaattimesatmp10:23", pgdata, Arrays.asList(tenantData1, tenantData2));
 			
 		String addnewpgdatagetjson = gson.toJson(addnewpgdata);
 		System.out.println(addnewpgdatagetjson);

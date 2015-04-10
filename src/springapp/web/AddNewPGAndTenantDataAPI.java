@@ -86,7 +86,7 @@ public class AddNewPGAndTenantDataAPI {
 					PGDataModel.class);
 			if (pgDataModel == null) // unique propertyId is not existing in db
 				mongoOperation.save(new PGDataModel(pgAndTenantData
-						.getpropertyId(), pgAndTenantData.getPgdata()));
+						.getpropertyId(), pgAndTenantData.getPgdata(), pgAndTenantData.getUsername()));
 			else
 			{
 				if(pgDataModel.getIsLocked()== true){
@@ -94,9 +94,11 @@ public class AddNewPGAndTenantDataAPI {
 				}
 				else // is locked is false; u can update pg data
 				{
+					 String createdBy_username= pgDataModel.getCreatedBy_username();
+					 String createdDate= pgDataModel.getCreatedDate();
 					mongoOperation.remove(query, PGDataModel.class);
 					mongoOperation.save(new PGDataModel(pgAndTenantData
-							.getpropertyId(), pgAndTenantData.getPgdata()));
+							.getpropertyId(), pgAndTenantData.getPgdata(), createdBy_username, createdDate, pgAndTenantData.getUsername()));
 					return new PostForm("Success", "Data successfully updated on server");
 				}
 			}
