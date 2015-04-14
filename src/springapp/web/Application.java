@@ -1,9 +1,10 @@
 package springapp.web;
 
+import forms.User;
+import helperclasses.XmlApplicationContext;
+
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import forms.User;
 
 //import org.springframework.context.support.GenericXmlApplicationContext;
 
@@ -25,18 +24,7 @@ public class Application {
 
 public @ResponseBody String testdb() throws Exception {
 
-		// For XML
-//		ApplicationContext ctx = new GenericXmlApplicationContext(
-//				"/Users/priyanka/Documents/eclipse/springapp/war/WEB-INF/springapp-servlet.xml");
-		ApplicationContext ctx = new GenericXmlApplicationContext(
-				"springapp-servlet.xml");
-		
-
-		// For Annotation
-		// ApplicationContext ctx =
-		// new AnnotationConfigApplicationContext(SpringMongoConfig.class);
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
 		User user = new User("priyanka", "password123");
 

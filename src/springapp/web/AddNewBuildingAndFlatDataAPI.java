@@ -1,6 +1,7 @@
 package springapp.web;
 
 import helperclasses.ErrorFieldAndMessage;
+import helperclasses.XmlApplicationContext;
 
 import java.util.List;
 
@@ -9,8 +10,6 @@ import models.BuildingDataModel;
 import models.FlatDataModel;
 import models.UserNameToken;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import forms.BuildingAndFlatData;
-import forms.PostForm;
 import validators.BuildingAndFlatDataValidator;
 import validators.TokenValidator;
+import forms.BuildingAndFlatData;
+import forms.PostForm;
 
 @Controller
 public class AddNewBuildingAndFlatDataAPI {
@@ -33,10 +32,7 @@ public class AddNewBuildingAndFlatDataAPI {
 			@RequestBody BuildingAndFlatData buildingAndFlatData)
 			throws Exception {
 
-		ApplicationContext ctx = new GenericXmlApplicationContext(
-				"springapp-servlet.xml");
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
 		// AuthenticationDetails Validator
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(new Query(Criteria

@@ -1,8 +1,7 @@
 package springapp.web;
 
-
-
 import helperclasses.PropertyNameTypeisLocked;
+import helperclasses.XmlApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,6 @@ import models.BuildingDataModel;
 import models.PGDataModel;
 import models.UserNameToken;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,9 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import validators.TokenValidator;
 import forms.AddEntryData;
 import forms.ExistingPropertyData;
-import validators.TokenValidator;
 
 @Controller
 public class AddEntryAPI {
@@ -34,10 +31,7 @@ public class AddEntryAPI {
 	public @ResponseBody ExistingPropertyData addEntry(
 			@RequestBody AddEntryData addEntryData) throws Exception {
 
-		ApplicationContext ctx = new GenericXmlApplicationContext(
-				"springapp-servlet.xml");
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
 		if (addEntryData.getPropertyId() == null) {
 

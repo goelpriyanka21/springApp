@@ -1,9 +1,10 @@
 package springapp.web;
 
+import helperclasses.XmlApplicationContext;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
 
 //import models.AttendenceModel;
 import models.AuthenticationDetails;
@@ -11,8 +12,6 @@ import models.BuildingDataModel;
 import models.PGDataModel;
 import models.UserNameToken;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -33,10 +32,7 @@ public class HomePageAPI {
 	public @ResponseBody HomePageData showHomePage(
 			@RequestBody HomePageData homePageData) throws Exception {
 
-		ApplicationContext ctx = new GenericXmlApplicationContext(
-				"springapp-servlet.xml");
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
 		// AuthenticationDetails Validator
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(

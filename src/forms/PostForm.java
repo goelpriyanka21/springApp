@@ -3,6 +3,7 @@ package forms;
 import helperclasses.ErrorFieldAndMessage;
 
 import java.util.List;
+import forms.AppointmentData;
 
 public class PostForm {
 	
@@ -11,6 +12,7 @@ public class PostForm {
 		private String message;
 		private String token;
 		  private List<ErrorFieldAndMessage> errorfieldandstring;
+		  private List<AppointmentData> appointmentList;
 		  
 		  public PostForm(String string, String string2) {
 				// TODO Auto-generated constructor stub
@@ -32,6 +34,8 @@ public class PostForm {
 				this.message= message;
 				this.token= token;
 			}
+			
+			
 
 			public String getStatus() {
 				return status;
@@ -59,6 +63,14 @@ public class PostForm {
 
 			public void setToken(String token) {
 				this.token = token;
+			}
+
+			public List<AppointmentData> getAppointmentList() {
+				return appointmentList;
+			}
+
+			public void setAppointmentList(List<AppointmentData> appointmentList) {
+				this.appointmentList = appointmentList;
 			}
 
 

@@ -1,10 +1,7 @@
-import forms.AppointmentCheck;
-import helperclasses.Location;
-import helperclasses.PropertyNameTypeisLocked;
+import forms.AppointmentAPIPost;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,23 +17,30 @@ public class AppointmentCheckAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//AppointmentCheckAPIJson.json"); 
 		
 		//GET
-	    PropertyNameTypeisLocked pntp2= new PropertyNameTypeisLocked("Woods Society", "Building", "WoodsSocietyUniqueId");
-	    PropertyNameTypeisLocked pntp3= new PropertyNameTypeisLocked("Rhythm", "Building", "RhythmUniqueID");
-		List<PropertyNameTypeisLocked> appointmentdoneList =  (Arrays.asList( pntp2, pntp3));
-	    AppointmentCheck appointmentCheckget = new AppointmentCheck("Priyanka", "ba435a", new Location(47.608941, -122.340145), "priyatoken123", appointmentdoneList);
-		String appointmentCheckgetjson = gson.toJson(appointmentCheckget);
+//	    PropertyNameTypeisLocked pntp2= new PropertyNameTypeisLocked("Woods Society", "Building", "WoodsSocietyUniqueId");
+//	    PropertyNameTypeisLocked pntp3= new PropertyNameTypeisLocked("Rhythm", "Building", "RhythmUniqueID");
+//		List<PropertyNameTypeisLocked> appointmentdoneList =  (Arrays.asList( pntp2, pntp3));
+//	    AppointmentCheck appointmentCheckget = new AppointmentCheck("Priyanka", "ba435a", new Location(47.608941, -122.340145), "priyatoken123", appointmentdoneList);
+		String appointmentCheckgetjson = gson.toJson("RhythmUniqueID");
 		System.out.println(appointmentCheckgetjson);
 		writer.append("//GET\n");
 		writer.append(appointmentCheckgetjson+"\n\n"); 
 		
+		//POST: Appointment list successfully updated
 		
+				AppointmentAPIPost appointmentCheckpost = new AppointmentAPIPost("Failure", "There was no such appointment ID for you");
+				String appointmentCheckpostjson = gson.toJson(appointmentCheckpost);
+				System.out.println(appointmentCheckpostjson);
+				writer.append("//POST\n");
+				writer.append(appointmentCheckpostjson+"\n\n"); 
+				
 		
 		//POST: Appointment list successfully updated
 		
-	    AppointmentCheck appointmentCheckpost = new AppointmentCheck("success", "appointment list successfully updated");
-		String appointmentCheckpostjson = gson.toJson(appointmentCheckpost);
+		 appointmentCheckpost = new AppointmentAPIPost("success", "appointment list successfully updated");
+		 appointmentCheckpostjson = gson.toJson(appointmentCheckpost);
 		System.out.println(appointmentCheckpostjson);
-		writer.append("//GET\n");
+		writer.append("//POST\n");
 		writer.append(appointmentCheckpostjson+"\n\n"); 
 		
 		

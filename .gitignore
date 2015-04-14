@@ -1,1 +1,5 @@
+.gitignore
+.project
+.classpath
 /target/
+run.sh
