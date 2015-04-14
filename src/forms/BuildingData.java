@@ -7,14 +7,14 @@ import helperclasses.FlatTypeAvailabilityFlatsCombo;
 import helperclasses.Location;
 import helperclasses.RatingAndListOfEs;
 import helperclasses.Section24hrsAvailablePreferredPlace;
-import helperclasses.SectionListOfFileNamePair;
+import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.TwoIntegerpair;
 
 public class BuildingData {
 	// GET
 
 	private String societyname;
-	private List<SectionListOfFileNamePair> picturelist;
+	private List<SectionListOfPhotoNameAndURLPair> picturelist;
 	private String buildingname;
 	private String addressl1;
 	private String addressl2;
@@ -47,7 +47,7 @@ public class BuildingData {
 	public BuildingData(
 
 			String societyname,
-			List<SectionListOfFileNamePair> picturelist,
+			List<SectionListOfPhotoNameAndURLPair> picturelist,
 			String buildingname,
 			String addressl1,
 			String addressl2,
@@ -98,9 +98,7 @@ public class BuildingData {
 		this.othersafetyissuesifany = othersafetyissuesifany;
 		this.gatekeepercontact = gatekeepercontact;
 		this.societymanagercontact = societymanagercontact;
-		//bestthingaboutsociety
 		this.bestthingaboutsociety = bestthingaboutsociety;
-//		areaofimprovement= new String[5];
 		this.areaofimprovement = areaofimprovement;
 		this.selectedlocation = selectedlocation;
 
@@ -114,11 +112,11 @@ public class BuildingData {
 		this.societyname = societyname;
 	}
 
-	public List<SectionListOfFileNamePair> getPicturelist() {
+	public List<SectionListOfPhotoNameAndURLPair> getPicturelist() {
 		return picturelist;
 	}
 
-	public void setPicturelist(List<SectionListOfFileNamePair> picturelist) {
+	public void setPicturelist(List<SectionListOfPhotoNameAndURLPair> picturelist) {
 		this.picturelist = picturelist;
 	}
 

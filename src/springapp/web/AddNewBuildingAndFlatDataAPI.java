@@ -75,8 +75,10 @@ public class AddNewBuildingAndFlatDataAPI {
 				// tenant data; pg entry already exist & is locked
 
 				if (buildingAndFlatData.getFlatData() != null)
+					//save if non existing
 					mongoOperation.save(new FlatDataModel(buildingAndFlatData
 							.getPropertyId(), buildingAndFlatData.getFlatData()));
+				//update if existing
 				
 				if (buildingAndFlatData.getBuildingData() != null) { // has some building data
 					Query query= new Query();

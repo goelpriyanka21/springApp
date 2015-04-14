@@ -18,6 +18,7 @@ public class PGDataModel {
 	private String modifiedBy_username;
 	private String modifiedDate;
 	
+	
 	public PGDataModel() {
 		// TODO Auto-generated constructor stub
 	}
@@ -101,5 +102,7 @@ public class PGDataModel {
 	public void setModifiedBy_username(String modifiedBy_username) {
 		this.modifiedBy_username = modifiedBy_username;
 	}
+
+	
 
 }

@@ -5,8 +5,9 @@ import forms.TenantData;
 import helperclasses.Commute;
 import helperclasses.ContactPerson;
 import helperclasses.FoodOptions;
+import helperclasses.PhotoNameAndURLPair;
 import helperclasses.RatingAndListOfEsAndString;
-import helperclasses.SectionListOfFileNamePair;
+import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.TwoIntegerpair;
 import helperclasses.AmenityTypePricePair;
 import helperclasses.DepositAmount;
@@ -36,8 +37,8 @@ public class AddNewPGAndTenantDataJson {
 		//GET
 	    	Location gpslocation= new Location(47.608941, -122.340145);
 	    	
-	    	SectionListOfFileNamePair sfp1= new SectionListOfFileNamePair("Building",  Arrays.asList("srisaimanasabuilding"));
-	    	SectionListOfFileNamePair sfp2= new SectionListOfFileNamePair("Rooms",  Arrays.asList("srisaimanasaroom1", "srisaimanasaroom2"));
+	    	SectionListOfPhotoNameAndURLPair sfp1= new SectionListOfPhotoNameAndURLPair("Building",  Arrays.asList(new PhotoNameAndURLPair("srisaimanasabuilding")));
+	    	SectionListOfPhotoNameAndURLPair sfp2= new SectionListOfPhotoNameAndURLPair("Rooms",  Arrays.asList(new PhotoNameAndURLPair("srisaimanasaroom1"), new PhotoNameAndURLPair("srisaimanasaroom2")));
 			DepositAmount da= new DepositAmount(1000, false);
 			ContactPerson contactperson= new ContactPerson("Person1", "+91-986667918", "Person2", "+91-986867918", "Person3", "+91-9866227918");
 			StudProfper spp= new StudProfper(30, 70);

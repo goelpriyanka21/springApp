@@ -12,7 +12,9 @@ public class FlatDataModel {
 	private String propertyId;
 	 private List<FlatData> flatdatalist;
 	 
-
+	 public FlatDataModel() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public FlatDataModel(String propertyId, List<FlatData> flatdatalist) {
 		// TODO Auto-generated constructor stub

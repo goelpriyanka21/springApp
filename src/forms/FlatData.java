@@ -2,13 +2,13 @@ package forms;
 
 
 import helperclasses.RatingAndListOfEs;
-import helperclasses.SectionListOfFileNamePair;
+import helperclasses.SectionListOfPhotoNameAndURLPair;
 
 import java.util.List;
 
 public class FlatData {
 
-	private  List<SectionListOfFileNamePair> picturelist;
+	private  List<SectionListOfPhotoNameAndURLPair> picturelist;
 	private String flatnumber;
 	private Integer floornumber;
 	private Integer numOfBathrooms;
@@ -26,12 +26,16 @@ public class FlatData {
 	private String status;
 	private String message;
 	
+	public FlatData(){
+		
+	}
 	
-	public List<SectionListOfFileNamePair> getPicturelist() {
+	
+	public List<SectionListOfPhotoNameAndURLPair> getPicturelist() {
 		return picturelist;
 	}
 
-	public void setPicturelist(List<SectionListOfFileNamePair> picturelist) {
+	public void setPicturelist(List<SectionListOfPhotoNameAndURLPair> picturelist) {
 		this.picturelist = picturelist;
 	}
 
@@ -169,7 +173,7 @@ public class FlatData {
 	public FlatData(
 			// GET
 
-			List<SectionListOfFileNamePair> picturelist, String flatnumber,
+			List<SectionListOfPhotoNameAndURLPair> picturelist, String flatnumber,
 			Integer floornumber, Integer numOfBathrooms, Integer numOfBalconys,
 			String furnishingtype, String flattype, String facing,
 			Integer rent, Integer maintainancecharges, Integer deposit,
@@ -201,5 +205,6 @@ public class FlatData {
 		this.message = message;
 
 	}
+
 
 }

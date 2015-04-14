@@ -7,7 +7,7 @@ import java.util.List;
 
 public class PGData {
 
-	public List<SectionListOfFileNamePair> picturelist;
+	public List<SectionListOfPhotoNameAndURLPair> picturelist;
 	public String pgName;
 	private String buildingname;
 	public String addressl1;
@@ -31,7 +31,7 @@ public class PGData {
 	private Location selectedlocation;
 
 	/** Required for form instantiation. */
-	public PGData(String pgName, List<SectionListOfFileNamePair> picturelist,
+	public PGData(String pgName, List<SectionListOfPhotoNameAndURLPair> picturelist,
 			String buildingname, String addressl1, String addressl2,
 			int pincode, String landmark, ContactPerson contactperson, DepositAmount depositamount,
 			
@@ -138,11 +138,11 @@ public class PGData {
 		return ageBand;
 	}
 
-	public List<SectionListOfFileNamePair> getPicturelist() {
+	public List<SectionListOfPhotoNameAndURLPair> getPicturelist() {
 		return picturelist;
 	}
 
-	public void setPicturelist(List<SectionListOfFileNamePair> picturelist) {
+	public void setPicturelist(List<SectionListOfPhotoNameAndURLPair> picturelist) {
 		this.picturelist = picturelist;
 	}
 

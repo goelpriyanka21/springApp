@@ -3,8 +3,9 @@ import forms.BuildingData;
 import forms.FlatData;
 import forms.PostForm;
 import helperclasses.FamilyBachPer;
+import helperclasses.PhotoNameAndURLPair;
 import helperclasses.Section24hrsAvailablePreferredPlace;
-import helperclasses.SectionListOfFileNamePair;
+import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.TwoIntegerpair;
 import helperclasses.Location;
 import helperclasses.RatingAndListOfEs;
@@ -31,8 +32,8 @@ public class AddNewBuildingAndFlatDataAPIJson {
 		
 		//GET
 	    	Location gpslocation= new Location(47.608941, -122.340145);
-	    	SectionListOfFileNamePair sfp1= new SectionListOfFileNamePair("Building",  Arrays.asList("srisaimanasabuilding"));
-	    	SectionListOfFileNamePair sfp2= new SectionListOfFileNamePair("Rooms",  Arrays.asList("srisaimanasaroom1", "srisaimanasaroom2"));
+	    	SectionListOfPhotoNameAndURLPair sfp1= new SectionListOfPhotoNameAndURLPair("Building",  Arrays.asList(new PhotoNameAndURLPair("srisaimanasabuilding")));
+	    	SectionListOfPhotoNameAndURLPair sfp2= new SectionListOfPhotoNameAndURLPair("Rooms",  Arrays.asList(new PhotoNameAndURLPair("srisaimanasaroom1"), new PhotoNameAndURLPair("srisaimanasaroom2")));
 	    	TwoIntegerpair rent= new TwoIntegerpair(20000, 30000);
 	    	TwoIntegerpair maintainancecharge= new TwoIntegerpair(3000, 4000);
 	    	TwoIntegerpair depositamount= new TwoIntegerpair(200000, 300000);
@@ -88,12 +89,12 @@ public class AddNewBuildingAndFlatDataAPIJson {
 					   areaofimprovement,
 					    selectedlocation);
 			
-					SectionListOfFileNamePair sfp5 = new SectionListOfFileNamePair("BedRoom",
-							Arrays.asList("RahejaFlatBedroom"));
-				SectionListOfFileNamePair sfp4 = new SectionListOfFileNamePair("Hall",
-							Arrays.asList("RahejaFlatHall1",
-									"RahejaFlatBedroomHall2"));
-					List<SectionListOfFileNamePair> picturelist = Arrays.asList(sfp5, sfp4);
+			SectionListOfPhotoNameAndURLPair sfp5 = new SectionListOfPhotoNameAndURLPair("BedRoom",
+							Arrays.asList(new PhotoNameAndURLPair("RahejaFlatBedroom")));
+			SectionListOfPhotoNameAndURLPair sfp4 = new SectionListOfPhotoNameAndURLPair("Hall",
+							Arrays.asList(new PhotoNameAndURLPair("RahejaFlatHall1"),
+									new PhotoNameAndURLPair("RahejaFlatBedroomHall2")));
+					List<SectionListOfPhotoNameAndURLPair> picturelist = Arrays.asList(sfp5, sfp4);
 					List<String> flatavailableFor = Arrays.asList("Family", "Male Tenant",
 							"Female Tenant");
 					RatingAndListOfEs<String> flatamenities = new RatingAndListOfEs<>(3,
