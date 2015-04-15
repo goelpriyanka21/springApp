@@ -54,31 +54,31 @@ public class PopulateCollections {
 		
 		//appointments
 		AppointmentData appointmentData1 = new AppointmentData(
+				"RahiPGKormangalaUniqueId",
 				"Rahi PG for ladies",
 				"PG",
-				"RahiPGKormangalaUniqueId",
 				"Kormanagala 5th Block",
 				"Bangalore",
 				"Tuesday March 13, 2015",
-				"03:30 am",
-				"04:30 pm",
+				"07:30 pm",
+				"08:30 pm",
 				"Dont forget neighbourhood pictures..You missed that last time",
 				new Location(47.608942, -122.340145));
 		AppointmentData appointmentData2 = new AppointmentData(
+				"WoodsSocietyUniqueId",
 				"Woods Society",
 				"Building",
-				"WoodsSocietyUniqueId",
 				"Kormanagala 5th Block",
 				"Bangalore",
 				"Tuesday March 13, 2015",
-				"03:30 am",
+				"03:30 pm",
 				"04:30 pm",
 				"Dont forget neighbourhood pictures..You missed that last time",
 				new Location(47.608942, -122.340145));
 		AppointmentData appointmentData3 = new AppointmentData(
+				"RhythmBuildingMarathalliUniqueId",
 				"Rhythm",
 				"Building",
-				"RhythmBuildingMarathalliUniqueId",
 				"Kormanagala 5th Block",
 				"Bangalore",
 				"Tuesday March 14, 2015",
@@ -87,9 +87,9 @@ public class PopulateCollections {
 				"Dont forget neighbourhood pictures..You missed that last time",
 				new Location(47.608942, -122.340145));
 		AppointmentData appointmentData4 = new AppointmentData(
-				"Rhythm",
+				"SattireBuildingMarathalliUniqueId",
+				"Sattire",
 				"Building",
-				"RhythmBuildingMarathalliUniqueId",
 				"Kormanagala 5th Block",
 				"Bangalore",
 				"Tuesday March 13, 2015",
