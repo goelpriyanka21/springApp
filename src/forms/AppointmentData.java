@@ -3,7 +3,8 @@ package forms;
 import helperclasses.Location;
 
 public class AppointmentData {
-
+	
+//	@Id
 	private String appointmentId;
 	private String propertyName;
 	private String propertyType;
