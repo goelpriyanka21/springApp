@@ -1,11 +1,10 @@
 package models;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import forms.PGData;
-
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import forms.PGData;
 
 @Document(collection = "pgdata")
 public class PGDataModel {
@@ -14,9 +13,9 @@ public class PGDataModel {
 	private PGData pgdata;
 	private Boolean isLocked;
 	private String createdBy_username;
-	private String createdDate;
+	private Date createdDate;
 	private String modifiedBy_username;
-	private String modifiedDate;
+	private Date modifiedDate;
 	
 	
 	public PGDataModel() {
@@ -29,21 +28,19 @@ public class PGDataModel {
 		this.pgdata = pgdata;
 		this.isLocked = true;
 		this.createdBy_username = createdBy_username;
-		this.createdDate = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-				.format(new Date());
+		this.createdDate = new Date();
 
 	}
 	
 	public PGDataModel(String propertyId, PGData pgdata,
-			String createdBy_username, String createdDate, String modifiedBy_username) {
+			String createdBy_username, Date createdDate, String modifiedBy_username) {
 		this.propertyId = propertyId;
 		this.pgdata = pgdata;
 		this.isLocked = true;
 		this.createdBy_username = createdBy_username;
 		this.createdDate = createdDate;
 		this.modifiedBy_username= modifiedBy_username;
-		this.modifiedDate= new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-		.format(new Date());
+		this.modifiedDate= new Date();
 
 	}
 
@@ -79,19 +76,19 @@ public class PGDataModel {
 		this.createdBy_username = createdBy_username;
 	}
 
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
-	public String getModeifiedDate() {
+	public Date getModeifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModeifiedDate(String modeifiedDate) {
+	public void setModeifiedDate(Date modeifiedDate) {
 		this.modifiedDate = modeifiedDate;
 	}
 

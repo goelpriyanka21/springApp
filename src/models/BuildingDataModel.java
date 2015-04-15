@@ -1,11 +1,10 @@
 package models;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import forms.BuildingData;
-
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import forms.BuildingData;
 
 @Document(collection = "buildingdata")
 public class BuildingDataModel {
@@ -14,9 +13,9 @@ public class BuildingDataModel {
 	private BuildingData buildingData;
 	private Boolean isLocked;
 	private String createdBy_username;
-	private String createdDate;
+	private Date createdDate;
 	private String modifiedBy_username;
-	private String modifiedDate;
+	private Date modifiedDate;
 	
 	public BuildingDataModel() {
 		// TODO Auto-generated constructor stub
@@ -28,20 +27,18 @@ public class BuildingDataModel {
 		this.setBuildingData(buildingData);
 		this.setIsLocked(true);
 		this.setCreatedBy_username(createdBy_username);
-		this.setCreatedDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-				.format(new Date()));
+		this.setCreatedDate(new Date());
 	}
 	
 	public BuildingDataModel(String propertyId, BuildingData buildingData,
-			String createdBy_username, String createdDate, String modifiedBy_username) {
+			String createdBy_username, Date createdDate, String modifiedBy_username) {
 		this.propertyId = propertyId;
 		this.setBuildingData(buildingData);
 		this.isLocked = true;
 		this.setCreatedBy_username(createdBy_username);
 		this.setCreatedDate(createdDate);
 		this.setModifiedBy_username(modifiedBy_username);
-		this.setModifiedDate(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-		.format(new Date()));
+		this.setModifiedDate(new Date());
 
 	}
 
@@ -77,11 +74,11 @@ public class BuildingDataModel {
 		this.createdBy_username = createdBy_username;
 	}
 
-	public String getCreatedDate() {
+	public Date getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(String createdDate) {
+	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -93,11 +90,11 @@ public class BuildingDataModel {
 		this.modifiedBy_username = modifiedBy_username;
 	}
 
-	public String getModifiedDate() {
+	public Date getModifiedDate() {
 		return modifiedDate;
 	}
 
-	public void setModifiedDate(String modifiedDate) {
+	public void setModifiedDate(Date modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 

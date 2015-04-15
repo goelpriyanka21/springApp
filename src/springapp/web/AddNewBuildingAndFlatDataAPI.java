@@ -3,6 +3,7 @@ package springapp.web;
 import helperclasses.ErrorFieldAndMessage;
 import helperclasses.XmlApplicationContext;
 
+import java.util.Date;
 import java.util.List;
 
 import models.AuthenticationDetails;
@@ -93,7 +94,7 @@ public class AddNewBuildingAndFlatDataAPI {
 						else // is locked is false; u can update pg data
 						{
 							String createdBy_username= buildingDataModel.getCreatedBy_username();
-							 String createdDate= buildingDataModel.getCreatedDate();
+							 Date createdDate= buildingDataModel.getCreatedDate();
 							mongoOperation.remove(query, BuildingDataModel.class);
 							mongoOperation.save(new BuildingDataModel(buildingAndFlatData
 									.getPropertyId(), buildingAndFlatData.getBuildingData(), createdBy_username, createdDate, buildingAndFlatData.getUsername()));

@@ -1,17 +1,14 @@
 package springapp.web;
 
 import helperclasses.XmlApplicationContext;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
 //import models.AttendenceModel;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.PGDataModel;
 import models.UserNameToken;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -51,46 +48,25 @@ public class HomePageAPI {
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				homePageData.getToken()))
 			return new HomePageData("Failure", "Token authentication failed");
+		
+		// get the midnight of the start of the day and start of the month
+		DateTime now = DateTime.now();
+		LocalDate today = now.toLocalDate();
+		DateTime startm = now.withDayOfMonth(1).toLocalDate().toDateTimeAtStartOfDay();
+		DateTime endm = startm.plusMonths(1);
+		LocalDate tomorrow = today.plusDays(1);
 
-		// homepage data
-		// AttendenceModel attendenceModel = mongoOperation.findOne(new Query(
-		// Criteria.where("username").is(homePageData.getUsername())),
-		// AttendenceModel.class);
-		Query query = new Query();
-		query.addCriteria(Criteria.where("createdBy_username").is(
-				homePageData.getUsername()));
-		String currentdatetime = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-				.format(new Date());
-		int numoftodayentries = 0;
-		int numofcurrentmonthentries = 0;
-
-		// for PG
-		List<PGDataModel> pgDataModelList = mongoOperation.find(query,
-				PGDataModel.class);
-		for (PGDataModel pgDataModel : pgDataModelList) {
-			if (currentdatetime.substring(8, 10).equals(
-					pgDataModel.getCreatedDate().substring(8, 10)))
-				numoftodayentries++;
-			if (currentdatetime.substring(5, 7).equals(
-					pgDataModel.getCreatedDate().substring(5, 7)))
-				numofcurrentmonthentries++;
-		}
-		// for Building
-				List<BuildingDataModel> buildingDataModellist = mongoOperation.find(query,
-						BuildingDataModel.class);
-				for (BuildingDataModel buildingDataModel : buildingDataModellist) {
-					if (currentdatetime.substring(8, 10).equals(
-							buildingDataModel.getCreatedDate().substring(8, 10)))
-						numoftodayentries++;
-					if (currentdatetime.substring(5, 7).equals(
-							buildingDataModel.getCreatedDate().substring(5, 7)))
-						numofcurrentmonthentries++;
-				}
-
-		return new HomePageData(numoftodayentries, numofcurrentmonthentries,
+		DateTime startOfToday = today.toDateTimeAtStartOfDay(now.getZone());
+		DateTime startOfTomorrow = tomorrow.toDateTimeAtStartOfDay(now.getZone());
+		final Query todayq = new Query(Criteria.where("createdDate").gte(startOfToday.toDate()).andOperator(Criteria.where("createdDate").lt(startOfTomorrow.toDate())).and("createdBy_username").is(homePageData.getUsername()));
+		int todaysCount = (int) mongoOperation.count(todayq, PGDataModel.class);
+		todaysCount += (int) mongoOperation.count(todayq, BuildingDataModel.class);
+		
+		final Query monthq = new Query(Criteria.where("createdDate").gte(startm.toDate()).andOperator(Criteria.where("createdDate").lt(endm.toDate())).and("createdBy_username").is(homePageData.getUsername()));
+		int monthsCount = (int) mongoOperation.count(monthq, PGDataModel.class);
+		monthsCount += (int) mongoOperation.count(monthq, BuildingDataModel.class);
+		return new HomePageData(todaysCount, monthsCount ,
 				TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH,
-				(double) numofcurrentmonthentries
-						/ TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH*100);
-
+				(double) (monthsCount / TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH)*100);
 	}
 }
