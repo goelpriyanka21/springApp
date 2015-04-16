@@ -14,6 +14,7 @@ import models.UserNameToken;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +65,7 @@ public class AddNewBuildingAndFlatDataAPI {
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
 
-				// if tenant data!null; save tenant data
+				// if tenant data!null; save tenant data if not existing; update if already existing
 				// if pg data ! null; if unique propertyId is not existing in db; fine; save pg
 				// data 
 				// if unique propertyId is existing; if is locked is false ; update pg data
@@ -93,11 +94,17 @@ public class AddNewBuildingAndFlatDataAPI {
 						}
 						else // is locked is false; u can update pg data
 						{
-							String createdBy_username= buildingDataModel.getCreatedBy_username();
-							 Date createdDate= buildingDataModel.getCreatedDate();
-							mongoOperation.remove(query, BuildingDataModel.class);
-							mongoOperation.save(new BuildingDataModel(buildingAndFlatData
-									.getPropertyId(), buildingAndFlatData.getBuildingData(), createdBy_username, createdDate, buildingAndFlatData.getUsername()));
+//							String createdBy_username= buildingDataModel.getCreatedBy_username();
+//							 Date createdDate= buildingDataModel.getCreatedDate();
+					// mongoOperation.remove(query, BuildingDataModel.class);
+					// mongoOperation.save(new
+					// BuildingDataModel(buildingAndFlatData
+					// .getPropertyId(), buildingAndFlatData.getBuildingData(), createdBy_username, createdDate, buildingAndFlatData.getUsername()));
+							Update update = new Update();
+							update.set("modifiedBy_username", buildingAndFlatData.getUsername());
+							update.set("modifiedDate", new Date());
+							update.set("buildingData", buildingAndFlatData.getBuildingData());
+							mongoOperation.updateFirst(query, update, BuildingDataModel.class);
 							return new PostForm("Success", "Data successfully updated on server");
 						}
 					}

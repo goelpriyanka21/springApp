@@ -30,17 +30,17 @@ public class BuildingDataModel {
 		this.setCreatedDate(new Date());
 	}
 	
-	public BuildingDataModel(String propertyId, BuildingData buildingData,
-			String createdBy_username, Date createdDate, String modifiedBy_username) {
-		this.propertyId = propertyId;
-		this.setBuildingData(buildingData);
-		this.isLocked = true;
-		this.setCreatedBy_username(createdBy_username);
-		this.setCreatedDate(createdDate);
-		this.setModifiedBy_username(modifiedBy_username);
-		this.setModifiedDate(new Date());
-
-	}
+//	public BuildingDataModel(String propertyId, BuildingData buildingData,
+//			String createdBy_username, Date createdDate, String modifiedBy_username) {
+//		this.propertyId = propertyId;
+//		this.setBuildingData(buildingData);
+//		this.isLocked = true;
+//		this.setCreatedBy_username(createdBy_username);
+//		this.setCreatedDate(createdDate);
+//		this.setModifiedBy_username(modifiedBy_username);
+//		this.setModifiedDate(new Date());
+//
+//	}
 
 	public String getPropertyId() {
 		return propertyId;

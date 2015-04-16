@@ -14,6 +14,7 @@ import models.UserNameToken;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,11 +92,16 @@ public class AddNewPGAndTenantDataAPI {
 				}
 				else // is locked is false; u can update pg data
 				{
-					 String createdBy_username= pgDataModel.getCreatedBy_username();
-					 Date createdDate= pgDataModel.getCreatedDate();
-					mongoOperation.remove(query, PGDataModel.class);
-					mongoOperation.save(new PGDataModel(pgAndTenantData
-							.getpropertyId(), pgAndTenantData.getPgdata(), createdBy_username, createdDate, pgAndTenantData.getUsername()));
+//					 String createdBy_username= pgDataModel.getCreatedBy_username();
+//					 Date createdDate= pgDataModel.getCreatedDate();
+//					mongoOperation.remove(query, PGDataModel.class);
+//					mongoOperation.save(new PGDataModel(pgAndTenantData
+//							.getpropertyId(), pgAndTenantData.getPgdata(), createdBy_username, createdDate, pgAndTenantData.getUsername()));
+					Update update = new Update();
+					update.set("modifiedBy_username", pgAndTenantData.getUsername());
+					update.set("modifiedDate", new Date());
+					update.set("pgdata", pgAndTenantData.getPgdata());
+					mongoOperation.updateFirst(query, update, PGDataModel.class);
 					return new PostForm("Success", "Data successfully updated on server");
 				}
 			}

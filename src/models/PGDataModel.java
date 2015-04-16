@@ -31,17 +31,17 @@ public class PGDataModel {
 		this.createdDate = new Date();
 	}
 	
-	public PGDataModel(String propertyId, PGData pgdata,
-			String createdBy_username, Date createdDate, String modifiedBy_username) {
-		this.propertyId = propertyId;
-		this.pgdata = pgdata;
-		this.isLocked = true;
-		this.createdBy_username = createdBy_username;
-		this.createdDate = createdDate;
-		this.modifiedBy_username= modifiedBy_username;
-		this.modifiedDate = new Date();
-
-	}
+//	public PGDataModel(String propertyId, PGData pgdata,
+//			String createdBy_username, Date createdDate, String modifiedBy_username) {
+//		this.propertyId = propertyId;
+//		this.pgdata = pgdata;
+//		this.isLocked = true;
+//		this.createdBy_username = createdBy_username;
+//		this.createdDate = createdDate;
+//		this.modifiedBy_username= modifiedBy_username;
+//		this.modifiedDate = new Date();
+//
+//	}
 
 	public String getPropertyId() {
 		return propertyId;
