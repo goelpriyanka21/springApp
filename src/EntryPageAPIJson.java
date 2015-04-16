@@ -21,7 +21,7 @@ public class EntryPageAPIJson {
 	    writer= new FileWriter("/Users/priyanka/git/grabhouse//EntryPageAPIJson.json"); 
 		
 		//GET
-	    AddEntryData entryget = new AddEntryData("Priyanka", "ba435a", new Location(47.608941, -122.340145), "priya123");
+	    AddEntryData entryget = new AddEntryData("User1", "ba435a", new Location(47.608941, -122.340145), "user1token", "Ra", null);
 		String entrygetjson = gson.toJson(entryget);
 		System.out.println(entrygetjson);
 		writer.append("//GET\n");
@@ -44,23 +44,32 @@ public class EntryPageAPIJson {
 				listofproperties.add(pntp1);
 				listofproperties.add(pntp2);
 //				ExistingPropertyData entrypost2 = new ExistingPropertyData(Arrays.asList(pntp1, pntp2));
-				ExistingPropertyData entrypost2 = new ExistingPropertyData(listofproperties);
-				
+				ExistingPropertyData entrypost2 = new ExistingPropertyData("Success", "Existing property list is ", listofproperties);
 				 entrypostjson = gson.toJson(entrypost2);
 				System.out.println(entrypostjson);	  
 				writer.append("//POST: List of Property Details on the basis of gps location received\n");
 				writer.append(entrypostjson+"\n\n");
 				
 				//GET
-				 entryget = new AddEntryData("RahejaApartmentUniqueId123");
+			     entryget = new AddEntryData("Priyanka", "ba435a", new Location(47.608941, -122.340145), "priya123", "", "RaheemPGUniqueId123");
 				 entrygetjson = gson.toJson(entryget);
 				System.out.println(entrygetjson);
 				writer.append("//GET\n");
 				writer.append(entrygetjson+"\n\n"); 
 				
 				// entry does not exist; please call add entry API
+				 entrypost = new PostForm("entry does not exist", "please call add entry API");
+				 entrypostjson = gson.toJson(entrypost);
+				writer.append("//POST: entry does not exist; please call add entry API\n");
+				writer.append(entrypostjson+"\n\n");
 				
-				//POST: entry already exists and is locked only on front end ; v l check all this in addpg/building api;
+				 entryget = new AddEntryData("User1", "ba435a", new Location(47.608941, -122.340145), "user1token", "", "RahejaApartmentUniqueId123");
+				 entrygetjson = gson.toJson(entryget);
+				System.out.println(entrygetjson);
+				writer.append("//GET\n");
+				writer.append(entrygetjson+"\n\n"); 
+				
+				//POST: entry already exists and is locked 
 				 entrypost = new PostForm("Entry already exists and is locked", "Would you like to add Flat/PG tenant Details");
 				 entrypostjson = gson.toJson(entrypost);
 				System.out.println(entrypostjson);	  
@@ -68,7 +77,7 @@ public class EntryPageAPIJson {
 				writer.append(entrypostjson+"\n\n");
 				
 				//POST: Entry already exists but is unlocked: will display ExistingPropertyData directly: no API calling
-				writer.append("//POST: unlocked entry will display ExistingPropertyData API\n");
+				writer.append("//POST: unlocked entry: please call API for updating Building Details or adding flat details for this propertyID\n");
 				
 		
 	

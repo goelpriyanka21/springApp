@@ -14,14 +14,14 @@ public class ExistingPropertyData {
 	private String token;
 	private String propertyId;
 
-	// POST: on the basis of location
-	private List<PropertyNameTypeisLocked> propertyNameTypeisLocked;
 
 	// POST
+	private String status;
 	private PGDataModel pgDataModel;
 	private BuildingDataModel buildingDataModel;
-	private String status;
 	private String message;
+	// POST: on the basis of location
+	private List<PropertyNameTypeisLocked> propertyNameTypeisLocked;
 
 	public ExistingPropertyData(String username, String token, String propertyId) {
 		this.username = username;
@@ -29,10 +29,6 @@ public class ExistingPropertyData {
 		this.propertyId = propertyId;
 	}
 	
-	public ExistingPropertyData(String propertyId) {
-		// TODO Auto-generated constructor stub
-		this.propertyId = propertyId;
-	}
 	
 	public ExistingPropertyData(String status, String message) {
 		// TODO Auto-generated constructor stub
@@ -40,17 +36,23 @@ public class ExistingPropertyData {
 		this.message = message;
 	}
 	
-	public ExistingPropertyData(PGDataModel pgDataModel) {
+	public ExistingPropertyData(String status, String message, PGDataModel pgDataModel) {
+		this.status = status;
+		this.message = message;
 		this.pgDataModel = pgDataModel;
 	}
 
-	public ExistingPropertyData(BuildingDataModel buildingDataModel) {
+	public ExistingPropertyData(String status, String message, BuildingDataModel buildingDataModel) {
+		this.status = status;
+		this.message = message;
 		this.buildingDataModel = buildingDataModel;
 	}
 	
 
-	public ExistingPropertyData(
+	public ExistingPropertyData(String status, String message,
 			List<PropertyNameTypeisLocked> propertyNameTypeisLocked) {
+		this.status = status;
+		this.message = message;
 		this.propertyNameTypeisLocked = propertyNameTypeisLocked;
 
 	}

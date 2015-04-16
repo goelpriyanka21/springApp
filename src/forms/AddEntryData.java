@@ -1,31 +1,24 @@
 package forms;
 
-
 import helperclasses.Location;
 
 public class AddEntryData {
 
 	// GET
 	private String username;
-	private Location gpslocation;
 	private String deviceId;
+	private Location gpslocation;
 	private String token;
-
-
-	// GET
+	private String propertyNameinitials;
 	private String propertyId;
 
 	public AddEntryData(String username, String deviceId, Location gpslocation,
-			String token) {
+			String token, String propertyNameinitials, String propertyId) {
 		this.username = username;
 		this.deviceId = deviceId;
 		this.gpslocation = gpslocation;
 		this.token = token;
-	}
-
-	
-
-	public AddEntryData(String propertyId) {
+		this.setPropertyNameinitials(propertyNameinitials);
 		this.propertyId = propertyId;
 	}
 
@@ -61,8 +54,6 @@ public class AddEntryData {
 		this.token = token;
 	}
 
-	
-
 	public String getPropertyId() {
 		return propertyId;
 	}
@@ -71,6 +62,12 @@ public class AddEntryData {
 		this.propertyId = propertyId;
 	}
 
-	
+	public String getPropertyNameinitials() {
+		return propertyNameinitials;
+	}
+
+	public void setPropertyNameinitials(String propertyNameinitials) {
+		this.propertyNameinitials = propertyNameinitials;
+	}
 
 }

@@ -66,9 +66,9 @@ public class ExistingPropertyAPI {
 		else {
 			if (pgDataModel != null) { // pg already exists
 
-				return new ExistingPropertyData(pgDataModel);
+				return new ExistingPropertyData("Success", "Existing property list is ", pgDataModel);
 			} else {
-				return new ExistingPropertyData(buildingDataModel);
+				return new ExistingPropertyData("Success", "Existing property list is ", buildingDataModel);
 			}
 
 		}
