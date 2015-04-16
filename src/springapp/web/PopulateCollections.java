@@ -4,6 +4,7 @@ import forms.AppointmentData;
 import helperclasses.Location;
 import helperclasses.XmlApplicationContext;
 
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,62 +53,64 @@ public class PopulateCollections {
 //		mongoOperation.save(new AttendenceModel("User2", 0, 0, 300, 0));
 //		mongoOperation.save(new AttendenceModel("User3", 0, 0, 300, 0));
 		
+SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy hh:mm");
+		
 		//appointments
 		AppointmentData appointmentData1 = new AppointmentData(
-				"RahiPGKormangalaUniqueId",
+				"RahiPGKormangalaAppointmentId",
+				"", 
 				"Rahi PG for ladies",
 				"PG",
 				"Kormanagala 5th Block",
 				"Bangalore",
-				"Tuesday March 13, 2015",
-				"07:30 pm",
-				"08:30 pm",
+				sdf.parse("13-03-2015 05:30"),
+				sdf.parse("13-03-2015 07:30"),
 				"Dont forget neighbourhood pictures..You missed that last time",
 				new Location(47.608942, -122.340145));
 		AppointmentData appointmentData2 = new AppointmentData(
-				"WoodsSocietyUniqueId",
+				"WoodsSocietyAppointmentId",
+				"WoodsSocietyPropertyId",
 				"Woods Society",
 				"Building",
 				"Kormanagala 5th Block",
 				"Bangalore",
-				"Tuesday March 13, 2015",
-				"03:30 pm",
-				"04:30 pm",
+				sdf.parse("13-03-2015 08:30"),
+				sdf.parse("13-03-2015 09:30"),
 				"Dont forget neighbourhood pictures..You missed that last time",
 				new Location(47.608942, -122.340145));
 		AppointmentData appointmentData3 = new AppointmentData(
-				"RhythmBuildingMarathalliUniqueId",
+				"RhythmBuildingMarathalliAppointmentId",
+				"",
 				"Rhythm",
 				"Building",
 				"Kormanagala 5th Block",
 				"Bangalore",
-				"Tuesday March 14, 2015",
-				"04:30 am",
-				"05:30 pm",
+				sdf.parse("14-03-2015 02:30"),
+				sdf.parse("14-03-2015 03:30"),
 				"Dont forget neighbourhood pictures..You missed that last time",
 				new Location(47.608942, -122.340145));
 		AppointmentData appointmentData4 = new AppointmentData(
-				"SattireBuildingMarathalliUniqueId",
+				"SattireBuildingMarathalliAppointmentId",
+				"SattireBuildingMarathalliPropertyId",
 				"Sattire",
 				"Building",
 				"Kormanagala 5th Block",
 				"Bangalore",
-				"Tuesday March 13, 2015",
-				"05:30 am",
-				"06:30 pm",
+				sdf.parse("13-03-2015 02:30"),
+				sdf.parse("13-03-2015 03:30"),
 				"Dont forget neighbourhood pictures..You missed that last time",
 				new Location(47.608942, -122.340145));
-
-		List<AppointmentData> appointmentList = new LinkedList<>();
-//		appointmentList.add(appointmentData1);
-//		appointmentList.add(appointmentData2);
-//		appointmentList.add(appointmentData3);
-//		appointmentList.add(appointmentData4);
 		
-		appointmentList.add(appointmentData2);
-		appointmentList.add(appointmentData4);
+		List<AppointmentData> appointmentList = new LinkedList<>();
 		appointmentList.add(appointmentData1);
+		appointmentList.add(appointmentData2);
 		appointmentList.add(appointmentData3);
+		appointmentList.add(appointmentData4);
+		
+//		appointmentList.add(appointmentData2);
+//		appointmentList.add(appointmentData4);
+//		appointmentList.add(appointmentData1);
+//		appointmentList.add(appointmentData3);
 		mongoOperation.save(new AppointmentDataModel("User1", appointmentList));
 
 		return ("populate collections worked: all collections populated");

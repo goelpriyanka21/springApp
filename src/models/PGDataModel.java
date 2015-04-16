@@ -29,7 +29,6 @@ public class PGDataModel {
 		this.isLocked = true;
 		this.createdBy_username = createdBy_username;
 		this.createdDate = new Date();
-
 	}
 	
 	public PGDataModel(String propertyId, PGData pgdata,
@@ -40,7 +39,7 @@ public class PGDataModel {
 		this.createdBy_username = createdBy_username;
 		this.createdDate = createdDate;
 		this.modifiedBy_username= modifiedBy_username;
-		this.modifiedDate= new Date();
+		this.modifiedDate = new Date();
 
 	}
 

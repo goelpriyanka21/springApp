@@ -1,5 +1,6 @@
 package models;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,6 +24,13 @@ public class AppointmentDataModel {
 		return appointmentList;
 	}
 
+	public List<AppointmentData> getSortedOrderList(){
+		AppointmentData[] appData = new AppointmentData[appointmentList.size()];
+		appData = appointmentList.toArray(appData);
+		Arrays.sort(appData);
+		return Arrays.asList(appData);
+	}
+	
 	public void setAppointmentList(List<AppointmentData> appointmentList) {
 		this.appointmentList = appointmentList;
 	}

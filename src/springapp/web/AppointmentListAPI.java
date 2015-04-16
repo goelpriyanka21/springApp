@@ -54,7 +54,7 @@ public class AppointmentListAPI {
 
 		return new AppointmentAPIPost("Success",
 				"Your appointment list (sorted acc to start time) is",
-				appointmentDataModel.getAppointmentList());
+				appointmentDataModel.getSortedOrderList());
 	}
 
 }

@@ -1,35 +1,37 @@
 package forms;
 
+import java.util.Date;
+
 import helperclasses.Location;
 
-public class AppointmentData {
+public class AppointmentData implements Comparable<AppointmentData> {
 	
 //	@Id
 	private String appointmentId;
+	private String propertyId;
 	private String propertyName;
 	private String propertyType;
 	private String addressline1;
 	private String addressline2;
-	private String date; //date in string format
-	private String appointmentstarttime;
-	private String appointmentendtime;
+	private Date appointmentStTime;
+	private Date appointmentEndTime;
 		
 	private String notes;
 	private Location location;
 
-	public AppointmentData(String appointmentId, String propertyName,
+	public AppointmentData(String appointmentId, String propertyId, String propertyName,
 			String propertyType, String addressline1, String addressline2,
-			 String date, String appointmentstarttime, String appointmentendtime,
+			 Date appointmentStTime, Date appointmentEndTime,
 			String notes, Location location) {
 		// TODO Auto-generated constructor stub
 		this.appointmentId = appointmentId;
+		this.propertyId= propertyId;
 		this.propertyName = propertyName;
 		this.propertyType = propertyType;
 		this.addressline1 = addressline1;
 		this.addressline2 = addressline2;
-		this.date = date;
-		this.appointmentstarttime = appointmentstarttime;
-		this.appointmentendtime = appointmentendtime;
+		this.appointmentStTime = appointmentStTime;
+		this.appointmentEndTime = appointmentEndTime;
 		this.notes = notes;
 		this.setLocation(location);
 	}
@@ -50,20 +52,12 @@ public class AppointmentData {
 		this.addressline2 = addressline2;
 	}
 
-	public String getDate() {
-		return date;
+	public Date getAppointmentstarttime() {
+		return appointmentStTime;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public String getAppointmentstarttime() {
-		return appointmentstarttime;
-	}
-
-	public String getAppointmentendtime() {
-		return appointmentendtime;
+	public Date getAppointmentendtime() {
+		return appointmentEndTime;
 	}
 
 	public String getNotes() {
@@ -105,5 +99,15 @@ public class AppointmentData {
 	public void setLocation(Location location) {
 		this.location = location;
 	}
+
+	@Override
+	public int compareTo(AppointmentData o) {
+		long startThis = appointmentStTime.getTime();
+		long startThat = o.appointmentStTime.getTime();
+		
+		return Long.compare(startThis, startThat);
+	}
+	
+	
 
 }

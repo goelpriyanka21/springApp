@@ -59,10 +59,11 @@ public class AppointmentCheckAPI {
 			if(appointmentDataModel==null) return new AppointmentAPIPost("Failure", "There was no appointment for you");
 			
 			for(AppointmentData appointmentData: appointmentDataModel.getAppointmentList()){
-				if(appointmentData.getAppointmentId().equals(appointmentId))
+				if(appointmentData.getAppointmentId().equals(appointmentId)){
 					appointmentDataModel.getAppointmentList().remove(appointmentData);
 					mongoOperation.updateFirst(query, new Update().set("appointmentList", appointmentDataModel.getAppointmentList()), AppointmentDataModel.class);
 					return new AppointmentAPIPost("success", "appointment list successfully updated");
+				}
 			}
 			
 
