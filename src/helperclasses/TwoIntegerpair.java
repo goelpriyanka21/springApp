@@ -1,20 +1,20 @@
 package helperclasses;
 
 public class TwoIntegerpair {
-	int minlimit;
-	int maxlimit;
+	Integer minlimit;
+	Integer maxlimit;
 	
-	public TwoIntegerpair(int minlimit, int maxlimit) {
+	public TwoIntegerpair(Integer minlimit, Integer maxlimit) {
 		// TODO Auto-generated constructor stub
 		this.minlimit=minlimit;
 		this.maxlimit=maxlimit;
 	}
 
-	public int getminlimit(){
+	public Integer getminlimit(){
 		return minlimit;
 	}
 	
-	public int getmaxlimit(){
+	public Integer getmaxlimit(){
 		return maxlimit;
 	}
 }

@@ -35,7 +35,11 @@ public class AddNewBuildingAndFlatDataAPI {
 			throws Exception {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
-
+		
+		if (buildingAndFlatData.getUsername() == null) return new PostForm("Failure", "username can't be left blank");
+		if (buildingAndFlatData.getToken() == null)
+			return new PostForm("Failure", "Please provide token provided to you");
+			
 		// AuthenticationDetails Validator
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(buildingAndFlatData.getUsername())),

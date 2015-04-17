@@ -15,12 +15,12 @@ public class BuildingAndFlatData {
 
 	private List<FlatData> flatData;
 
-	public BuildingAndFlatData(String username, String DeviceId,
+	public BuildingAndFlatData(String username, String deviceId,
 			Location gpslocation, String token, String propertyId,
 			BuildingData buildingData, List<FlatData> flatData) {
 		this.username = username;
 		this.gpslocation = gpslocation;
-		this.deviceId = DeviceId;
+		this.deviceId = deviceId;
 		this.token = token;
 		this.propertyId = propertyId;
 		this.buildingData = buildingData;
