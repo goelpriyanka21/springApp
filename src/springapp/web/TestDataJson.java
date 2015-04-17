@@ -19,19 +19,19 @@ class TestData{
 	Integer a;
 }
 
-//@Controller
-//public class TestDataJson {
-//
-//	@RequestMapping(value = "/testingdatatype", method = RequestMethod.POST)
-//	public @ResponseBody int addEntry(@RequestBody TestData testdata)
-//			throws Exception {
-//		
-//		return testdata.a;
-//	}
-//}
+@Controller
+public class TestDataJson {
 
-public class TestDataJson{
-	public static void main(String[] args){
-		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(new TestData(1)));
+	@RequestMapping(value = "/testingdatatype", method = RequestMethod.POST)
+	public @ResponseBody int addEntry(@RequestBody TestData testdata)
+			throws Exception {
+		
+		return testdata.a;
 	}
 }
+
+//public class TestDataJson{
+//	public static void main(String[] args){
+//		System.out.println(new GsonBuilder().setPrettyPrinting().create().toJson(new TestData(1)));
+//	}
+//}

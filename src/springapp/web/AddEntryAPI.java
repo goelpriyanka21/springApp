@@ -53,7 +53,7 @@ public class AddEntryAPI {
 			return new ExistingPropertyData("Failure",
 					"Token authentication failed");
 
-		if (addEntryData.getPropertyId() == null) {
+//		if (addEntryData.getPropertyId() == null) {
 
 			// send list of data on the basis of user's current location and all
 			// pg's & Building info lying in area or subarea of his location
@@ -74,7 +74,7 @@ public class AddEntryAPI {
 			query.addCriteria(Criteria.where("pgdata.selectedlocation.lat")
 					.gt(addEntryData.getGpslocation().getLat() - 2)
 					.lt(addEntryData.getGpslocation().getLat() + 2));
-			query.addCriteria(Criteria.where("pgdata.pgName").regex(addEntryData.getPropertyNameinitials()));
+//			query.addCriteria(Criteria.where("pgdata.pgName").regex(addEntryData.getPropertyNameinitials()));
 			List<PGDataModel> pgDataModelList = mongoOperation.find(query,
 					PGDataModel.class);
 			for (PGDataModel pgDataModel : pgDataModelList) {
@@ -93,7 +93,7 @@ public class AddEntryAPI {
 					.where("buildingData.selectedlocation.lat")
 					.gt(addEntryData.getGpslocation().getLat() - 2)
 					.lt(addEntryData.getGpslocation().getLat() + 2));
-			query.addCriteria(Criteria.where("buildingData.societyname").regex(addEntryData.getPropertyNameinitials()));
+//			query.addCriteria(Criteria.where("buildingData.societyname").regex(addEntryData.getPropertyNameinitials()));
 			List<BuildingDataModel> buildingDataModellist = mongoOperation
 					.find(query, BuildingDataModel.class);
 			for (BuildingDataModel pgDataModel : buildingDataModellist) {
@@ -104,43 +104,43 @@ public class AddEntryAPI {
 				listofproperties.add(pntp1);
 			}
 			return new ExistingPropertyData("Success", "Existing property list is ", listofproperties);
-		}
+//		}
 
-		else {
-			PGDataModel pgDataModel = mongoOperation.findOne(new Query(Criteria
-					.where("propertyId").is(addEntryData.getPropertyId())),
-					PGDataModel.class);
-			BuildingDataModel buildingDataModel = mongoOperation.findOne(
-					new Query(Criteria.where("propertyId").is(
-							addEntryData.getPropertyId())),
-					BuildingDataModel.class);
-
-			if (pgDataModel == null && buildingDataModel == null)
-				return new ExistingPropertyData("Entry does not exist: call add entry API",
-						addEntryData.getPropertyId());
-			else {
-				if (pgDataModel != null) { // pg already exists
-					if (pgDataModel.getIsLocked())
-						return new ExistingPropertyData(addEntryData.getPropertyId()+
-								"PG Entry already exists and is locked: U can only add PG tenant Details for this propertyID: Please call corresponding API",
-								addEntryData.getPropertyId());
-					else
-						return new ExistingPropertyData(addEntryData.getPropertyId()+
-								"PG Entry already exists and is unlocked: Please call API for updating PG Details or adding tenant details for this propertyID",
-								 addEntryData.getPropertyId());
-				} else {
-					if (buildingDataModel.getIsLocked())
-						return new ExistingPropertyData(
-								"Building Entry already exists and is locked U can only add Flat Details for this propertyID: Please call corresponding API",
-								addEntryData.getPropertyId());
-					else
-						return new ExistingPropertyData(
-								"Building Entry already exists and is unlocked: Please call API for updating Building Details or adding flat details for this propertyID",
-								addEntryData.getPropertyId());
-				}
-			}
-
-		}
+//		else {
+//			PGDataModel pgDataModel = mongoOperation.findOne(new Query(Criteria
+//					.where("propertyId").is(addEntryData.getPropertyId())),
+//					PGDataModel.class);
+//			BuildingDataModel buildingDataModel = mongoOperation.findOne(
+//					new Query(Criteria.where("propertyId").is(
+//							addEntryData.getPropertyId())),
+//					BuildingDataModel.class);
+//
+//			if (pgDataModel == null && buildingDataModel == null)
+//				return new ExistingPropertyData("Entry does not exist: call add entry API",
+//						addEntryData.getPropertyId());
+//			else {
+//				if (pgDataModel != null) { // pg already exists
+//					if (pgDataModel.getIsLocked())
+//						return new ExistingPropertyData(addEntryData.getPropertyId()+
+//								"PG Entry already exists and is locked: U can only add PG tenant Details for this propertyID: Please call corresponding API",
+//								addEntryData.getPropertyId());
+//					else
+//						return new ExistingPropertyData(addEntryData.getPropertyId()+
+//								"PG Entry already exists and is unlocked: Please call API for updating PG Details or adding tenant details for this propertyID",
+//								 addEntryData.getPropertyId());
+//				} else {
+//					if (buildingDataModel.getIsLocked())
+//						return new ExistingPropertyData(
+//								"Building Entry already exists and is locked U can only add Flat Details for this propertyID: Please call corresponding API",
+//								addEntryData.getPropertyId());
+//					else
+//						return new ExistingPropertyData(
+//								"Building Entry already exists and is unlocked: Please call API for updating Building Details or adding flat details for this propertyID",
+//								addEntryData.getPropertyId());
+//				}
+//			}
+//
+//		}
 
 	}
 

@@ -9,17 +9,15 @@ public class AddEntryData {
 	private String deviceId;
 	private Location gpslocation;
 	private String token;
-	private String propertyNameinitials;
-	private String propertyId;
+	
 
 	public AddEntryData(String username, String deviceId, Location gpslocation,
-			String token, String propertyNameinitials, String propertyId) {
+			String token) {
 		this.username = username;
 		this.deviceId = deviceId;
 		this.gpslocation = gpslocation;
 		this.token = token;
-		this.setPropertyNameinitials(propertyNameinitials);
-		this.propertyId = propertyId;
+		
 	}
 
 	public String getUsername() {
@@ -54,20 +52,6 @@ public class AddEntryData {
 		this.token = token;
 	}
 
-	public String getPropertyId() {
-		return propertyId;
-	}
-
-	public void setPropertyId(String propertyId) {
-		this.propertyId = propertyId;
-	}
-
-	public String getPropertyNameinitials() {
-		return propertyNameinitials;
-	}
-
-	public void setPropertyNameinitials(String propertyNameinitials) {
-		this.propertyNameinitials = propertyNameinitials;
-	}
+	
 
 }
