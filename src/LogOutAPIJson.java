@@ -23,18 +23,18 @@ public class LogOutAPIJson {
 		writer.append("//GET\n");
 		writer.append(logoutgetjson+"\n\n"); 
 		
-		//POST: success
-		PostForm logoutpost = new PostForm("success", "User Logged out successfully");
+		//POST: Success
+		PostForm logoutpost = new PostForm("Success", "User Logged out successfully");
 		String logoutpostjson = gson.toJson(logoutpost);
 		System.out.println(logoutpostjson);	  
-		writer.append("//POST: success\n");
+		writer.append("//POST: Success\n");
 		writer.append(logoutpostjson+"\n\n");
 		
-		//POST: failure
+		//POST: Failure
 				 logoutpost = new PostForm("Failure", "Looks like some error in logging out");
 				 logoutpostjson = gson.toJson(logoutpost);
 				System.out.println(logoutpostjson);	  
-				writer.append("//POST: failure\n");
+				writer.append("//POST: Failure\n");
 				writer.append(logoutpostjson+"\n\n");
 		
 		 writer.close();

@@ -119,18 +119,18 @@ public class AddNewBuildingAndFlatDataAPIJson {
 		writer.append("//GET\n");
 		writer.append(addnewbuildingdatajson+"\n\n"); 
 		
-		//POST: failure
+		//POST: Failure
 		PostForm addnewbuildingdatapost = new PostForm("Failure", "Token Authentication failed");
 		String addnewbuildingdatapostjson = gson.toJson(addnewbuildingdatapost);
 		System.out.println(addnewbuildingdatapostjson);	  
-		writer.append("//POST: failure\n");
+		writer.append("//POST: Failure\n");
 		writer.append(addnewbuildingdatapostjson+"\n\n");
 		
-		//Another POST: success
+		//Another POST: Success
 		PostForm addNewBuildingDatapost2 = new PostForm("Success", "Data successfully stored on server");
 				String addNewBuildingDatapost2json = gson.toJson(addNewBuildingDatapost2);
 				System.out.println(addNewBuildingDatapost2json);	  
-				writer.append("//Another POST Sample: success\n");
+				writer.append("//Another POST Sample: Success\n");
 				writer.append(addNewBuildingDatapost2json+"\n\n");
 		
 		 writer.close();

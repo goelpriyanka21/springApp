@@ -32,15 +32,15 @@ public class EntryPageAPIJson {
 
 		// POST: Username does not exist
 
-		// POST: failure: backend
+		// POST: Failure: backend
 		PostForm entrypost = new PostForm("Failure",
 				"Token Authentication failed");
 		String entrypostjson = gson.toJson(entrypost);
 		System.out.println(entrypostjson);
-		writer.append("//POST: failure\n");
+		writer.append("//POST: Failure\n");
 		writer.append(entrypostjson + "\n\n");
 
-		// POST: success: List of Property Name and Type on the basis of gps
+		// POST: Success: List of Property Name and Type on the basis of gps
 		// location received: backend
 		PropertyNameTypeisLocked pntp1 = new PropertyNameTypeisLocked(
 				"Raheja Apartment", "Building", "RahejaApartmentUniqueId123",

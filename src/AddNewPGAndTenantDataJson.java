@@ -81,18 +81,18 @@ public class AddNewPGAndTenantDataJson {
 		writer.append("//GET\n");
 		writer.append(addnewpgdatagetjson+"\n\n"); 
 		
-		//POST: failure
+		//POST: Failure
 		PostForm addnewpgdatapost = new PostForm("Failure", "Token Authentication failed");
 		String addnewpgdatapostjson = gson.toJson(addnewpgdatapost);
 		System.out.println(addnewpgdatapostjson);	  
-		writer.append("//POST: failure\n");
+		writer.append("//POST: Failure\n");
 		writer.append(addnewpgdatapostjson+"\n\n");
 		
-		//Another POST: success
+		//Another POST: Success
 		PostForm addnewpgdatapost2 = new PostForm("Success", "Data successfully stored on server: Dont forget to upload photos");
 				String addnewpgdatapostjson2 = gson.toJson(addnewpgdatapost2);
 				System.out.println(addnewpgdatapostjson2);	  
-				writer.append("//Another POST Sample: success\n");
+				writer.append("//Another POST Sample: Success\n");
 				writer.append(addnewpgdatapostjson2+"\n\n");
 		
 		 writer.close();

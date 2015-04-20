@@ -49,7 +49,7 @@ public class AddNewBuildingAndFlatDataAPI {
 		
 		if (buildingAndFlatData.getToken() == null){
 			postform = new PostForm("Failure",
-					"Please provide token provided to you");
+					" token can't be left blank");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 			}
@@ -61,7 +61,7 @@ public class AddNewBuildingAndFlatDataAPI {
 				AuthenticationDetails.class);
 
 		if (authenticationDetails == null){
-			postform = new PostForm("Failure", "Username does not exist");
+			postform = new PostForm("Failure", "username does not exist");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 			}

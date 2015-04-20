@@ -79,7 +79,7 @@ public class AppointmentCheckAPI {
 						"appointmentList",
 						appointmentDataModel.getAppointmentList()),
 						AppointmentDataModel.class);
-				appointmentAPIPost = new AppointmentAPIPost("success",
+				appointmentAPIPost = new AppointmentAPIPost("Success",
 						"appointment list successfully updated");
 				mongoOperation.save(new TestingData(appointmentAPIPost));
 				return appointmentAPIPost;

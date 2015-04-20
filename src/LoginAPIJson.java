@@ -44,8 +44,8 @@ public class LoginAPIJson {
 				writer.append("//POST: Failure\n");
 				writer.append(loginpostjson+"\n\n");
 		
-		//POST: success
-		 loginpost = new PostForm("success", "Authentication successful, Keep the token for this session", "pritoken123");
+		//POST: Success
+		 loginpost = new PostForm("Success", "Authentication successful, Keep the token for this session", "pritoken123");
 		 loginpostjson = gson.toJson(loginpost);
 		System.out.println(loginpostjson);	  
 		writer.append("//POST\n");

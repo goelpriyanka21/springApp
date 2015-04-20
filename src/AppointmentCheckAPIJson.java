@@ -37,7 +37,7 @@ public class AppointmentCheckAPIJson {
 		
 		//POST: Appointment list successfully updated
 		
-		 appointmentCheckpost = new AppointmentAPIPost("success", "appointment list successfully updated");
+		 appointmentCheckpost = new AppointmentAPIPost("Success", "appointment list successfully updated");
 		 appointmentCheckpostjson = gson.toJson(appointmentCheckpost);
 		System.out.println(appointmentCheckpostjson);
 		writer.append("//POST\n");
