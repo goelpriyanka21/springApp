@@ -2,6 +2,7 @@ package springapp.web;
 
 import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
+import models.TestingData;
 import models.UserNameToken;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -26,31 +27,49 @@ public class LoginAPI {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
+		mongoOperation.save(new TestingData(loginData));
+
 		// AuthenticationDetails Validator: AUTHENTICATION DETAILS FAILURE:
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username")
 						.is(loginData.getUsername())),
 				AuthenticationDetails.class);
 
-		if (authenticationDetails == null)
-			return new PostForm("Failure", "Username does not exist");
+		PostForm postform;
+		if (authenticationDetails == null) {
+			postform = new PostForm("Failure", "Username does not exist");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+
+		}
 
 		if (!AuthenticationDetailsValidator.validatepassword(
-				authenticationDetails.getPassword(), loginData.getPassword()))
-			return new PostForm("Failure",
+				authenticationDetails.getPassword(), loginData.getPassword())) {
+			postform = new PostForm("Failure",
 					"Username and password doesnot match");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+
+		}
 
 		if (!AuthenticationDetailsValidator.validatedeviceId(
-				authenticationDetails.getDeviceId(), loginData.getDeviceId()))
-			return new PostForm("Failure", "Unauthorized Device Login");
+				authenticationDetails.getDeviceId(), loginData.getDeviceId())) {
+			postform = new PostForm("Failure", "Unauthorized Device Login");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+
+		}
 
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(loginData.getUsername())),
 				UserNameToken.class);
 
-		return new PostForm("Success",
+		postform = new PostForm("Success",
 				"Authentication successful, Keep the token for this session",
 				usernametoken.gettoken());
+
+		mongoOperation.save(new TestingData(postform));
+		return postform;
 	}
 
 }

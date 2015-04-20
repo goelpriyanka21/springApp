@@ -9,6 +9,7 @@ import java.util.List;
 import models.AuthenticationDetails;
 import models.PGDataModel;
 import models.TenantDataModel;
+import models.TestingData;
 import models.UserNameToken;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -34,15 +35,21 @@ public class AddNewPGAndTenantDataAPI {
 			@RequestBody PGAndTenantData pgAndTenantData) throws Exception {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
+		
+		mongoOperation.save(new TestingData(pgAndTenantData));
 
+		PostForm postform;
 		// AuthenticationDetails Validators
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username").is(
 						pgAndTenantData.getUsername())),
 				AuthenticationDetails.class);
 
-		if (authenticationDetails == null)
-			return new PostForm("Failure", "Username does not exist");
+		if (authenticationDetails == null){
+			postform=  new PostForm("Failure", "Username does not exist");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+			}
 
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
@@ -50,8 +57,11 @@ public class AddNewPGAndTenantDataAPI {
 				UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
-				pgAndTenantData.getToken()))
-			return new PostForm("Failure", "Token authentication failed");
+				pgAndTenantData.getToken())){
+			postform=  new PostForm("Failure", "Token authentication failed");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+			}
 
 		// session expired please login again; will code later
 
@@ -59,9 +69,12 @@ public class AddNewPGAndTenantDataAPI {
 		List<ErrorFieldAndMessage> errorfieldandstringlist = PGandTenantDataValidator
 				.validate(pgAndTenantData);
 
-		if (errorfieldandstringlist.size() != 0)
-			return new PostForm("Failure", "Data validation failed",
+		if (errorfieldandstringlist.size() != 0){
+			postform= new PostForm("Failure", "Data validation failed",
 					errorfieldandstringlist);
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+		}
 
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
 
@@ -88,7 +101,9 @@ public class AddNewPGAndTenantDataAPI {
 			else
 			{
 				if(pgDataModel.getIsLocked()== true){
-					return new PostForm("Failure", "PG Entry already exist and is locked u can add only tenant data");
+					postform= new PostForm("Failure", "PG Entry already exist and is locked u can add only tenant data");
+					mongoOperation.save(new TestingData(postform));
+					return postform;
 				}
 				else // is locked is false; u can update pg data
 				{
@@ -102,11 +117,15 @@ public class AddNewPGAndTenantDataAPI {
 					update.set("modifiedDate", new Date());
 					update.set("pgdata", pgAndTenantData.getPgdata());
 					mongoOperation.updateFirst(query, update, PGDataModel.class);
-					return new PostForm("Success", "Data successfully updated on server");
+					postform= new PostForm("Success", "Data successfully updated on server");
+					mongoOperation.save(new TestingData(postform));
+					return postform;
 				}
 			}
 		}
-		return new PostForm("Success", "Data successfully stored on server");
+		postform= new PostForm("Success", "Data successfully stored on server");
+		mongoOperation.save(new TestingData(postform));
+		return postform;
 	}
 
 }

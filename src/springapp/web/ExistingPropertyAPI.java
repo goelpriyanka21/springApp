@@ -4,6 +4,7 @@ import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.PGDataModel;
+import models.TestingData;
 import models.UserNameToken;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -27,16 +28,22 @@ public class ExistingPropertyAPI {
 			throws Exception {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
+		
+		mongoOperation.save(new TestingData(existingPropertyData));
 
 		// AuthenticationDetails Validators
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username").is(
 						existingPropertyData.getUsername())),
 				AuthenticationDetails.class);
-
-		if (authenticationDetails == null)
-			return new ExistingPropertyData("Failure",
+		
+		ExistingPropertyData existingPropertyDataret;
+		if (authenticationDetails == null){
+			existingPropertyDataret = new ExistingPropertyData("Failure",
 					"Username does not exist");
+			mongoOperation.save(new TestingData(existingPropertyDataret));
+			return existingPropertyDataret;
+		}
 
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
@@ -44,13 +51,19 @@ public class ExistingPropertyAPI {
 				UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
-				existingPropertyData.getToken()))
-			return new ExistingPropertyData("Failure",
+				existingPropertyData.getToken())){
+			existingPropertyDataret = new ExistingPropertyData("Failure",
 					"Token authentication failed");
+			mongoOperation.save(new TestingData(existingPropertyDataret));
+			return existingPropertyDataret;
+		}
 
-		if (existingPropertyData.getPropertyId() == null)
-			return new ExistingPropertyData("Failure",
+		if (existingPropertyData.getPropertyId() == null){
+			existingPropertyDataret = new ExistingPropertyData("Failure",
 					"Please provide a propertyId");
+			mongoOperation.save(new TestingData(existingPropertyDataret));
+			return existingPropertyDataret;
+		}
 
 		PGDataModel pgDataModel = mongoOperation.findOne(new Query(Criteria
 				.where("propertyId").is(existingPropertyData.getPropertyId())),
@@ -60,16 +73,22 @@ public class ExistingPropertyAPI {
 						existingPropertyData.getPropertyId())),
 				BuildingDataModel.class);
 
-		if (pgDataModel == null && buildingDataModel == null)
-			return new ExistingPropertyData("Entry does not exist",
+		if (pgDataModel == null && buildingDataModel == null){
+			existingPropertyDataret = new ExistingPropertyData("Entry does not exist",
 					"call add entry API");
+		mongoOperation.save(new TestingData(existingPropertyDataret));
+		return existingPropertyDataret;
+		}
 		else {
 			if (pgDataModel != null) { // pg already exists
 
-				return new ExistingPropertyData("Success", "Existing property list is ", pgDataModel);
+				existingPropertyDataret = new ExistingPropertyData("Success", "Existing property list is ", pgDataModel);
 			} else {
-				return new ExistingPropertyData("Success", "Existing property list is ", buildingDataModel);
+				existingPropertyDataret = new ExistingPropertyData("Success", "Existing property list is ", buildingDataModel);
+				
 			}
+			mongoOperation.save(new TestingData(existingPropertyDataret));
+			return existingPropertyDataret;
 
 		}
 

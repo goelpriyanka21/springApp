@@ -2,6 +2,7 @@ package springapp.web;
 
 import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
+import models.TestingData;
 
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -25,6 +26,8 @@ public class LogoutAPI {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
+		mongoOperation.save(new TestingData(logoutData));
+
 		// AuthenticationDetails Validator: AUTHENTICATION DETAILS FAILURE:
 		AuthenticationDetails authenticationDetails = mongoOperation
 				.findOne(
@@ -32,13 +35,27 @@ public class LogoutAPI {
 								logoutData.getUsername())),
 						AuthenticationDetails.class);
 
-		if (authenticationDetails == null)
-			return new PostForm("Failure", "Username does not exist");
+		PostForm postform;
+		if (authenticationDetails == null) {
+			postform = new PostForm("Failure", "Username does not exist");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
 
-		if (!AuthenticationDetailsValidator.validatedeviceId(
-				authenticationDetails.getDeviceId(), logoutData.getDeviceId()))
-			return new PostForm("Failure", "Unauthorized Device Logout");
+		}
 
-		return new PostForm("Success", "User successfully logged out");
+		 if (!AuthenticationDetailsValidator.validatedeviceId(
+				authenticationDetails.getDeviceId(), logoutData.getDeviceId())) {
+			postform = new PostForm("Failure", "Unauthorized Device Logout");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+
+		}
+
+		else {
+			postform = new PostForm("Success", "User successfully logged out");
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+		}
+
 	}
 }

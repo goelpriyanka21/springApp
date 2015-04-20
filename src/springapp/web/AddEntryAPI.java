@@ -9,6 +9,7 @@ import java.util.List;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.PGDataModel;
+import models.TestingData;
 import models.UserNameToken;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -32,6 +33,8 @@ public class AddEntryAPI {
 			@RequestBody AddEntryData addEntryData) throws Exception {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
+		
+		mongoOperation.save(new TestingData(addEntryData));
 
 		// AuthenticationDetails Validators
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
@@ -39,9 +42,13 @@ public class AddEntryAPI {
 						addEntryData.getUsername())),
 				AuthenticationDetails.class);
 
-		if (authenticationDetails == null)
-			return new ExistingPropertyData("Failure",
+		ExistingPropertyData existingPropertyData;
+		if (authenticationDetails == null){
+			existingPropertyData= new ExistingPropertyData("Failure",
 					"Username does not exist");
+			mongoOperation.save(new TestingData(existingPropertyData));
+			return existingPropertyData;
+		}
 
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
@@ -49,9 +56,13 @@ public class AddEntryAPI {
 				UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
-				addEntryData.getToken()))
-			return new ExistingPropertyData("Failure",
+				addEntryData.getToken())){
+			existingPropertyData= new ExistingPropertyData("Failure",
 					"Token authentication failed");
+			mongoOperation.save(new TestingData(existingPropertyData));
+			return existingPropertyData;
+			
+			}
 
 //		if (addEntryData.getPropertyId() == null) {
 
@@ -103,7 +114,9 @@ public class AddEntryAPI {
 						pgDataModel.getIsLocked());
 				listofproperties.add(pntp1);
 			}
-			return new ExistingPropertyData("Success", "Existing property list is ", listofproperties);
+			existingPropertyData= new ExistingPropertyData("Success", "Existing property list is ", listofproperties);
+			mongoOperation.save(new TestingData(existingPropertyData));
+			return existingPropertyData;
 //		}
 
 //		else {

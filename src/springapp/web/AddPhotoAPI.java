@@ -1,6 +1,7 @@
 package springapp.web;
 
 import helperclasses.PhotoNameAndURLPair;
+
 import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.XmlApplicationContext;
 
@@ -11,6 +12,7 @@ import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.FlatDataModel;
 import models.PGDataModel;
+import models.TestingData;
 import models.UserNameToken;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -32,6 +34,8 @@ import com.cloudinary.utils.ObjectUtils;
 import forms.FlatData;
 import forms.PostForm;
 
+
+
 @Controller
 public class AddPhotoAPI {
 
@@ -47,24 +51,35 @@ public class AddPhotoAPI {
 			@RequestParam("file") MultipartFile file) throws Exception {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
+		
+		mongoOperation.save(new TestingData(new AddPhotoData(username, token, propertyId, flatnumber, propertyType, section, photoname, file)));
 
 		// AuthenticationDetails Validators
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username").is(username)),
 				AuthenticationDetails.class);
 
-		if (authenticationDetails == null)
-			return new PostForm("Failure", "Username does not exist");
+		PostForm postForm;
+		if (authenticationDetails == null){
+			postForm= new PostForm("Failure", "Username does not exist");
+			mongoOperation.save(new TestingData(postForm));
+			return postForm;
+			}
 
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(username)), UserNameToken.class);
 
-		if (!TokenValidator.validate(usernametoken.gettoken(), token))
-			return new PostForm("Failure", "Token authentication failed");
+		if (!TokenValidator.validate(usernametoken.gettoken(), token)){
+			postForm= new PostForm("Failure", "Token authentication failed");
+			mongoOperation.save(new TestingData(postForm));
+			return postForm;
+		}
 
-		return validateAndUploadPhoto(propertyId, flatnumber, propertyType,
+		postForm= validateAndUploadPhoto(propertyId, flatnumber, propertyType,
 				section, photoname, file);
+		mongoOperation.save(new TestingData(postForm));
+		return postForm;
 
 	}
 
@@ -333,5 +348,36 @@ public class AddPhotoAPI {
 			return new PostForm("Failure",
 					"There is no such propertyType: propertyType can only be PG/Building?Flat");
 
+	}
+	
+	
+	class AddPhotoData{
+		String username;
+		String token;
+		String propertyId;
+		String flatnumber;
+		String propertyType;
+		String section;
+		String photoname;
+		MultipartFile file;
+		
+		AddPhotoData(String username,
+		String token,
+		String propertyId,
+		String flatnumber,
+		String propertyType,
+		String section,
+		String photoname,
+		MultipartFile file){
+			this.username=username;
+			this.token=token;
+			this.propertyId=propertyId;
+			this.flatnumber=flatnumber;
+			this.propertyType=propertyType;
+			this.section=section;
+			this.file=file;
+			
+		}
+		
 	}
 }

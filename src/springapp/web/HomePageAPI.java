@@ -5,6 +5,7 @@ import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.PGDataModel;
+import models.TestingData;
 import models.UserNameToken;
 
 import org.joda.time.DateTime;
@@ -31,42 +32,75 @@ public class HomePageAPI {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
+		mongoOperation.save(new TestingData(homePageData));
+
 		// AuthenticationDetails Validator
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username").is(
 						homePageData.getUsername())),
 				AuthenticationDetails.class);
 
-		if (authenticationDetails == null)
-			return new HomePageData("Failure", "Username does not exist");
+		HomePageData postForm;
+		if (authenticationDetails == null) {
+			postForm = new HomePageData("Failure", "Username does not exist");
+			mongoOperation.save(new TestingData(postForm));
+			return postForm;
+
+		}
 
 		// TOKEN AUTHENTICATION FAILURE:
+
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(homePageData.getUsername())),
 				UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
-				homePageData.getToken()))
-			return new HomePageData("Failure", "Token authentication failed");
-		
-		// get the midnight of the start of the day and start of the month
+				homePageData.getToken())) {
+			postForm = new HomePageData("Failure",
+					"Token authentication failed");
+			mongoOperation.save(new TestingData(postForm));
+			return postForm;
+
+		}
+
+		// get the midnight of the start of the day and start of the
+		// month
 		DateTime now = DateTime.now();
 		LocalDate today = now.toLocalDate();
-		DateTime startm = now.withDayOfMonth(1).toLocalDate().toDateTimeAtStartOfDay();
+		DateTime startm = now.withDayOfMonth(1).toLocalDate()
+				.toDateTimeAtStartOfDay();
 		DateTime endm = startm.plusMonths(1);
 		LocalDate tomorrow = today.plusDays(1);
 
 		DateTime startOfToday = today.toDateTimeAtStartOfDay(now.getZone());
-		DateTime startOfTomorrow = tomorrow.toDateTimeAtStartOfDay(now.getZone());
-		final Query todayq = new Query(Criteria.where("createdDate").gte(startOfToday.toDate()).andOperator(Criteria.where("createdDate").lt(startOfTomorrow.toDate())).and("createdBy_username").is(homePageData.getUsername()));
+		DateTime startOfTomorrow = tomorrow.toDateTimeAtStartOfDay(now
+				.getZone());
+		final Query todayq = new Query(Criteria
+				.where("createdDate")
+				.gte(startOfToday.toDate())
+				.andOperator(
+						Criteria.where("createdDate").lt(
+								startOfTomorrow.toDate()))
+				.and("createdBy_username").is(homePageData.getUsername()));
 		int todaysCount = (int) mongoOperation.count(todayq, PGDataModel.class);
-		todaysCount += (int) mongoOperation.count(todayq, BuildingDataModel.class);
-		
-		final Query monthq = new Query(Criteria.where("createdDate").gte(startm.toDate()).andOperator(Criteria.where("createdDate").lt(endm.toDate())).and("createdBy_username").is(homePageData.getUsername()));
+		todaysCount += (int) mongoOperation.count(todayq,
+				BuildingDataModel.class);
+
+		final Query monthq = new Query(Criteria.where("createdDate")
+				.gte(startm.toDate())
+				.andOperator(Criteria.where("createdDate").lt(endm.toDate()))
+				.and("createdBy_username").is(homePageData.getUsername()));
 		int monthsCount = (int) mongoOperation.count(monthq, PGDataModel.class);
-		monthsCount += (int) mongoOperation.count(monthq, BuildingDataModel.class);
-		return new HomePageData(todaysCount, monthsCount ,
+		monthsCount += (int) mongoOperation.count(monthq,
+				BuildingDataModel.class);
+		postForm = new HomePageData(
+				todaysCount,
+				monthsCount,
 				TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH,
-				(double) (monthsCount / TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH)*100);
+				(double) (monthsCount / TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH) * 100);
+
+		mongoOperation.save(new TestingData(postForm));
+		return postForm;
+
 	}
 }

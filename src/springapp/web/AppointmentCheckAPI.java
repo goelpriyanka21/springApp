@@ -1,9 +1,9 @@
 package springapp.web;
 
-
 import helperclasses.XmlApplicationContext;
 import models.AppointmentDataModel;
 import models.AuthenticationDetails;
+import models.TestingData;
 import models.UserNameToken;
 
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -23,52 +23,88 @@ import forms.AppointmentData;
 
 @Controller
 public class AppointmentCheckAPI {
-	
-	
-		
-		@RequestMapping(value = "/checkappointment", method = RequestMethod.POST)
-		public @ResponseBody AppointmentAPIPost checkAppointment(
-				@RequestHeader String username, @RequestHeader String token, @RequestParam String appointmentId) throws Exception {
-			
-			MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
-			// AuthenticationDetails Validator
-			AuthenticationDetails authenticationDetails = mongoOperation.findOne(new Query(Criteria
-					.where("username").is(username)),
-					AuthenticationDetails.class);
+	@RequestMapping(value = "/checkappointment", method = RequestMethod.POST)
+	public @ResponseBody AppointmentAPIPost checkAppointment(
+			@RequestHeader String username, @RequestHeader String token,
+			@RequestParam String appointmentId) throws Exception {
 
-			if (authenticationDetails == null)
-				return new AppointmentAPIPost("Failure", "Username does not exist");
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
-			// TOKEN AUTHENTICATION FAILURE:
-			UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
-					.where("username").is(username)),
-					UserNameToken.class);
+		mongoOperation.save(new TestingData(new AppointmentCheckData(username,
+				token, appointmentId)));
 
-			if (!TokenValidator.validate(usernametoken.gettoken(),
-					token))
-				return new AppointmentAPIPost("Failure", "Token authentication failed");
-			
-			//show list of appointments
-			Query query= new Query();
-			query.addCriteria(Criteria
-					.where("username").is(username));
-			AppointmentDataModel appointmentDataModel = mongoOperation.findOne(query,
-					AppointmentDataModel.class);
-			
-			if(appointmentDataModel==null) return new AppointmentAPIPost("Failure", "There was no appointment for you");
-			
-			for(AppointmentData appointmentData: appointmentDataModel.getAppointmentList()){
-				if(appointmentData.getAppointmentId().equals(appointmentId)){
-					appointmentDataModel.getAppointmentList().remove(appointmentData);
-					mongoOperation.updateFirst(query, new Update().set("appointmentList", appointmentDataModel.getAppointmentList()), AppointmentDataModel.class);
-					return new AppointmentAPIPost("success", "appointment list successfully updated");
-				}
-			}
-			
-
-			return new AppointmentAPIPost("Failure", "There was no such appointment ID for you");
+		// AuthenticationDetails Validator
+		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
+				new Query(Criteria.where("username").is(username)),
+				AuthenticationDetails.class);
+		AppointmentAPIPost appointmentAPIPost;
+		if (authenticationDetails == null) {
+			appointmentAPIPost = new AppointmentAPIPost("Failure",
+					"Username does not exist");
+			mongoOperation.save(new TestingData(appointmentAPIPost));
+			return appointmentAPIPost;
 		}
 
+		// TOKEN AUTHENTICATION FAILURE:
+		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
+				.where("username").is(username)), UserNameToken.class);
 
+		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
+			appointmentAPIPost = new AppointmentAPIPost("Failure",
+					"Token authentication failed");
+			mongoOperation.save(new TestingData(appointmentAPIPost));
+			return appointmentAPIPost;
+		}
+
+		// show list of appointments
+		Query query = new Query();
+		query.addCriteria(Criteria.where("username").is(username));
+		AppointmentDataModel appointmentDataModel = mongoOperation.findOne(
+				query, AppointmentDataModel.class);
+
+		if (appointmentDataModel == null) {
+			appointmentAPIPost = new AppointmentAPIPost("Failure",
+					"There was no appointment for you");
+			mongoOperation.save(new TestingData(appointmentAPIPost));
+			return appointmentAPIPost;
+		}
+
+		for (AppointmentData appointmentData : appointmentDataModel
+				.getAppointmentList()) {
+			if (appointmentData.getAppointmentId().equals(appointmentId)) {
+				appointmentDataModel.getAppointmentList().remove(
+						appointmentData);
+				mongoOperation.updateFirst(query, new Update().set(
+						"appointmentList",
+						appointmentDataModel.getAppointmentList()),
+						AppointmentDataModel.class);
+				appointmentAPIPost = new AppointmentAPIPost("success",
+						"appointment list successfully updated");
+				mongoOperation.save(new TestingData(appointmentAPIPost));
+				return appointmentAPIPost;
+			}
+		}
+
+		appointmentAPIPost = new AppointmentAPIPost("Failure",
+				"There was no such appointment ID for you");
+		mongoOperation.save(new TestingData(appointmentAPIPost));
+		return appointmentAPIPost;
+
+	}
+
+}
+
+class AppointmentCheckData {
+	String username;
+	String token;
+	String appointmentId;
+
+	public AppointmentCheckData(String username, String token,
+			String appointmentId) {
+		// TODO Auto-generated constructor stub
+		this.username = username;
+		this.token = token;
+		this.appointmentId = appointmentId;
+	}
 }
