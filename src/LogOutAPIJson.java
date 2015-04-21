@@ -1,6 +1,7 @@
 import forms.LogoutData;
 import forms.PostForm;
 import helperclasses.Location;
+import helperclasses.STATUS;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,14 +25,14 @@ public class LogOutAPIJson {
 		writer.append(logoutgetjson+"\n\n"); 
 		
 		//POST: Success
-		PostForm logoutpost = new PostForm("Success", "User Logged out successfully");
+		PostForm logoutpost = new PostForm(STATUS.Success, "User Logged out successfully");
 		String logoutpostjson = gson.toJson(logoutpost);
 		System.out.println(logoutpostjson);	  
 		writer.append("//POST: Success\n");
 		writer.append(logoutpostjson+"\n\n");
 		
 		//POST: Failure
-				 logoutpost = new PostForm("Failure", "Looks like some error in logging out");
+				 logoutpost = new PostForm(STATUS.Failure, "Looks like some error in logging out");
 				 logoutpostjson = gson.toJson(logoutpost);
 				System.out.println(logoutpostjson);	  
 				writer.append("//POST: Failure\n");

@@ -1,5 +1,7 @@
 package forms;
 
+import helperclasses.STATUS;
+
 
 public class HomePageData {
 	
@@ -8,7 +10,7 @@ public class HomePageData {
     private String deviceId;
 	private String token;
 	//POST
-	private String status;
+	private STATUS status;
 	private String message;
 	
 private Integer numoftodayentries;
@@ -31,7 +33,7 @@ public HomePageData(int numoftodayentries, int numofcurrentmonthentries, int tar
 	
 }
 
-public HomePageData(String status, String message) {
+public HomePageData(STATUS status, String message) {
 	// TODO Auto-generated constructor stub
 	this.setStatus(status);
 	this.setMessage(message);
@@ -93,11 +95,11 @@ public HomePageData(String status, String message) {
 		this.targetachieved = targetachieved;
 	}
 
-	public String getStatus() {
+	public STATUS getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(STATUS status) {
 		this.status = status;
 	}
 

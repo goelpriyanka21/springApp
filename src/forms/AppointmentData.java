@@ -1,8 +1,8 @@
 package forms;
 
-import java.util.Date;
-
 import helperclasses.Location;
+
+import java.util.Date;
 
 public class AppointmentData implements Comparable<AppointmentData> {
 	
@@ -25,7 +25,7 @@ public class AppointmentData implements Comparable<AppointmentData> {
 			String notes, Location location) {
 		// TODO Auto-generated constructor stub
 		this.appointmentId = appointmentId;
-		this.propertyId= propertyId;
+		this.setPropertyId(propertyId);
 		this.propertyName = propertyName;
 		this.propertyType = propertyType;
 		this.addressline1 = addressline1;
@@ -106,6 +106,14 @@ public class AppointmentData implements Comparable<AppointmentData> {
 		long startThat = o.appointmentStTime.getTime();
 		
 		return Long.compare(startThis, startThat);
+	}
+
+	public String getPropertyId() {
+		return propertyId;
+	}
+
+	public void setPropertyId(String propertyId) {
+		this.propertyId = propertyId;
 	}
 	
 	

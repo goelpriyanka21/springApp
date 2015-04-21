@@ -1,6 +1,7 @@
 package springapp.web;
 
 import helperclasses.PropertyNameTypeisLocked;
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class AddEntryAPI {
 
 		ExistingPropertyData existingPropertyData;
 		if (authenticationDetails == null){
-			existingPropertyData= new ExistingPropertyData("Failure",
+			existingPropertyData= new ExistingPropertyData(STATUS.Failure,
 					"Username does not exist");
 			mongoOperation.save(new TestingData(existingPropertyData));
 			return existingPropertyData;
@@ -57,7 +58,7 @@ public class AddEntryAPI {
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				addEntryData.getToken())){
-			existingPropertyData= new ExistingPropertyData("Failure",
+			existingPropertyData= new ExistingPropertyData(STATUS.Failure,
 					"Token authentication failed");
 			mongoOperation.save(new TestingData(existingPropertyData));
 			return existingPropertyData;
@@ -114,7 +115,7 @@ public class AddEntryAPI {
 						pgDataModel.getIsLocked());
 				listofproperties.add(pntp1);
 			}
-			existingPropertyData= new ExistingPropertyData("Success", "Existing property list is ", listofproperties);
+			existingPropertyData= new ExistingPropertyData(STATUS.Success, "Existing property list is ", listofproperties);
 			mongoOperation.save(new TestingData(existingPropertyData));
 			return existingPropertyData;
 //		}

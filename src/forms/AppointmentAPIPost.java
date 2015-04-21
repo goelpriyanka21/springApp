@@ -1,14 +1,16 @@
 package forms;
 
+import helperclasses.STATUS;
+
 import java.util.List;
 
 public class AppointmentAPIPost {
 
-	private String status;
+	private STATUS status;
 	private String message;
 	private List<AppointmentData> appointmentList;
 
-	public AppointmentAPIPost(String status, String message,
+	public AppointmentAPIPost(STATUS status, String message,
 			List<AppointmentData> appointmentList) {
 		// TODO Auto-generated constructor stub
 		this.status = status;
@@ -16,17 +18,17 @@ public class AppointmentAPIPost {
 		this.appointmentList = appointmentList;
 	}
 
-	public AppointmentAPIPost(String status, String message) {
+	public AppointmentAPIPost(STATUS status, String message) {
 		// TODO Auto-generated constructor stub
 		this.status = status;
 		this.message = message;
 	}
 
-	public String getStatus() {
+	public STATUS getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(STATUS status) {
 		this.status = status;
 	}
 

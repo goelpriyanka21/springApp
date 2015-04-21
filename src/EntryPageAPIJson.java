@@ -3,6 +3,7 @@ import forms.ExistingPropertyData;
 import forms.PostForm;
 import helperclasses.Location;
 import helperclasses.PropertyNameTypeisLocked;
+import helperclasses.STATUS;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class EntryPageAPIJson {
 		// POST: Username does not exist
 
 		// POST: Failure: backend
-		PostForm entrypost = new PostForm("Failure",
+		PostForm entrypost = new PostForm(STATUS.Failure,
 				"Token Authentication failed");
 		String entrypostjson = gson.toJson(entrypost);
 		System.out.println(entrypostjson);
@@ -53,7 +54,7 @@ public class EntryPageAPIJson {
 		listofproperties.add(pntp2);
 		// ExistingPropertyData entrypost2 = new
 		// ExistingPropertyData(Arrays.asList(pntp1, pntp2));
-		ExistingPropertyData entrypost2 = new ExistingPropertyData("Success",
+		ExistingPropertyData entrypost2 = new ExistingPropertyData(STATUS.Success,
 				"Existing property list is ", listofproperties);
 		entrypostjson = gson.toJson(entrypost2);
 		System.out.println(entrypostjson);

@@ -48,7 +48,7 @@ public class BuildingAndFlatDataValidator {
 					"Picture list can't be left blank"));
 		else if (buildingAndFlatData.getBuildingData().getPicturelist().size() == 0)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(
-					"buildingData.picturelist", "Picture list size can be zero"));
+					"buildingData.picturelist", "Picture list size can't be zero"));
 		else {
 			int photocount = 0;
 			for (SectionListOfPhotoNameAndURLPair sectionListOfPhotoNameAndURLPair : buildingAndFlatData
@@ -66,7 +66,7 @@ public class BuildingAndFlatDataValidator {
 		if (buildingAndFlatData.getBuildingData().getBuildingname() == null)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(
 					"buildingData.buildingname",
-					"buildingname name cant be more than 50 characters"));
+					"buildingname name cant be left blank"));
 		else if (buildingAndFlatData.getBuildingData().getBuildingname()
 				.length() > 50)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(
@@ -76,17 +76,17 @@ public class BuildingAndFlatDataValidator {
 		if (buildingAndFlatData.getBuildingData().getAddressl1() == null)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(
 					"buildingData.addressl1",
-					"Address Line 1 can't be left blank"));
+					"First Line Address can't be left blank"));
 		else if (buildingAndFlatData.getBuildingData().getAddressl1().length() > 200)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(
 					"buildingData.addressl1",
-					"addressl1 name cant be more than 200 characters"));
+					"First Line Address cant be more than 200 characters"));
 
 		if (buildingAndFlatData.getBuildingData().getAddressl2() != null) {
 			if (buildingAndFlatData.getBuildingData().getAddressl2().length() > 200)
 				errorfieldandstringlist.add(new ErrorFieldAndMessage(
 						"buildingData.addressl2",
-						"addressl2 name cant be more than 200 characters"));
+						"Second Line Address cant be more than 200 characters"));
 		}
 
 		if (buildingAndFlatData.getBuildingData().getPincode() == null)
@@ -95,7 +95,7 @@ public class BuildingAndFlatDataValidator {
 		else if (buildingAndFlatData.getBuildingData().getPincode() > 999999)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(
 					"buildingData.pincode",
-					"Pincode can't be more than 6 digits"));
+					"Pincode can't be more than 6 characters"));
 
 		if (buildingAndFlatData.getBuildingData().getLandmark() == null)
 			errorfieldandstringlist.add(new ErrorFieldAndMessage(

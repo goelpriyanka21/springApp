@@ -1,6 +1,7 @@
 package springapp.web;
 
 import helperclasses.ErrorFieldAndMessage;
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 
 import java.util.Date;
@@ -42,13 +43,13 @@ public class AddNewBuildingAndFlatDataAPI {
 
 		PostForm postform;
 		if (buildingAndFlatData.getUsername() == null) {
-			postform = new PostForm("Failure", "username can't be left blank");
+			postform = new PostForm(STATUS.Failure, "username can't be left blank");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 		}
 		
 		if (buildingAndFlatData.getToken() == null){
-			postform = new PostForm("Failure",
+			postform = new PostForm(STATUS.Failure,
 					" token can't be left blank");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
@@ -61,7 +62,7 @@ public class AddNewBuildingAndFlatDataAPI {
 				AuthenticationDetails.class);
 
 		if (authenticationDetails == null){
-			postform = new PostForm("Failure", "username does not exist");
+			postform = new PostForm(STATUS.Failure, "username does not exist");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 			}
@@ -73,7 +74,7 @@ public class AddNewBuildingAndFlatDataAPI {
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				buildingAndFlatData.getToken())){
-			postform =  new PostForm("Failure", "Token authentication failed");
+			postform =  new PostForm(STATUS.Failure, "Token authentication failed");
 		mongoOperation.save(new TestingData(postform));
 		return postform;
 		}
@@ -84,7 +85,7 @@ public class AddNewBuildingAndFlatDataAPI {
 				.validate(buildingAndFlatData);
 
 		if (errorfieldandstringlist.size() != 0){
-			postform =  new PostForm("Failure", "Data validation failed",
+			postform =  new PostForm(STATUS.Failure, "Data validation failed",
 					errorfieldandstringlist);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
@@ -125,8 +126,8 @@ public class AddNewBuildingAndFlatDataAPI {
 			else {
 				if (buildingDataModel.getIsLocked() == true) {
 					postform= new PostForm(
-							"Building Entry already exist and is locked",
-							"  u can add only tenant data");
+							STATUS.Success,
+							" Building Entry already exist and is locked u can add only tenant data");
 					mongoOperation.save(new TestingData(postform));
 					return postform;
 				} else // is locked is false; u can update pg data
@@ -148,14 +149,14 @@ public class AddNewBuildingAndFlatDataAPI {
 							buildingAndFlatData.getBuildingData());
 					mongoOperation.updateFirst(query, update,
 							BuildingDataModel.class);
-					postform=  new PostForm("Success",
+					postform=  new PostForm(STATUS.Success,
 							"Data successfully updated on server");
 					mongoOperation.save(new TestingData(postform));
 					return postform;
 				}
 			}
 		}
-		postform= new PostForm("Success", "Data successfully stored on server");
+		postform= new PostForm(STATUS.Success, "Data successfully stored on server");
 		mongoOperation.save(new TestingData(postform));
 		return postform;
 		// mongoOperation.save(new BuildingDataModel(buildingAndFlatData

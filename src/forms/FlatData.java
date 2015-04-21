@@ -2,6 +2,7 @@ package forms;
 
 
 import helperclasses.RatingAndListOfEs;
+import helperclasses.STATUS;
 import helperclasses.SectionListOfPhotoNameAndURLPair;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class FlatData {
 	private List<String> availableFor;
 	private RatingAndListOfEs<String> amenities;
 	private String servicesyouwillbeinterestedin;
-	private String status;
+	private STATUS status;
 	private String message;
 	
 	public FlatData(){
@@ -152,11 +153,11 @@ public class FlatData {
 		this.servicesyouwillbeinterestedin = servicesyouwillbeinterestedin;
 	}
 
-	public String getStatus() {
+	public STATUS getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(STATUS status) {
 		this.status = status;
 	}
 
@@ -200,7 +201,7 @@ public class FlatData {
 
 	}
 
-	public FlatData(String status, String message) {
+	public FlatData(STATUS status, String message) {
 		this.status = status;
 		this.message = message;
 

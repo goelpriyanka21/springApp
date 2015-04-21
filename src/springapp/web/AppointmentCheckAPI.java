@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AppointmentDataModel;
 import models.AuthenticationDetails;
@@ -40,7 +41,7 @@ public class AppointmentCheckAPI {
 				AuthenticationDetails.class);
 		AppointmentAPIPost appointmentAPIPost;
 		if (authenticationDetails == null) {
-			appointmentAPIPost = new AppointmentAPIPost("Failure",
+			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
 					"Username does not exist");
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
@@ -51,7 +52,7 @@ public class AppointmentCheckAPI {
 				.where("username").is(username)), UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
-			appointmentAPIPost = new AppointmentAPIPost("Failure",
+			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
 					"Token authentication failed");
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
@@ -64,7 +65,7 @@ public class AppointmentCheckAPI {
 				query, AppointmentDataModel.class);
 
 		if (appointmentDataModel == null) {
-			appointmentAPIPost = new AppointmentAPIPost("Failure",
+			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
 					"There was no appointment for you");
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
@@ -79,14 +80,14 @@ public class AppointmentCheckAPI {
 						"appointmentList",
 						appointmentDataModel.getAppointmentList()),
 						AppointmentDataModel.class);
-				appointmentAPIPost = new AppointmentAPIPost("Success",
+				appointmentAPIPost = new AppointmentAPIPost(STATUS.Success,
 						"appointment list successfully updated");
 				mongoOperation.save(new TestingData(appointmentAPIPost));
 				return appointmentAPIPost;
 			}
 		}
 
-		appointmentAPIPost = new AppointmentAPIPost("Failure",
+		appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
 				"There was no such appointment ID for you");
 		mongoOperation.save(new TestingData(appointmentAPIPost));
 		return appointmentAPIPost;

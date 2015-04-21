@@ -1,6 +1,7 @@
 import forms.LoginData;
 import forms.PostForm;
 import helperclasses.Location;
+import helperclasses.STATUS;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,28 +25,28 @@ public class LoginAPIJson {
 		writer.append(logingetjson+"\n\n"); 
 		
 		//POST: Failure
-		PostForm loginpost = new PostForm("Failure", "UserName does not exist");
+		PostForm loginpost = new PostForm(STATUS.Failure, "UserName does not exist");
 				String loginpostjson = gson.toJson(loginpost);
 				System.out.println(loginpostjson);	  
 				writer.append("//POST: Failure\n");
 				writer.append(loginpostjson+"\n\n");
 				
 				//POST: Failure
-				 loginpost = new PostForm("Failure", "UserName And Password does not match");
+				 loginpost = new PostForm(STATUS.Failure, "UserName And Password does not match");
 				 loginpostjson = gson.toJson(loginpost);
 				System.out.println(loginpostjson);	  
 				writer.append("//POST: Failure\n");
 				writer.append(loginpostjson+"\n\n");
 				
 				//POST: Failure
-				 loginpost = new PostForm("Failure", "DeviceId Authentication failed");
+				 loginpost = new PostForm(STATUS.Failure, "DeviceId Authentication failed");
 				 loginpostjson = gson.toJson(loginpost);
 				System.out.println(loginpostjson);	  
 				writer.append("//POST: Failure\n");
 				writer.append(loginpostjson+"\n\n");
 		
 		//POST: Success
-		 loginpost = new PostForm("Success", "Authentication successful, Keep the token for this session", "pritoken123");
+		 loginpost = new PostForm(STATUS.Success, "Authentication successful, Keep the token for this session", "pritoken123");
 		 loginpostjson = gson.toJson(loginpost);
 		System.out.println(loginpostjson);	  
 		writer.append("//POST\n");

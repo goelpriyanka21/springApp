@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AppointmentDataModel;
 import models.AuthenticationDetails;
@@ -39,7 +40,7 @@ public class AppointmentListAPI {
 		
 		AppointmentAPIPost appointmentAPIPost;
 		if (authenticationDetails == null){
-			appointmentAPIPost = new AppointmentAPIPost("Failure", "Username does not exist");
+			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure, "Username does not exist");
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
@@ -49,7 +50,7 @@ public class AppointmentListAPI {
 				.where("username").is(username)), UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(), token)){
-			appointmentAPIPost= new AppointmentAPIPost("Failure",
+			appointmentAPIPost= new AppointmentAPIPost(STATUS.Failure,
 					"Token authentication failed");
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
@@ -61,13 +62,13 @@ public class AppointmentListAPI {
 				AppointmentDataModel.class);
 
 		if (appointmentDataModel == null){
-			appointmentAPIPost=  new AppointmentAPIPost("Success",
+			appointmentAPIPost=  new AppointmentAPIPost(STATUS.Success,
 					"No Appointmnets for you: Enjoy");
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
 
-		appointmentAPIPost= new AppointmentAPIPost("Success",
+		appointmentAPIPost= new AppointmentAPIPost(STATUS.Success,
 				"Your appointment list (sorted acc to start time) is",
 				appointmentDataModel.getSortedOrderList());
 		mongoOperation.save(new TestingData(appointmentAPIPost));

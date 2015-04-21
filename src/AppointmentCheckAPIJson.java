@@ -1,4 +1,5 @@
 import forms.AppointmentAPIPost;
+import helperclasses.STATUS;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,7 +29,7 @@ public class AppointmentCheckAPIJson {
 		
 		//POST: Appointment list successfully updated
 		
-				AppointmentAPIPost appointmentCheckpost = new AppointmentAPIPost("Failure", "There was no such appointment ID for you");
+				AppointmentAPIPost appointmentCheckpost = new AppointmentAPIPost(STATUS.Failure, "There was no such appointment ID for you");
 				String appointmentCheckpostjson = gson.toJson(appointmentCheckpost);
 				System.out.println(appointmentCheckpostjson);
 				writer.append("//POST\n");
@@ -37,7 +38,7 @@ public class AppointmentCheckAPIJson {
 		
 		//POST: Appointment list successfully updated
 		
-		 appointmentCheckpost = new AppointmentAPIPost("Success", "appointment list successfully updated");
+		 appointmentCheckpost = new AppointmentAPIPost(STATUS.Success, "appointment list successfully updated");
 		 appointmentCheckpostjson = gson.toJson(appointmentCheckpost);
 		System.out.println(appointmentCheckpostjson);
 		writer.append("//POST\n");

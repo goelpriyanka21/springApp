@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 //import models.AttendenceModel;
 import models.AuthenticationDetails;
@@ -42,7 +43,7 @@ public class HomePageAPI {
 
 		HomePageData postForm;
 		if (authenticationDetails == null) {
-			postForm = new HomePageData("Failure", "Username does not exist");
+			postForm = new HomePageData(STATUS.Failure, "Username does not exist");
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 
@@ -56,7 +57,7 @@ public class HomePageAPI {
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				homePageData.getToken())) {
-			postForm = new HomePageData("Failure",
+			postForm = new HomePageData(STATUS.Failure,
 					"Token authentication failed");
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;

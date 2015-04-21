@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
@@ -39,7 +40,7 @@ public class ExistingPropertyAPI {
 		
 		ExistingPropertyData existingPropertyDataret;
 		if (authenticationDetails == null){
-			existingPropertyDataret = new ExistingPropertyData("Failure",
+			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
 					"Username does not exist");
 			mongoOperation.save(new TestingData(existingPropertyDataret));
 			return existingPropertyDataret;
@@ -52,14 +53,14 @@ public class ExistingPropertyAPI {
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				existingPropertyData.getToken())){
-			existingPropertyDataret = new ExistingPropertyData("Failure",
+			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
 					"Token authentication failed");
 			mongoOperation.save(new TestingData(existingPropertyDataret));
 			return existingPropertyDataret;
 		}
 
 		if (existingPropertyData.getPropertyId() == null){
-			existingPropertyDataret = new ExistingPropertyData("Failure",
+			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
 					"Please provide a propertyId");
 			mongoOperation.save(new TestingData(existingPropertyDataret));
 			return existingPropertyDataret;
@@ -74,17 +75,17 @@ public class ExistingPropertyAPI {
 				BuildingDataModel.class);
 
 		if (pgDataModel == null && buildingDataModel == null){
-			existingPropertyDataret = new ExistingPropertyData("Entry does not exist",
-					"call add entry API");
+			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
+					"Entry does not exist call add entry API");
 		mongoOperation.save(new TestingData(existingPropertyDataret));
 		return existingPropertyDataret;
 		}
 		else {
 			if (pgDataModel != null) { // pg already exists
 
-				existingPropertyDataret = new ExistingPropertyData("Success", "Existing property list is ", pgDataModel);
+				existingPropertyDataret = new ExistingPropertyData(STATUS.Success, "Existing property list is ", pgDataModel);
 			} else {
-				existingPropertyDataret = new ExistingPropertyData("Success", "Existing property list is ", buildingDataModel);
+				existingPropertyDataret = new ExistingPropertyData(STATUS.Success, "Existing property list is ", buildingDataModel);
 				
 			}
 			mongoOperation.save(new TestingData(existingPropertyDataret));

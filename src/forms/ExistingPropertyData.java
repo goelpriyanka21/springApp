@@ -1,6 +1,7 @@
 package forms;
 
 import helperclasses.PropertyNameTypeisLocked;
+import helperclasses.STATUS;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ExistingPropertyData {
 
 
 	// POST
-	private String status;
+	private STATUS status;
 	private PGDataModel pgDataModel;
 	private BuildingDataModel buildingDataModel;
 	private String message;
@@ -30,26 +31,26 @@ public class ExistingPropertyData {
 	}
 	
 	
-	public ExistingPropertyData(String status, String message) {
+	public ExistingPropertyData(STATUS status, String message) {
 		// TODO Auto-generated constructor stub
 		this.status = status;
 		this.message = message;
 	}
 	
-	public ExistingPropertyData(String status, String message, PGDataModel pgDataModel) {
+	public ExistingPropertyData(STATUS status, String message, PGDataModel pgDataModel) {
 		this.status = status;
 		this.message = message;
 		this.pgDataModel = pgDataModel;
 	}
 
-	public ExistingPropertyData(String status, String message, BuildingDataModel buildingDataModel) {
+	public ExistingPropertyData(STATUS status, String message, BuildingDataModel buildingDataModel) {
 		this.status = status;
 		this.message = message;
 		this.buildingDataModel = buildingDataModel;
 	}
 	
 
-	public ExistingPropertyData(String status, String message,
+	public ExistingPropertyData(STATUS status, String message,
 			List<PropertyNameTypeisLocked> propertyNameTypeisLocked) {
 		this.status = status;
 		this.message = message;
@@ -81,11 +82,11 @@ public class ExistingPropertyData {
 		this.buildingDataModel = buildingDataModel;
 	}
 
-	public String getStatus() {
+	public STATUS getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(STATUS status) {
 		this.status = status;
 	}
 

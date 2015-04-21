@@ -1,6 +1,7 @@
 package springapp.web;
 
 import helperclasses.ErrorFieldAndMessage;
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 
 import java.util.Date;
@@ -46,7 +47,7 @@ public class AddNewPGAndTenantDataAPI {
 				AuthenticationDetails.class);
 
 		if (authenticationDetails == null){
-			postform=  new PostForm("Failure", "Username does not exist");
+			postform=  new PostForm(STATUS.Failure, "Username does not exist");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 			}
@@ -58,7 +59,7 @@ public class AddNewPGAndTenantDataAPI {
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				pgAndTenantData.getToken())){
-			postform=  new PostForm("Failure", "Token authentication failed");
+			postform=  new PostForm(STATUS.Failure, "Token authentication failed");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 			}
@@ -70,7 +71,7 @@ public class AddNewPGAndTenantDataAPI {
 				.validate(pgAndTenantData);
 
 		if (errorfieldandstringlist.size() != 0){
-			postform= new PostForm("Failure", "Data validation failed",
+			postform= new PostForm(STATUS.Failure, "Data validation failed",
 					errorfieldandstringlist);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
@@ -101,7 +102,7 @@ public class AddNewPGAndTenantDataAPI {
 			else
 			{
 				if(pgDataModel.getIsLocked()== true){
-					postform= new PostForm("Failure", "PG Entry already exist and is locked u can add only tenant data");
+					postform= new PostForm(STATUS.Failure, "PG Entry already exist and is locked u can add only tenant data");
 					mongoOperation.save(new TestingData(postform));
 					return postform;
 				}
@@ -117,13 +118,13 @@ public class AddNewPGAndTenantDataAPI {
 					update.set("modifiedDate", new Date());
 					update.set("pgdata", pgAndTenantData.getPgdata());
 					mongoOperation.updateFirst(query, update, PGDataModel.class);
-					postform= new PostForm("Success", "Data successfully updated on server");
+					postform= new PostForm(STATUS.Success, "Data successfully updated on server");
 					mongoOperation.save(new TestingData(postform));
 					return postform;
 				}
 			}
 		}
-		postform= new PostForm("Success", "Data successfully stored on server");
+		postform= new PostForm(STATUS.Success, "Data successfully stored on server");
 		mongoOperation.save(new TestingData(postform));
 		return postform;
 	}

@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
 import models.TestingData;
@@ -37,7 +38,7 @@ public class LoginAPI {
 
 		PostForm postform;
 		if (authenticationDetails == null) {
-			postform = new PostForm("Failure", "Username does not exist");
+			postform = new PostForm(STATUS.Failure, "Username does not exist");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 
@@ -45,7 +46,7 @@ public class LoginAPI {
 
 		if (!AuthenticationDetailsValidator.validatepassword(
 				authenticationDetails.getPassword(), loginData.getPassword())) {
-			postform = new PostForm("Failure",
+			postform = new PostForm(STATUS.Failure,
 					"Username and password doesnot match");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
@@ -54,7 +55,7 @@ public class LoginAPI {
 
 		if (!AuthenticationDetailsValidator.validatedeviceId(
 				authenticationDetails.getDeviceId(), loginData.getDeviceId())) {
-			postform = new PostForm("Failure", "Unauthorized Device Login");
+			postform = new PostForm(STATUS.Failure, "Unauthorized Device Login");
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 
@@ -64,7 +65,7 @@ public class LoginAPI {
 				.where("username").is(loginData.getUsername())),
 				UserNameToken.class);
 
-		postform = new PostForm("Success",
+		postform = new PostForm(STATUS.Success,
 				"Authentication successful, Keep the token for this session",
 				usernametoken.gettoken());
 

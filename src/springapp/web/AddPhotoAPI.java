@@ -1,8 +1,8 @@
 package springapp.web;
 
 import helperclasses.PhotoNameAndURLPair;
-
 import helperclasses.SectionListOfPhotoNameAndURLPair;
+import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 
 import java.io.IOException;
@@ -61,7 +61,7 @@ public class AddPhotoAPI {
 
 		PostForm postForm;
 		if (authenticationDetails == null){
-			postForm= new PostForm("Failure", "Username does not exist");
+			postForm= new PostForm(STATUS.Failure, "Username does not exist");
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 			}
@@ -71,7 +71,7 @@ public class AddPhotoAPI {
 				.where("username").is(username)), UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(), token)){
-			postForm= new PostForm("Failure", "Token authentication failed");
+			postForm= new PostForm(STATUS.Failure, "Token authentication failed");
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 		}
@@ -97,7 +97,7 @@ public class AddPhotoAPI {
 			PGDataModel pgDataModel = mongoOperation.findOne(query,
 					PGDataModel.class);
 			if (pgDataModel == null)
-				return new PostForm("Failure",
+				return new PostForm(STATUS.Failure,
 						"There is no such propertyId existing on server");
 
 			for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : pgDataModel
@@ -144,16 +144,16 @@ public class AddPhotoAPI {
 									// PhotoModel(propertyId, propertyType,
 									// section, photoname, (String)
 									// uploadResult.get("url")));
-									return new PostForm("Success",
+									return new PostForm(STATUS.Success,
 											"File uploaded successfully!");
 								} catch (Exception e) {
 									e.printStackTrace();
-									return new PostForm("Failure",
+									return new PostForm(STATUS.Failure,
 											"Failed to upload the file "
 													+ e.getMessage());
 								}
 							} catch (RuntimeException e) {
-								return new PostForm("Failure",
+								return new PostForm(STATUS.Failure,
 										"Failed to upload the file : "
 												+ e.getMessage());
 							} catch (IOException e1) {
@@ -162,11 +162,11 @@ public class AddPhotoAPI {
 							}
 						}
 					}
-					return new PostForm("Failure",
+					return new PostForm(STATUS.Failure,
 							"There is no such photoname on server for this propertyId and section");
 				}
 			}
-			return new PostForm("Failure",
+			return new PostForm(STATUS.Failure,
 					"There is no such section on server for this propertyId");
 		}
 
@@ -175,7 +175,7 @@ public class AddPhotoAPI {
 			BuildingDataModel buildingDataModel = mongoOperation.findOne(query,
 					BuildingDataModel.class);
 			if (buildingDataModel == null)
-				return new PostForm("Failure",
+				return new PostForm(STATUS.Failure,
 						"There is no such propertyId existing on server");
 
 			for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : buildingDataModel
@@ -226,16 +226,16 @@ public class AddPhotoAPI {
 									// PhotoModel(propertyId, propertyType,
 									// section, photoname, (String)
 									// uploadResult.get("url")));
-									return new PostForm("Success",
+									return new PostForm(STATUS.Success,
 											"File uploaded successfully!");
 								} catch (Exception e) {
 									e.printStackTrace();
-									return new PostForm("Failure",
+									return new PostForm(STATUS.Failure,
 											"Failed to upload the file "
 													+ e.getMessage());
 								}
 							} catch (RuntimeException e) {
-								return new PostForm("Failure",
+								return new PostForm(STATUS.Failure,
 										"Failed to upload the file : "
 												+ e.getMessage());
 							} catch (IOException e1) {
@@ -246,21 +246,21 @@ public class AddPhotoAPI {
 
 					}
 
-					return new PostForm("Failure",
+					return new PostForm(STATUS.Failure,
 							"There is no such photoname on server for this propertyId and section");
 				}
 			}
-			return new PostForm("Failure",
+			return new PostForm(STATUS.Failure,
 					"There is no such section on server for this propertyId");
 		} else if (propertyType.equals("Flat")) {
 			if (flatnumber == null)
-				return new PostForm("Failure", "Please provide flatnumber");
+				return new PostForm(STATUS.Failure, "Please provide flatnumber");
 			// query.addCriteria(Criteria.where("flatdatalist.flatnumber").is(
 			// flatnumber));
 			FlatDataModel flatDataModel = mongoOperation.findOne(query,
 					FlatDataModel.class);
 			if (flatDataModel == null)
-				return new PostForm("Failure",
+				return new PostForm(STATUS.Failure,
 						"There is no such propertyId existing on server");
 			for (FlatData flatData : flatDataModel.getFlatdatalist()) {
 				if (flatData.getFlatnumber().equals(flatnumber)) {
@@ -315,16 +315,16 @@ public class AddPhotoAPI {
 											// propertyType,
 											// section, photoname, (String)
 											// uploadResult.get("url")));
-											return new PostForm("Success",
+											return new PostForm(STATUS.Success,
 													"File uploaded successfully!");
 										} catch (Exception e) {
 											e.printStackTrace();
-											return new PostForm("Failure",
+											return new PostForm(STATUS.Failure,
 													"Failed to upload the file "
 															+ e.getMessage());
 										}
 									} catch (RuntimeException e) {
-										return new PostForm("Failure",
+										return new PostForm(STATUS.Failure,
 												"Failed to upload the file : "
 														+ e.getMessage());
 									} catch (IOException e1) {
@@ -333,19 +333,19 @@ public class AddPhotoAPI {
 									}
 								}
 							}
-							return new PostForm("Failure",
+							return new PostForm(STATUS.Failure,
 									"There is no such photoname on server for this propertyId and section");
 						}
 					}
-					return new PostForm("Failure",
+					return new PostForm(STATUS.Failure,
 							"There is no such section on server for this propertyId and flat number");
 				}
 			}
-			return new PostForm("Failure",
+			return new PostForm(STATUS.Failure,
 					"There is no such flat number on server for this propertyId");
 
 		} else
-			return new PostForm("Failure",
+			return new PostForm(STATUS.Failure,
 					"There is no such propertyType: propertyType can only be PG/Building?Flat");
 
 	}
