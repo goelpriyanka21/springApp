@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.LogoutAPIMsgs;
 import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
@@ -38,7 +39,7 @@ public class LogoutAPI {
 
 		PostForm postform;
 		if (authenticationDetails == null) {
-			postform = new PostForm(STATUS.Failure, "Username does not exist");
+			postform = new PostForm(STATUS.Failure, LogoutAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 
@@ -46,17 +47,19 @@ public class LogoutAPI {
 
 		 if (!AuthenticationDetailsValidator.validatedeviceId(
 				authenticationDetails.getDeviceId(), logoutData.getDeviceId())) {
-			postform = new PostForm(STATUS.Failure, "Unauthorized Device Logout");
+			postform = new PostForm(STATUS.Failure, LogoutAPIMsgs.UNAUTHORIZED_DEVICE);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 
 		}
 
 		else {
-			postform = new PostForm(STATUS.Success, "User successfully logged out");
+			postform = new PostForm(STATUS.Success, LogoutAPIMsgs.LOGGED_OUT_SUCCESSFULLY);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 		}
 
 	}
 }
+
+

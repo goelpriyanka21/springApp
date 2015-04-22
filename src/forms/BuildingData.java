@@ -1,6 +1,9 @@
 package forms;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.JsonObject;
 
 import helperclasses.FamilyBachPer;
 import helperclasses.FlatTypeAvailabilityFlatsCombo;
@@ -10,17 +13,18 @@ import helperclasses.Section24hrsAvailablePreferredPlace;
 import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.TwoIntegerpair;
 
+@SuppressWarnings("unused")
 public class BuildingData {
 	// GET
 
 	private String societyname;
 	private List<SectionListOfPhotoNameAndURLPair> picturelist;
+
 	private String buildingname;
 	private String addressl1;
 	private String addressl2;
 	private Integer pincode;
 	private String landmark;
-
 	private TwoIntegerpair rent;
 	private TwoIntegerpair maintainancecharge;
 	private TwoIntegerpair depositamount;
@@ -53,7 +57,6 @@ public class BuildingData {
 			String addressl2,
 			Integer pincode,
 			String landmark,
-
 			TwoIntegerpair rent,
 			TwoIntegerpair maintainancecharge,
 			TwoIntegerpair depositamount,
@@ -67,10 +70,11 @@ public class BuildingData {
 			RatingAndListOfEs<String> amenities,
 			RatingAndListOfEs<String> servicesavailable,
 			String[] cableoperators, String[] broadbandoperators,
-			List<Section24hrsAvailablePreferredPlace> locality, RatingAndListOfEs<String> safety,
-			String othersafetyissuesifany, String gatekeepercontact,
-			String societymanagercontact, String[] bestthingaboutsociety,
-			String[] areaofimprovement, Location selectedlocation) {
+			List<Section24hrsAvailablePreferredPlace> locality,
+			RatingAndListOfEs<String> safety, String othersafetyissuesifany,
+			String gatekeepercontact, String societymanagercontact,
+			String[] bestthingaboutsociety, String[] areaofimprovement,
+			Location selectedlocation) {
 
 		this.societyname = societyname;
 		this.picturelist = picturelist;
@@ -108,233 +112,120 @@ public class BuildingData {
 		return societyname;
 	}
 
-	public void setSocietyname(String societyname) {
-		this.societyname = societyname;
-	}
-
 	public List<SectionListOfPhotoNameAndURLPair> getPicturelist() {
 		return picturelist;
 	}
 
-	public void setPicturelist(List<SectionListOfPhotoNameAndURLPair> picturelist) {
-		this.picturelist = picturelist;
+	private int totalPictures() {
+		int photocount = 0;
+		for (SectionListOfPhotoNameAndURLPair pair : picturelist) {
+			photocount += pair.getPhotonamelist().size();
+		}
+		return photocount;
+
 	}
 
-	public String getBuildingname() {
-		return buildingname;
+	public Location getSelectedLocation() {
+		// TODO Auto-generated method stub
+		return this.selectedlocation;
 	}
 
-	public void setBuildingname(String buildingname) {
-		this.buildingname = buildingname;
+	private JsonObject defineError(String name, String val) {
+		JsonObject o = new JsonObject();
+		o.addProperty(name, val);
+		return o;
 	}
 
-	public String getAddressl1() {
-		return addressl1;
+	public List<JsonObject> validate() {
+		// TODO Auto-generated method stub
+		List<JsonObject> errors = new ArrayList<>();
+
+		if ((societyname == null) || (societyname.length() > 50)) {
+			errors.add(defineError("societyname",
+					BuildingDataErrMsgs.SOCIETY_NAME_ERR));
+		}
+
+		if ((picturelist == null) || (picturelist.size() == 0)
+				|| (totalPictures() < 5)) {
+			errors.add(defineError("picturelist",
+					BuildingDataErrMsgs.PICTURE_LIST_ERR));
+		}
+
+		if ((buildingname == null) || (buildingname.length() > 50)) {
+			errors.add(defineError("buildingname",
+					BuildingDataErrMsgs.BUILDING_NAME_ERR));
+		}
+
+		if ((addressl1 == null) || (addressl1.length() > 100)) {
+			errors.add(defineError("addressl1",
+					BuildingDataErrMsgs.ADDRESSL1_ERR));
+		}
+
+		if ((addressl2 != null) && (addressl2.length() > 100)) {
+			errors.add(defineError("addressl2",
+					BuildingDataErrMsgs.ADDRESSL2_ERR));
+		}
+
+		if ((pincode == null) || (pincode > 999999)) {
+			errors.add(defineError("pincode", BuildingDataErrMsgs.PINCODE_ERR));
+		}
+
+		if ((landmark != null) && (landmark.length() > 100)) {
+			errors.add(defineError("landmark", BuildingDataErrMsgs.LANDMARK_ERR));
+		}
+
+		if (rent == null || rent.getminlimit() == null
+				|| rent.getmaxlimit() == null
+				|| rent.getminlimit() > rent.getmaxlimit()) {
+			errors.add(defineError("rent", BuildingDataErrMsgs.RENT_ERR));
+		}
+
+		if (maintainancecharge == null
+				|| maintainancecharge.getminlimit() == null
+				|| maintainancecharge.getmaxlimit() == null
+				|| maintainancecharge.getminlimit() > maintainancecharge
+						.getmaxlimit()) {
+			errors.add(defineError("maintainancecharge",
+					BuildingDataErrMsgs.MAINTAINANCE_CHARGE_ERR));
+		}
+
+		if (depositamount == null || depositamount.getminlimit() == null
+				|| depositamount.getmaxlimit() == null
+				|| depositamount.getminlimit() > depositamount.getmaxlimit()) {
+			errors.add(defineError("depositamount",
+					BuildingDataErrMsgs.DEPOSIT_AMOUNT_ERR));
+		}
+
+		if ((availableFor == null) || (availableFor.size() == 0)) {
+			errors.add(defineError("availableFor",
+					BuildingDataErrMsgs.AVAILABLE_FOR_ERR));
+		}
+
+		if ((typesandavailability != null)
+				&& (typesandavailability.getAlldetails() != null)
+				&& ((typesandavailability.getAlldetails().size() > 7))) {
+			// TODO: check this error message
+			errors.add(defineError("typesandavailability",
+					BuildingDataErrMsgs.TYPESANDAVAILABILITY_ERR));
+		}
+
+		return errors.size() > 0 ? errors : null;
 	}
 
-	public void setAddressl1(String addressl1) {
-		this.addressl1 = addressl1;
-	}
+}
 
-	public String getAddressl2() {
-		return addressl2;
-	}
-
-	public void setAddressl2(String addressl2) {
-		this.addressl2 = addressl2;
-	}
-
-	public Integer getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(Integer pincode) {
-		this.pincode = pincode;
-	}
-
-	public String getLandmark() {
-		return landmark;
-	}
-
-	public void setLandmark(String landmark) {
-		this.landmark = landmark;
-	}
-
-	public TwoIntegerpair getRent() {
-		return rent;
-	}
-
-	public void setRent(TwoIntegerpair rent) {
-		this.rent = rent;
-	}
-
-	public TwoIntegerpair getMaintainancecharge() {
-		return maintainancecharge;
-	}
-
-	public void setMaintainancecharge(TwoIntegerpair maintainancecharge) {
-		this.maintainancecharge = maintainancecharge;
-	}
-
-	public TwoIntegerpair getDepositamount() {
-		return depositamount;
-	}
-
-	public void setDepositamount(TwoIntegerpair depositamount) {
-		this.depositamount = depositamount;
-	}
-
-	public String getBuildingage() {
-		return buildingage;
-	}
-
-	public void setBuildingage(String buildingage) {
-		this.buildingage = buildingage;
-	}
-
-	public String getBuildername() {
-		return buildername;
-	}
-
-	public void setBuildername(String buildername) {
-		this.buildername = buildername;
-	}
-
-	public Integer getFloornum() {
-		return floornum;
-	}
-
-	public void setFloornum(Integer floornum) {
-		this.floornum = floornum;
-	}
-
-	public Integer getFlatnum() {
-		return flatnum;
-	}
-
-	public void setFlatnum(Integer flatnum) {
-		this.flatnum = flatnum;
-	}
-
-	public List<String> getAvailableFor() {
-		return availableFor;
-	}
-
-	public void setAvailableFor(List<String> availableFor) {
-		this.availableFor = availableFor;
-	}
-
-	public FamilyBachPer getFamilyBachPer() {
-		return familyBachPer;
-	}
-
-	public void setFamilyBachPer(FamilyBachPer familyBachPer) {
-		this.familyBachPer = familyBachPer;
-	}
-
-	public RatingAndListOfEs<FlatTypeAvailabilityFlatsCombo> getTypesandavailability() {
-		return typesandavailability;
-	}
-
-	public void setTypesandavailability(
-			RatingAndListOfEs<FlatTypeAvailabilityFlatsCombo> typesandavailability) {
-		this.typesandavailability = typesandavailability;
-	}
-
-	public RatingAndListOfEs<String> getAmenities() {
-		return amenities;
-	}
-
-	public void setAmenities(RatingAndListOfEs<String> amenities) {
-		this.amenities = amenities;
-	}
-
-	public RatingAndListOfEs<String> getServicesavailable() {
-		return servicesavailable;
-	}
-
-	public void setServicesavailable(RatingAndListOfEs<String> servicesavailable) {
-		this.servicesavailable = servicesavailable;
-	}
-
-	public String[] getCableoperators() {
-		return cableoperators;
-	}
-
-	public void setCableoperators(String[] cableoperators) {
-		this.cableoperators = cableoperators;
-	}
-
-	public String[] getBroadbandoperators() {
-		return broadbandoperators;
-	}
-
-	public void setBroadbandoperators(String[] broadbandoperators) {
-		this.broadbandoperators = broadbandoperators;
-	}
-
-	public List<Section24hrsAvailablePreferredPlace> getLocality() {
-		return locality;
-	}
-
-	public void setLocality(List<Section24hrsAvailablePreferredPlace> locality) {
-		this.locality = locality;
-	}
-
-	public RatingAndListOfEs<String> getSafety() {
-		return safety;
-	}
-
-	public void setSafety(RatingAndListOfEs<String> safety) {
-		this.safety = safety;
-	}
-
-	public String getOthersafetyissuesifany() {
-		return othersafetyissuesifany;
-	}
-
-	public void setOthersafetyissuesifany(String othersafetyissuesifany) {
-		this.othersafetyissuesifany = othersafetyissuesifany;
-	}
-
-	public String getGatekeepercontact() {
-		return gatekeepercontact;
-	}
-
-	public void setGatekeepercontact(String gatekeepercontact) {
-		this.gatekeepercontact = gatekeepercontact;
-	}
-
-	public String getSocietymanagercontact() {
-		return societymanagercontact;
-	}
-
-	public void setSocietymanagercontact(String societymanagercontact) {
-		this.societymanagercontact = societymanagercontact;
-	}
-
-	public String[] getBestthingaboutsociety() {
-		return bestthingaboutsociety;
-	}
-
-	public void setBestthingaboutsociety(String[] bestthingaboutsociety) {
-		this.bestthingaboutsociety = bestthingaboutsociety;
-	}
-
-	public String[] getAreaofimprovement() {
-		return areaofimprovement;
-	}
-
-	public void setAreaofimprovement(String[] areaofimprovement) {
-		this.areaofimprovement = areaofimprovement;
-	}
-
-	public Location getSelectedlocation() {
-		return selectedlocation;
-	}
-
-	public void setSelectedlocation(Location selectedlocation) {
-		this.selectedlocation = selectedlocation;
-	}
-
+class BuildingDataErrMsgs {
+	static final String SOCIETY_NAME_ERR = "societyname can't be blank/ less than 2 or more characters";
+	static final String PICTURE_LIST_ERR = "Picture list can't be blank/ size zero/ should contain at least 5 photo names";
+	static final String BUILDING_NAME_ERR = "buildingname name cant be left blank/ more than 50 characters";
+	static final String ADDRESSL1_ERR = "First Line Address can't be left blank/ more than 200 characters";
+	static final String ADDRESSL2_ERR = "Second Line Address cant be more than 200 characters";
+	static final String PINCODE_ERR = "Pincode can't be left blank/more than 6 characters";
+	static final String LANDMARK_ERR = "landmark cant be left blank/more than 200 characters";
+	static final String RENT_ERR = "rent can't be left blank/ minlimit & maxlimit can't be left blank/ minlimit can't be greater than maxlimit";
+	static final String MAINTAINANCE_CHARGE_ERR = "maintainancecharge can't be left blank/ minlimit & maxlimit can't be left blank/ minlimit can't be greater than maxlimit";
+	static final String DEPOSIT_AMOUNT_ERR = "depositamount can't be left blank/ minlimit & maxlimit can't be left blank/ minlimit can't be greater than maxlimit";
+	static final String AVAILABLE_FOR_ERR = "availableFor can't be left blank/ size can't be zero";
+	static final String TYPESANDAVAILABILITY_ERR = "typesandavailability should not contain more than 7 items";
+	static final String SELECTEDLOCATION_ERR = "selected location can't be left blank/ is not correct";
 }

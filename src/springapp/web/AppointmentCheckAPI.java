@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.AppointmentCheckAPIMsgs;
 import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AppointmentDataModel;
@@ -42,7 +43,7 @@ public class AppointmentCheckAPI {
 		AppointmentAPIPost appointmentAPIPost;
 		if (authenticationDetails == null) {
 			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
-					"Username does not exist");
+					AppointmentCheckAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
@@ -53,7 +54,7 @@ public class AppointmentCheckAPI {
 
 		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
 			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
-					"Token authentication failed");
+					AppointmentCheckAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
@@ -66,7 +67,7 @@ public class AppointmentCheckAPI {
 
 		if (appointmentDataModel == null) {
 			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
-					"There was no appointment for you");
+					AppointmentCheckAPIMsgs.NO_APPOINTMENT_FOR_YOU);
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
@@ -81,14 +82,14 @@ public class AppointmentCheckAPI {
 						appointmentDataModel.getAppointmentList()),
 						AppointmentDataModel.class);
 				appointmentAPIPost = new AppointmentAPIPost(STATUS.Success,
-						"appointment list successfully updated");
+						AppointmentCheckAPIMsgs.DATA_SUCCESSFULLY_UPDATED);
 				mongoOperation.save(new TestingData(appointmentAPIPost));
 				return appointmentAPIPost;
 			}
 		}
 
 		appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
-				"There was no such appointment ID for you");
+				AppointmentCheckAPIMsgs.NO_SUCH_APPOINTMENT_FOR_YOU);
 		mongoOperation.save(new TestingData(appointmentAPIPost));
 		return appointmentAPIPost;
 
@@ -109,3 +110,5 @@ class AppointmentCheckData {
 		this.appointmentId = appointmentId;
 	}
 }
+
+

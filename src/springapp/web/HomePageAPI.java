@@ -43,7 +43,7 @@ public class HomePageAPI {
 
 		HomePageData postForm;
 		if (authenticationDetails == null) {
-			postForm = new HomePageData(STATUS.Failure, "Username does not exist");
+			postForm = new HomePageData(STATUS.Failure, HomePageAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 
@@ -58,7 +58,7 @@ public class HomePageAPI {
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				homePageData.getToken())) {
 			postForm = new HomePageData(STATUS.Failure,
-					"Token authentication failed");
+					HomePageAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 
@@ -104,4 +104,9 @@ public class HomePageAPI {
 		return postForm;
 
 	}
+}
+
+class HomePageAPIMsgs{
+	public static final String USER_NOT_EXIST = "Username does not exist";
+	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
 }

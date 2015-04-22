@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.LoginAPIMsgs;
 import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
@@ -38,7 +39,7 @@ public class LoginAPI {
 
 		PostForm postform;
 		if (authenticationDetails == null) {
-			postform = new PostForm(STATUS.Failure, "Username does not exist");
+			postform = new PostForm(STATUS.Failure, LoginAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 
@@ -47,7 +48,7 @@ public class LoginAPI {
 		if (!AuthenticationDetailsValidator.validatepassword(
 				authenticationDetails.getPassword(), loginData.getPassword())) {
 			postform = new PostForm(STATUS.Failure,
-					"Username and password doesnot match");
+					LoginAPIMsgs.INVALID_USERNAMEPASSWORD);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 
@@ -55,7 +56,8 @@ public class LoginAPI {
 
 		if (!AuthenticationDetailsValidator.validatedeviceId(
 				authenticationDetails.getDeviceId(), loginData.getDeviceId())) {
-			postform = new PostForm(STATUS.Failure, "Unauthorized Device Login");
+			postform = new PostForm(STATUS.Failure,
+					LoginAPIMsgs.UNAUTHORIZED_DEVICE);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 
@@ -66,7 +68,7 @@ public class LoginAPI {
 				UserNameToken.class);
 
 		postform = new PostForm(STATUS.Success,
-				"Authentication successful, Keep the token for this session",
+				LoginAPIMsgs.AUTHENTICATION_SUCCESSFUL,
 				usernametoken.gettoken());
 
 		mongoOperation.save(new TestingData(postform));
@@ -74,3 +76,5 @@ public class LoginAPI {
 	}
 
 }
+
+

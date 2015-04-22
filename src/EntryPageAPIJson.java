@@ -1,7 +1,7 @@
 import forms.AddEntryData;
 import forms.ExistingPropertyData;
-import forms.PostForm;
 import helperclasses.Location;
+import helperclasses.AddEntryAPIMsgs;
 import helperclasses.PropertyNameTypeisLocked;
 import helperclasses.STATUS;
 
@@ -34,8 +34,8 @@ public class EntryPageAPIJson {
 		// POST: Username does not exist
 
 		// POST: Failure: backend
-		PostForm entrypost = new PostForm(STATUS.Failure,
-				"Token Authentication failed");
+		ExistingPropertyData entrypost = new ExistingPropertyData(STATUS.Failure,
+				AddEntryAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
 		String entrypostjson = gson.toJson(entrypost);
 		System.out.println(entrypostjson);
 		writer.append("//POST: Failure\n");
@@ -54,8 +54,7 @@ public class EntryPageAPIJson {
 		listofproperties.add(pntp2);
 		// ExistingPropertyData entrypost2 = new
 		// ExistingPropertyData(Arrays.asList(pntp1, pntp2));
-		ExistingPropertyData entrypost2 = new ExistingPropertyData(STATUS.Success,
-				"Existing property list is ", listofproperties);
+		ExistingPropertyData entrypost2 = new ExistingPropertyData(STATUS.Success, AddEntryAPIMsgs.EXISTING_PROPERTY_LIST, listofproperties);
 		entrypostjson = gson.toJson(entrypost2);
 		System.out.println(entrypostjson);
 		writer.append("//POST: List of Property Details on the basis of gps location received\n");

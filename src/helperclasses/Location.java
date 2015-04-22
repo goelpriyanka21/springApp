@@ -1,5 +1,10 @@
 package helperclasses;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonObject;
+
 public class Location {
 
 	private double longi;
@@ -24,5 +29,19 @@ public class Location {
 		this.lat = lat;
 	}
 	
-
+	private JsonObject defineError(String name, String val){
+		JsonObject o = new JsonObject();
+		o.addProperty(name, val);
+		return o;
+	}
+	
+	public List<JsonObject> validate(Location other){
+		List<JsonObject> errors = new ArrayList<>();
+		
+		if ((other == null) || Math.abs(lat - other.lat) > 0.01 || Math.abs(longi - other.longi) > 0.01){
+			errors.add(defineError("selectedlocation", "selected location can't be left blank/ is not correct"));
+		}
+		
+		return errors.size()>0?errors:null;
+	}
 }

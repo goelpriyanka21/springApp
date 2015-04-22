@@ -29,7 +29,7 @@ public class ExistingPropertyAPI {
 			throws Exception {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
-		
+
 		mongoOperation.save(new TestingData(existingPropertyData));
 
 		// AuthenticationDetails Validators
@@ -37,11 +37,11 @@ public class ExistingPropertyAPI {
 				new Query(Criteria.where("username").is(
 						existingPropertyData.getUsername())),
 				AuthenticationDetails.class);
-		
+
 		ExistingPropertyData existingPropertyDataret;
-		if (authenticationDetails == null){
+		if (authenticationDetails == null) {
 			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
-					"Username does not exist");
+					ExistingPropertyAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(existingPropertyDataret));
 			return existingPropertyDataret;
 		}
@@ -52,16 +52,16 @@ public class ExistingPropertyAPI {
 				UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
-				existingPropertyData.getToken())){
+				existingPropertyData.getToken())) {
 			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
-					"Token authentication failed");
+					ExistingPropertyAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
 			mongoOperation.save(new TestingData(existingPropertyDataret));
 			return existingPropertyDataret;
 		}
 
-		if (existingPropertyData.getPropertyId() == null){
+		if (existingPropertyData.getPropertyId() == null) {
 			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
-					"Please provide a propertyId");
+					ExistingPropertyAPIMsgs.NO_PROPERTY_ID_PROVIDED);
 			mongoOperation.save(new TestingData(existingPropertyDataret));
 			return existingPropertyDataret;
 		}
@@ -74,19 +74,22 @@ public class ExistingPropertyAPI {
 						existingPropertyData.getPropertyId())),
 				BuildingDataModel.class);
 
-		if (pgDataModel == null && buildingDataModel == null){
+		if (pgDataModel == null && buildingDataModel == null) {
 			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
-					"Entry does not exist call add entry API");
-		mongoOperation.save(new TestingData(existingPropertyDataret));
-		return existingPropertyDataret;
-		}
-		else {
+					ExistingPropertyAPIMsgs.ENTRY_DOES_NOT_EXIST);
+			mongoOperation.save(new TestingData(existingPropertyDataret));
+			return existingPropertyDataret;
+		} else {
 			if (pgDataModel != null) { // pg already exists
 
-				existingPropertyDataret = new ExistingPropertyData(STATUS.Success, "Existing property list is ", pgDataModel);
+				existingPropertyDataret = new ExistingPropertyData(
+						STATUS.Success, ExistingPropertyAPIMsgs.EXISTING_PROPERTY_LIST,
+						pgDataModel);
 			} else {
-				existingPropertyDataret = new ExistingPropertyData(STATUS.Success, "Existing property list is ", buildingDataModel);
-				
+				existingPropertyDataret = new ExistingPropertyData(
+						STATUS.Success, ExistingPropertyAPIMsgs.EXISTING_PROPERTY_LIST,
+						buildingDataModel);
+
 			}
 			mongoOperation.save(new TestingData(existingPropertyDataret));
 			return existingPropertyDataret;
@@ -95,4 +98,12 @@ public class ExistingPropertyAPI {
 
 	}
 
+}
+
+class ExistingPropertyAPIMsgs {
+	public static final String USER_NOT_EXIST = "Username does not exist";
+	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
+	public static final String NO_PROPERTY_ID_PROVIDED = " propertyId can;t be left blank ";
+	public static final String ENTRY_DOES_NOT_EXIST = "Entry does not exist call add entry API";
+	public static final String EXISTING_PROPERTY_LIST = "Existing property list is ";
 }

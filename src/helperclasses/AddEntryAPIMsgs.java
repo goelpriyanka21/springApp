@@ -1,0 +1,10 @@
+package helperclasses;
+
+public class AddEntryAPIMsgs{
+	public static final String BLANK_USER = "username can't be left blank";
+	public static final String USER_NOT_EXIST = "Username does not exist";
+	public static final String BLANK_TOKEN = " token can't be left blank";
+	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
+	public static final String EXISTING_PROPERTY_LIST = "Existing property list is ";
+
+}

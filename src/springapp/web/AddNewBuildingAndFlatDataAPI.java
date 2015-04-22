@@ -1,6 +1,6 @@
 package springapp.web;
 
-import helperclasses.ErrorFieldAndMessage;
+import helperclasses.AddNewBuildingAndFlatDataAPIMsgs;
 import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 
@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import validators.BuildingAndFlatDataValidator;
 import validators.TokenValidator;
+
+import com.google.gson.JsonObject;
+
 import forms.BuildingAndFlatData;
 import forms.PostForm;
 
@@ -43,17 +45,18 @@ public class AddNewBuildingAndFlatDataAPI {
 
 		PostForm postform;
 		if (buildingAndFlatData.getUsername() == null) {
-			postform = new PostForm(STATUS.Failure, "username can't be left blank");
+			postform = new PostForm(STATUS.Failure,
+					AddNewBuildingAndFlatDataAPIMsgs.BLANK_USER);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 		}
-		
-		if (buildingAndFlatData.getToken() == null){
+
+		if (buildingAndFlatData.getToken() == null) {
 			postform = new PostForm(STATUS.Failure,
-					" token can't be left blank");
+					AddNewBuildingAndFlatDataAPIMsgs.BLANK_TOKEN);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
-			}
+		}
 
 		// AuthenticationDetails Validator
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
@@ -61,11 +64,12 @@ public class AddNewBuildingAndFlatDataAPI {
 						buildingAndFlatData.getUsername())),
 				AuthenticationDetails.class);
 
-		if (authenticationDetails == null){
-			postform = new PostForm(STATUS.Failure, "username does not exist");
+		if (authenticationDetails == null) {
+			postform = new PostForm(STATUS.Failure,
+					AddNewBuildingAndFlatDataAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
-			}
+		}
 
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
@@ -73,23 +77,25 @@ public class AddNewBuildingAndFlatDataAPI {
 				UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
-				buildingAndFlatData.getToken())){
-			postform =  new PostForm(STATUS.Failure, "Token authentication failed");
-		mongoOperation.save(new TestingData(postform));
-		return postform;
+				buildingAndFlatData.getToken())) {
+			postform = new PostForm(
+					STATUS.Failure,
+					AddNewBuildingAndFlatDataAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
+			mongoOperation.save(new TestingData(postform));
+			return postform;
 		}
 
 		// session expired please login again; will code later
 
-		List<ErrorFieldAndMessage> errorfieldandstringlist = BuildingAndFlatDataValidator
-				.validate(buildingAndFlatData);
+		List<JsonObject> errors = buildingAndFlatData.validate();
 
-		if (errorfieldandstringlist.size() != 0){
-			postform =  new PostForm(STATUS.Failure, "Data validation failed",
-					errorfieldandstringlist);
+		if (errors.size() != 0) {
+			postform = new PostForm(STATUS.Failure,
+					AddNewBuildingAndFlatDataAPIMsgs.DATA_VALIDATION_FAILED,
+					errors);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
-			}
+		}
 
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION
 		// TOKEN SUCCESSFUL VALIDATION; DATA SUCCESSFUL VALIDATION GENERATE
@@ -125,9 +131,9 @@ public class AddNewBuildingAndFlatDataAPI {
 						buildingAndFlatData.getUsername()));
 			else {
 				if (buildingDataModel.getIsLocked() == true) {
-					postform= new PostForm(
+					postform = new PostForm(
 							STATUS.Success,
-							" Building Entry already exist and is locked u can add only tenant data");
+							AddNewBuildingAndFlatDataAPIMsgs.BUILDING_ALREADY_EXIST);
 					mongoOperation.save(new TestingData(postform));
 					return postform;
 				} else // is locked is false; u can update pg data
@@ -149,14 +155,16 @@ public class AddNewBuildingAndFlatDataAPI {
 							buildingAndFlatData.getBuildingData());
 					mongoOperation.updateFirst(query, update,
 							BuildingDataModel.class);
-					postform=  new PostForm(STATUS.Success,
-							"Data successfully updated on server");
+					postform = new PostForm(
+							STATUS.Success,
+							AddNewBuildingAndFlatDataAPIMsgs.DATA_SUCCESSFULLY_UPDATED);
 					mongoOperation.save(new TestingData(postform));
 					return postform;
 				}
 			}
 		}
-		postform= new PostForm(STATUS.Success, "Data successfully stored on server");
+		postform = new PostForm(STATUS.Success,
+				AddNewBuildingAndFlatDataAPIMsgs.DATA_SUCCESSFULLY_STORED);
 		mongoOperation.save(new TestingData(postform));
 		return postform;
 		// mongoOperation.save(new BuildingDataModel(buildingAndFlatData
@@ -167,3 +175,5 @@ public class AddNewBuildingAndFlatDataAPI {
 	}
 
 }
+
+

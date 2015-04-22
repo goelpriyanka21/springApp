@@ -1,43 +1,59 @@
 package forms;
 
-import helperclasses.*;
+import helperclasses.AmenityTypePricePair;
+import helperclasses.ContactPerson;
+import helperclasses.DepositAmount;
+import helperclasses.EntryTime;
+import helperclasses.Location;
+import helperclasses.RatingAndListOfEs;
+import helperclasses.SectionListOfPhotoNameAndURLPair;
+import helperclasses.SharingTypeRentbedsCombo;
+import helperclasses.StudProfper;
+import helperclasses.TwoIntegerpair;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
 
+@SuppressWarnings("unused")
 public class PGData {
 
-	public List<SectionListOfPhotoNameAndURLPair> picturelist;
-	public String pgName;
+	private String pgName;
+	private List<SectionListOfPhotoNameAndURLPair> picturelist;
 	private String buildingname;
-	public String addressl1;
-	public String addressl2;
-	public Integer pincode;
-	public String landmark;
+	private String addressl1;
+	private String addressl2;
+	private Integer pincode;
+	private String landmark;
 	private ContactPerson contactperson;
-	public DepositAmount depositamount;
+	private DepositAmount depositamount;
 	private List<String> availableFor;
 	private StudProfper stdprofper;
-	public String typeofprofessional;
+	private String typeofprofessional;
 	private TwoIntegerpair ageBand;
-	public Boolean spacious;
-	public Boolean clean;
-	public RatingAndListOfEs<SharingTypeRentbedsCombo> typesandavailability;
-	public RatingAndListOfEs<String> serviceavailable;
-	public RatingAndListOfEs<String> fooddetails;
-	public RatingAndListOfEs<AmenityTypePricePair> chargedamenities;
-	public RatingAndListOfEs<String> restrictions;
+	private Boolean spacious;
+	private Boolean clean;
+	private RatingAndListOfEs<SharingTypeRentbedsCombo> typesandavailability;
+	private RatingAndListOfEs<String> serviceavailable;
+	private RatingAndListOfEs<String> fooddetails;
+	private RatingAndListOfEs<AmenityTypePricePair> chargedamenities;
+	private RatingAndListOfEs<String> restrictions;
 	private EntryTime entrytime;
 	private Location selectedlocation;
 
+	public Location getSelectedLocation() {
+		return selectedlocation;
+	}
+
 	/** Required for form instantiation. */
-	public PGData(String pgName, List<SectionListOfPhotoNameAndURLPair> picturelist,
+	public PGData(String pgName,
+			List<SectionListOfPhotoNameAndURLPair> picturelist,
 			String buildingname, String addressl1, String addressl2,
-			int pincode, String landmark, ContactPerson contactperson, DepositAmount depositamount,
-			
-			List<String> availableFor, StudProfper stdprofper,
-			String typeofprofessional, TwoIntegerpair ageBand,
-			boolean spacious, boolean clean,
+			int pincode, String landmark, ContactPerson contactperson,
+			DepositAmount depositamount, List<String> availableFor,
+			StudProfper stdprofper, String typeofprofessional,
+			TwoIntegerpair ageBand, boolean spacious, boolean clean,
 			RatingAndListOfEs<SharingTypeRentbedsCombo> typesandavailability,
 			RatingAndListOfEs<String> serviceavailable,
 			RatingAndListOfEs<String> fooddetails,
@@ -53,8 +69,7 @@ public class PGData {
 		this.addressl2 = addressl2;
 		this.pincode = pincode;
 		this.landmark = landmark;
-
-		this.setContactperson(contactperson);
+		this.contactperson = contactperson;
 		this.depositamount = depositamount;
 		this.availableFor = availableFor;
 		this.stdprofper = stdprofper;
@@ -67,250 +82,114 @@ public class PGData {
 		this.fooddetails = fooddetails;
 		this.chargedamenities = chargedamenities;
 		this.restrictions = restrictions;
-		this.setEntrytime(entrytime);
+		this.entrytime = entrytime;
 		this.selectedlocation = selectedlocation;
 
-	}
-
-	public Location getselectedlocation() {
-		return selectedlocation;
-	}
-
-	public void setselectedlocation(Location selectedlocation) {
-		this.selectedlocation = selectedlocation;
-	}
-
-	public String getAddressl1() {
-		return addressl1;
-	}
-
-	public void setAddressl1(String addressl1) {
-		this.addressl1 = addressl1;
-	}
-
-	public String getAddressl2() {
-		return addressl2;
-	}
-
-	public void setAddressl2(String addressl2) {
-		this.addressl2 = addressl2;
-	}
-
-	public int getPincode() {
-		return pincode;
-	}
-
-	public void setPincode(int pincode) {
-		this.pincode = pincode;
-	}
-
-	public String getLandmark() {
-		return landmark;
-	}
-
-	public void setLandmark(String landmark) {
-		this.landmark = landmark;
-	}
-
-	public DepositAmount getDepositamount() {
-		return depositamount;
-	}
-
-	public void setDepositamount(DepositAmount depositamount) {
-		this.depositamount = depositamount;
-	}
-
-	public List<String> getAvailableFor() {
-		return availableFor;
-	}
-
-	public void setAvailableFor(List<String> availableFor) {
-		for (String availablefor : availableFor)
-			this.availableFor.add(availablefor);
-
-	}
-
-	public StudProfper getStdprofper() {
-		return stdprofper;
-	}
-
-	public TwoIntegerpair getAgeband() {
-		return ageBand;
-	}
-
-	public List<SectionListOfPhotoNameAndURLPair> getPicturelist() {
-		return picturelist;
-	}
-
-	public void setPicturelist(List<SectionListOfPhotoNameAndURLPair> picturelist) {
-		this.picturelist = picturelist;
 	}
 
 	public String getPgName() {
-		return pgName;
+		return this.pgName;
 	}
 
-	public void setPgName(String pgName) {
-		this.pgName = pgName;
+	public List<SectionListOfPhotoNameAndURLPair> getPicturelist() {
+		return this.picturelist;
 	}
 
-	public String getBuildingname() {
-		return buildingname;
+	private JsonObject defineError(String name, String val) {
+		JsonObject o = new JsonObject();
+		o.addProperty(name, val);
+		return o;
 	}
 
-	public void setBuildingname(String buildingname) {
-		this.buildingname = buildingname;
+	private int totalPictures() {
+		int photocount = 0;
+		for (SectionListOfPhotoNameAndURLPair pair : picturelist) {
+			photocount += pair.getPhotonamelist().size();
+		}
+		return photocount;
+
 	}
 
-	public String getTypeofprofessional() {
-		return typeofprofessional;
+	private int bedCount() {
+		int bedcount = 0;
+		for (SharingTypeRentbedsCombo sharingTypeRentbedsCombo : typesandavailability
+				.getAlldetails()) {
+			bedcount += sharingTypeRentbedsCombo.getBedsavailable();
+		}
+		return bedcount;
 	}
 
-	public void setTypeofprofessional(String typeofprofessional) {
-		this.typeofprofessional = typeofprofessional;
+	public List<JsonObject> validate() {
+		List<JsonObject> errors = new ArrayList<>();
+
+		if ((pgName == null) || (pgName.length() > 50)) {
+			errors.add(defineError("pgName", PGDataErrMsgs.PGNAME_ERR));
+		}
+
+		if ((picturelist == null) || (picturelist.size() == 0)
+				|| (totalPictures() < 5)) {
+			errors.add(defineError("picturelist", PGDataErrMsgs.PICTURELIST_ERR));
+		}
+
+		if ((buildingname == null) || (buildingname.length() > 50)) {
+			errors.add(defineError("buildingname",
+					PGDataErrMsgs.BUILDINGNAME_ERR));
+		}
+
+		if ((addressl1 == null) || (addressl1.length() > 100)) {
+			errors.add(defineError("addressl1", PGDataErrMsgs.ADDRESSL1_ERR));
+		}
+
+		if ((addressl2 != null) && (addressl2.length() > 100)) {
+			errors.add(defineError("addressl2", PGDataErrMsgs.ADDRESSL2_ERR));
+		}
+
+		if ((pincode == null) || (pincode > 999999)) {
+			errors.add(defineError("pincode", PGDataErrMsgs.PINCODE_ERR));
+		}
+
+		if ((landmark != null) && (landmark.length() > 100)) {
+			errors.add(defineError("landmark", PGDataErrMsgs.LANDMARK_ERR));
+		}
+
+		if ((availableFor == null) || (availableFor.size() == 0)) {
+			errors.add(defineError("availableFor",
+					PGDataErrMsgs.AVAILABLE_FOR_ERR));
+		}
+
+		if (stdprofper.getstudper() + stdprofper.getprofper() != 100) {
+			errors.add(defineError("stdprofper", PGDataErrMsgs.STDPROFPER_ERR));
+		}
+
+		if ((typeofprofessional != null) && (typeofprofessional.length() > 200)) {
+			errors.add(defineError("typeofprofessional",
+					PGDataErrMsgs.TYPEOFPROFESSIONAL_ERR));
+		}
+
+		if ((typesandavailability != null)
+				&& (typesandavailability.getAlldetails() != null)
+				&& ((typesandavailability.getAlldetails().size() > 7) || (bedCount() > 100))) {
+			// TODO: check this error message
+			errors.add(defineError("typesandavailability",
+					PGDataErrMsgs.TYPESANDAVAILABILITY_ERR));
+		}
+
+		return errors.size() > 0 ? errors : null;
 	}
 
-	public Boolean getSpacious() {
-		return spacious;
-	}
+}
 
-	public void setSpacious(Boolean spacious) {
-		this.spacious = spacious;
-	}
+class PGDataErrMsgs {
 
-	public Boolean getClean() {
-		return clean;
-	}
-
-	public void setClean(Boolean clean) {
-		this.clean = clean;
-	}
-
-	public RatingAndListOfEs<SharingTypeRentbedsCombo> getTypesandavailability() {
-		return typesandavailability;
-	}
-
-	public void setTypesandavailability(
-			RatingAndListOfEs<SharingTypeRentbedsCombo> typesandavailability) {
-		this.typesandavailability = typesandavailability;
-	}
-
-	public RatingAndListOfEs<String> getServiceavailable() {
-		return serviceavailable;
-	}
-
-	public void setServiceavailable(RatingAndListOfEs<String> serviceavailable) {
-		this.serviceavailable = serviceavailable;
-	}
-
-	public RatingAndListOfEs<String> getFooddetails() {
-		return fooddetails;
-	}
-
-	public void setFooddetails(RatingAndListOfEs<String> fooddetails) {
-		this.fooddetails = fooddetails;
-	}
-
-	public RatingAndListOfEs<AmenityTypePricePair> getChargedamenities() {
-		return chargedamenities;
-	}
-
-	public void setChargedamenities(
-			RatingAndListOfEs<AmenityTypePricePair> chargedamenities) {
-		this.chargedamenities = chargedamenities;
-	}
-
-	public RatingAndListOfEs<String> getRestrictions() {
-		return restrictions;
-	}
-
-	public void setRestrictions(RatingAndListOfEs<String> restrictions) {
-		this.restrictions = restrictions;
-	}
-
-	public Location getSelectedlocation() {
-		return selectedlocation;
-	}
-
-	public void setSelectedlocation(Location selectedlocation) {
-		this.selectedlocation = selectedlocation;
-	}
-
-	public void setPincode(Integer pincode) {
-		this.pincode = pincode;
-	}
-
-	public void setStdprofper(StudProfper stdprofper) {
-		this.stdprofper = stdprofper;
-	}
-
-	public void setAgeband(TwoIntegerpair ageband) {
-		this.ageBand = ageband;
-	}
-
-	public EntryTime getEntrytime() {
-		return entrytime;
-	}
-
-	public void setEntrytime(EntryTime entrytime) {
-		this.entrytime = entrytime;
-	}
-
-	public ContactPerson getContactperson() {
-		return contactperson;
-	}
-
-	public void setContactperson(ContactPerson contactperson) {
-		this.contactperson = contactperson;
-	}
-
-	// public List<RatingAndListOfEs> getTypesandavailability() {
-	// return typesandavailability;
-	// }
-	//
-	// public void setTypesandavailability(List<RatingAndListOfEs>
-	// typesandavailability) {
-	// this.typesandavailability = typesandavailability;
-	// }
-
-	// public ServiceAvailable getServiceavailable() {
-	// return serviceavailable;
-	// }
-	//
-	// public void setServiceavailable(ServiceAvailable serviceavailable) {
-	// this.serviceavailable = serviceavailable;
-	// }
-	//
-	// public FoodDetails getFooddetails() {
-	// return fooddetails;
-	// }
-	//
-	// public void setFooddetails(FoodDetails fooddetails) {
-	// this.fooddetails = fooddetails;
-	// }
-
-	// public List<String> getRestrictions() {
-	// return restrictions;
-	// }
-	//
-	// public void setRestrictions(List<String> restrictions) {
-	// this.restrictions = restrictions;
-	// }
-
-	// public ChargedAmenities getChargedamenities() {
-	// return chargedamenities;
-	// }
-	//
-	// public void setChargedamenities(ChargedAmenities chargedamenities) {
-	// this.chargedamenities = chargedamenities;
-	// }
-
-	// public List<SectionFilePair> getPicture() {
-	// return picturelist;
-	// }
-	//
-	// public void setPicturelist(List<SectionFilePair> picture) {
-	// this.picturelist = picture;
-	// }
-
+	static final String PICTURELIST_ERR = "Picture list can't be blank/ size zero/ should contain at least 5 photo names";
+	static final String PGNAME_ERR = "pg name can't be left blank/ more than 50 characters";
+	static final String BUILDINGNAME_ERR = "buildingname name cant be null & more than 50 characters";
+	static final String ADDRESSL1_ERR = "First Line Address can't be left blank/ more than 100 characters";
+	static final String ADDRESSL2_ERR = "Second Line Address cant be more than 100 characters";
+	static final String PINCODE_ERR = "Pincode can't be left blank/more than 6 characters";
+	static final String LANDMARK_ERR = "landmark cant be left blank/more than 200 characters";
+	static final String AVAILABLE_FOR_ERR = "availableFor can't be left blank/ size can't be zero";
+	static final String STDPROFPER_ERR = "student and professional percentage sum not making 100";
+	static final String TYPEOFPROFESSIONAL_ERR = "typeofprofessional cant be more than 100 characters";
+	static final String TYPESANDAVAILABILITY_ERR = "typesandavailability should not contain more than 7 items/ bed count should not be more than 100";
 }

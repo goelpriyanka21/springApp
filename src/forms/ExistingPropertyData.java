@@ -8,13 +8,14 @@ import java.util.List;
 import models.BuildingDataModel;
 import models.PGDataModel;
 
+@SuppressWarnings("unused")
 public class ExistingPropertyData {
 
 	// GET
 	private String username;
+	
 	private String token;
 	private String propertyId;
-
 
 	// POST
 	private STATUS status;
@@ -29,26 +30,26 @@ public class ExistingPropertyData {
 		this.token = token;
 		this.propertyId = propertyId;
 	}
-	
-	
+
 	public ExistingPropertyData(STATUS status, String message) {
 		// TODO Auto-generated constructor stub
 		this.status = status;
 		this.message = message;
 	}
-	
-	public ExistingPropertyData(STATUS status, String message, PGDataModel pgDataModel) {
+
+	public ExistingPropertyData(STATUS status, String message,
+			PGDataModel pgDataModel) {
 		this.status = status;
 		this.message = message;
 		this.pgDataModel = pgDataModel;
 	}
 
-	public ExistingPropertyData(STATUS status, String message, BuildingDataModel buildingDataModel) {
+	public ExistingPropertyData(STATUS status, String message,
+			BuildingDataModel buildingDataModel) {
 		this.status = status;
 		this.message = message;
 		this.buildingDataModel = buildingDataModel;
 	}
-	
 
 	public ExistingPropertyData(STATUS status, String message,
 			List<PropertyNameTypeisLocked> propertyNameTypeisLocked) {
@@ -58,69 +59,19 @@ public class ExistingPropertyData {
 
 	}
 
-	public String getPropertyId() {
-		return propertyId;
-	}
-
-	public void setPropertyId(String propertyId) {
-		this.propertyId = propertyId;
-	}
-
-	public PGDataModel getPgDataModel() {
-		return pgDataModel;
-	}
-
-	public void setPgDataModel(PGDataModel pgDataModel) {
-		this.pgDataModel = pgDataModel;
-	}
-
-	public BuildingDataModel getBuildingDataModel() {
-		return buildingDataModel;
-	}
-
-	public void setBuildingDataModel(BuildingDataModel buildingDataModel) {
-		this.buildingDataModel = buildingDataModel;
-	}
-
-	public STATUS getStatus() {
-		return status;
-	}
-
-	public void setStatus(STATUS status) {
-		this.status = status;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public List<PropertyNameTypeisLocked> getPropertyNameTypeisLocked() {
-		return propertyNameTypeisLocked;
-	}
-
-	public void setPropertyNameTypeisLocked(
-			List<PropertyNameTypeisLocked> propertyNameTypeisLocked) {
-		this.propertyNameTypeisLocked = propertyNameTypeisLocked;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+	public Object getUsername() {
+		// TODO Auto-generated method stub
+		return this.username;
 	}
 
 	public String getToken() {
-		return token;
+		// TODO Auto-generated method stub
+		return this.token;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public Object getPropertyId() {
+		// TODO Auto-generated method stub
+		return this.propertyId;
 	}
 
 }

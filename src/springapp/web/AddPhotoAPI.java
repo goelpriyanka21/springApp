@@ -34,8 +34,6 @@ import com.cloudinary.utils.ObjectUtils;
 import forms.FlatData;
 import forms.PostForm;
 
-
-
 @Controller
 public class AddPhotoAPI {
 
@@ -51,8 +49,11 @@ public class AddPhotoAPI {
 			@RequestParam("file") MultipartFile file) throws Exception {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
-		
-		mongoOperation.save(new TestingData(new AddPhotoData(username, token, propertyId, flatnumber, propertyType, section, photoname, file)));
+
+		mongoOperation
+				.save(new TestingData(new AddPhotoData(username, token,
+						propertyId, flatnumber, propertyType, section,
+						photoname, file)));
 
 		// AuthenticationDetails Validators
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
@@ -60,23 +61,24 @@ public class AddPhotoAPI {
 				AuthenticationDetails.class);
 
 		PostForm postForm;
-		if (authenticationDetails == null){
-			postForm= new PostForm(STATUS.Failure, "Username does not exist");
+		if (authenticationDetails == null) {
+			postForm = new PostForm(STATUS.Failure, AddPhotoAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
-			}
+		}
 
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(username)), UserNameToken.class);
 
-		if (!TokenValidator.validate(usernametoken.gettoken(), token)){
-			postForm= new PostForm(STATUS.Failure, "Token authentication failed");
+		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
+			postForm = new PostForm(STATUS.Failure,
+					AddPhotoAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 		}
 
-		postForm= validateAndUploadPhoto(propertyId, flatnumber, propertyType,
+		postForm = validateAndUploadPhoto(propertyId, flatnumber, propertyType,
 				section, photoname, file);
 		mongoOperation.save(new TestingData(postForm));
 		return postForm;
@@ -97,8 +99,7 @@ public class AddPhotoAPI {
 			PGDataModel pgDataModel = mongoOperation.findOne(query,
 					PGDataModel.class);
 			if (pgDataModel == null)
-				return new PostForm(STATUS.Failure,
-						"There is no such propertyId existing on server");
+				return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
 
 			for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : pgDataModel
 					.getPgdata().getPicturelist()) {
@@ -145,17 +146,16 @@ public class AddPhotoAPI {
 									// section, photoname, (String)
 									// uploadResult.get("url")));
 									return new PostForm(STATUS.Success,
-											"File uploaded successfully!");
+											AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
 								} catch (Exception e) {
 									e.printStackTrace();
 									return new PostForm(STATUS.Failure,
-											"Failed to upload the file "
-													+ e.getMessage());
+											
+											AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
 								}
 							} catch (RuntimeException e) {
 								return new PostForm(STATUS.Failure,
-										"Failed to upload the file : "
-												+ e.getMessage());
+										AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -163,11 +163,11 @@ public class AddPhotoAPI {
 						}
 					}
 					return new PostForm(STATUS.Failure,
-							"There is no such photoname on server for this propertyId and section");
+							AddPhotoAPIMsgs.NO_SUCH_PHOTONAME);
 				}
 			}
 			return new PostForm(STATUS.Failure,
-					"There is no such section on server for this propertyId");
+					AddPhotoAPIMsgs.NO_SUCH_SECTION);
 		}
 
 		// Building
@@ -176,7 +176,7 @@ public class AddPhotoAPI {
 					BuildingDataModel.class);
 			if (buildingDataModel == null)
 				return new PostForm(STATUS.Failure,
-						"There is no such propertyId existing on server");
+						AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
 
 			for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : buildingDataModel
 					.getBuildingData().getPicturelist()) {
@@ -227,17 +227,15 @@ public class AddPhotoAPI {
 									// section, photoname, (String)
 									// uploadResult.get("url")));
 									return new PostForm(STATUS.Success,
-											"File uploaded successfully!");
+											AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
 								} catch (Exception e) {
 									e.printStackTrace();
 									return new PostForm(STATUS.Failure,
-											"Failed to upload the file "
-													+ e.getMessage());
+											AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
 								}
 							} catch (RuntimeException e) {
 								return new PostForm(STATUS.Failure,
-										"Failed to upload the file : "
-												+ e.getMessage());
+										AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
 							} catch (IOException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
@@ -247,21 +245,21 @@ public class AddPhotoAPI {
 					}
 
 					return new PostForm(STATUS.Failure,
-							"There is no such photoname on server for this propertyId and section");
+							AddPhotoAPIMsgs.NO_SUCH_PHOTONAME);
 				}
 			}
 			return new PostForm(STATUS.Failure,
-					"There is no such section on server for this propertyId");
+					AddPhotoAPIMsgs.NO_SUCH_SECTION);
 		} else if (propertyType.equals("Flat")) {
 			if (flatnumber == null)
-				return new PostForm(STATUS.Failure, "Please provide flatnumber");
+				return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_FLAT_NUMBER);
 			// query.addCriteria(Criteria.where("flatdatalist.flatnumber").is(
 			// flatnumber));
 			FlatDataModel flatDataModel = mongoOperation.findOne(query,
 					FlatDataModel.class);
 			if (flatDataModel == null)
 				return new PostForm(STATUS.Failure,
-						"There is no such propertyId existing on server");
+						AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
 			for (FlatData flatData : flatDataModel.getFlatdatalist()) {
 				if (flatData.getFlatnumber().equals(flatnumber)) {
 					for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : flatData
@@ -316,17 +314,15 @@ public class AddPhotoAPI {
 											// section, photoname, (String)
 											// uploadResult.get("url")));
 											return new PostForm(STATUS.Success,
-													"File uploaded successfully!");
+													AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
 										} catch (Exception e) {
 											e.printStackTrace();
 											return new PostForm(STATUS.Failure,
-													"Failed to upload the file "
-															+ e.getMessage());
+													AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
 										}
 									} catch (RuntimeException e) {
 										return new PostForm(STATUS.Failure,
-												"Failed to upload the file : "
-														+ e.getMessage());
+												AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
 									} catch (IOException e1) {
 										// TODO Auto-generated catch block
 										e1.printStackTrace();
@@ -334,24 +330,23 @@ public class AddPhotoAPI {
 								}
 							}
 							return new PostForm(STATUS.Failure,
-									"There is no such photoname on server for this propertyId and section");
+									AddPhotoAPIMsgs.NO_SUCH_PHOTONAME);
 						}
 					}
 					return new PostForm(STATUS.Failure,
-							"There is no such section on server for this propertyId and flat number");
+							AddPhotoAPIMsgs.NO_SUCH_SECTION);
 				}
 			}
 			return new PostForm(STATUS.Failure,
-					"There is no such flat number on server for this propertyId");
+					AddPhotoAPIMsgs.NO_SUCH_FLAT_NUMBER);
 
 		} else
 			return new PostForm(STATUS.Failure,
-					"There is no such propertyType: propertyType can only be PG/Building?Flat");
+					AddPhotoAPIMsgs.NO_SUCH_PROPERTY_TYPE);
 
 	}
-	
-	
-	class AddPhotoData{
+
+	class AddPhotoData {
 		String username;
 		String token;
 		String propertyId;
@@ -360,24 +355,32 @@ public class AddPhotoAPI {
 		String section;
 		String photoname;
 		MultipartFile file;
-		
-		AddPhotoData(String username,
-		String token,
-		String propertyId,
-		String flatnumber,
-		String propertyType,
-		String section,
-		String photoname,
-		MultipartFile file){
-			this.username=username;
-			this.token=token;
-			this.propertyId=propertyId;
-			this.flatnumber=flatnumber;
-			this.propertyType=propertyType;
-			this.section=section;
-			this.file=file;
-			
+
+		AddPhotoData(String username, String token, String propertyId,
+				String flatnumber, String propertyType, String section,
+				String photoname, MultipartFile file) {
+			this.username = username;
+			this.token = token;
+			this.propertyId = propertyId;
+			this.flatnumber = flatnumber;
+			this.propertyType = propertyType;
+			this.section = section;
+			this.file = file;
+
 		}
-		
+
 	}
+}
+
+class AddPhotoAPIMsgs{
+	public static final String USER_NOT_EXIST = "Username does not exist";
+	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
+	public static final String NO_SUCH_PROPERTY_ID = "There is no such propertyId existing on server";
+	public static final String NO_FLAT_NUMBER = "flatnumber can't be left blank uploading files for flats";
+	public static final String NO_SUCH_PHOTONAME = "There is no such photoname on server for this propertyId and section";
+	public static final String NO_SUCH_SECTION = "There is no such section on server for this propertyId";
+	public static final String NO_SUCH_FLAT_NUMBER = "There is no such flat number on server for this propertyId";
+	public static final String NO_SUCH_PROPERTY_TYPE = "There is no such propertyType: propertyType can only be PG/Building?Flat";
+	public static final String FILE_UPLOADED_SUCCESSFULLY = "File uploaded successfully!";
+	public static final String FILE_UPLOADED_FAILED = "File upload failed!";
 }

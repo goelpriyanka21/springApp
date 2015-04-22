@@ -4,6 +4,7 @@ import helperclasses.STATUS;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class AppointmentAPIPost {
 
 	private STATUS status;
@@ -24,28 +25,6 @@ public class AppointmentAPIPost {
 		this.message = message;
 	}
 
-	public STATUS getStatus() {
-		return status;
-	}
-
-	public void setStatus(STATUS status) {
-		this.status = status;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public List<AppointmentData> getAppointmentList() {
-		return appointmentList;
-	}
-
-	public void setAppointmentList(List<AppointmentData> appointmentList) {
-		this.appointmentList = appointmentList;
-	}
+	
 
 }

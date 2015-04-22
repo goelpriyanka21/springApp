@@ -1,12 +1,14 @@
 package forms;
 
-import java.util.List;
-
 import helperclasses.Commute;
 import helperclasses.FoodOptions;
 import helperclasses.RatingAndListOfEs;
-//import helperclasses.RatingAndListOfStrings;
 import helperclasses.RatingAndListOfEsAndString;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.JsonObject;
 
 public class TenantData {
 	// GET: specific to a pg tenant
@@ -193,19 +195,16 @@ public class TenantData {
 		this.additionalComments = additionalComments;
 	}
 
-	
-
-	public TenantData(
-			String tenantname, String contact, String emailId, int age,
-			String profession, String[] threeBestThingsAboutPG,
+	public TenantData(String tenantname, String contact, String emailId,
+			int age, String profession, String[] threeBestThingsAboutPG,
 			String[] threethingsyoudontlikeaboutPG,
-			RatingAndListOfEsAndString<String> safety, RatingAndListOfEs<String> cleanliness,
-			List<String> otherRoommates, Commute<String> commute,
-			FoodOptions<String> foodOptions, Integer ownerAndServiceFeedBack,
-			Integer ownerInteractionReview, String ownerflexibility,
-			List<String> rentPaymentMode, Integer serviceReview,
-			Boolean referralpossibilty, String servicesInterested,
-			String additionalComments) {
+			RatingAndListOfEsAndString<String> safety,
+			RatingAndListOfEs<String> cleanliness, List<String> otherRoommates,
+			Commute<String> commute, FoodOptions<String> foodOptions,
+			Integer ownerAndServiceFeedBack, Integer ownerInteractionReview,
+			String ownerflexibility, List<String> rentPaymentMode,
+			Integer serviceReview, Boolean referralpossibilty,
+			String servicesInterested, String additionalComments) {
 
 		this.tenantname = tenantname;
 		this.contact = contact;
@@ -230,5 +229,41 @@ public class TenantData {
 
 	}
 
-	
+	private JsonObject defineError(String name, String val) {
+		JsonObject o = new JsonObject();
+		o.addProperty(name, val);
+		return o;
+	}
+
+	public List<JsonObject> validate() {
+		List<JsonObject> errors = new ArrayList<>();
+
+		if (tenantname == null) {
+			errors.add(defineError("tenantname",
+					TenantDataErrMsgs.TENANTNAME_ERR));
+		}
+
+		if (contact == null) {
+			errors.add(defineError("contact", TenantDataErrMsgs.CONTACT_ERR));
+		}
+
+		if (emailId == null) {
+			errors.add(defineError("emailId", TenantDataErrMsgs.EMAILID_ERR));
+		}
+
+		if ((age == 0) || (age < 10) || (age > 99)) {
+			errors.add(defineError("age", TenantDataErrMsgs.AGE_ERR));
+		}
+
+		return errors.size() > 0 ? errors : null;
+	}
+
+}
+
+class TenantDataErrMsgs {
+
+	static final String TENANTNAME_ERR = "tenant name can't be left blank";
+	static final String CONTACT_ERR = "tenant cntact can't be left blank";
+	static final String EMAILID_ERR = "tenant emailId can't be left blank";
+	static final String AGE_ERR = "tenant age can't be left blank and should be a two digit number";
 }

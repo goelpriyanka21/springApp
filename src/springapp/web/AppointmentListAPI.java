@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import validators.TokenValidator;
 import forms.AppointmentAPIPost;
 
-
-
 @Controller
 public class AppointmentListAPI {
 
@@ -31,16 +29,18 @@ public class AppointmentListAPI {
 
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
-		mongoOperation.save(new TestingData(new AppointmentData(username, token)));
+		mongoOperation.save(new TestingData(
+				new AppointmentData(username, token)));
 
 		// AuthenticationDetails Validator
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username").is(username)),
 				AuthenticationDetails.class);
-		
+
 		AppointmentAPIPost appointmentAPIPost;
-		if (authenticationDetails == null){
-			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure, "Username does not exist");
+		if (authenticationDetails == null) {
+			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
+					AppointmentListAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
@@ -49,9 +49,9 @@ public class AppointmentListAPI {
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(username)), UserNameToken.class);
 
-		if (!TokenValidator.validate(usernametoken.gettoken(), token)){
-			appointmentAPIPost= new AppointmentAPIPost(STATUS.Failure,
-					"Token authentication failed");
+		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
+			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
+					AppointmentListAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
@@ -61,15 +61,15 @@ public class AppointmentListAPI {
 				new Query(Criteria.where("username").is(username)),
 				AppointmentDataModel.class);
 
-		if (appointmentDataModel == null){
-			appointmentAPIPost=  new AppointmentAPIPost(STATUS.Success,
-					"No Appointmnets for you: Enjoy");
+		if (appointmentDataModel == null) {
+			appointmentAPIPost = new AppointmentAPIPost(STATUS.Success,
+					AppointmentListAPIMsgs.NO_APPOINTMENT_FOR_YOU);
 			mongoOperation.save(new TestingData(appointmentAPIPost));
 			return appointmentAPIPost;
 		}
 
-		appointmentAPIPost= new AppointmentAPIPost(STATUS.Success,
-				"Your appointment list (sorted acc to start time) is",
+		appointmentAPIPost = new AppointmentAPIPost(STATUS.Success,
+				AppointmentListAPIMsgs.APPOINTMENT_LIST_SORTED_TIME,
 				appointmentDataModel.getSortedOrderList());
 		mongoOperation.save(new TestingData(appointmentAPIPost));
 		return appointmentAPIPost;
@@ -80,11 +80,17 @@ public class AppointmentListAPI {
 class AppointmentData {
 	String username;
 	String token;
-	
-	public AppointmentData(String username,
-	String token) {
+
+	public AppointmentData(String username, String token) {
 		// TODO Auto-generated constructor stub
 		this.username = username;
-		this.token= token;
+		this.token = token;
 	}
+}
+
+class AppointmentListAPIMsgs {
+	public static final String USER_NOT_EXIST = "Username does not exist";
+	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
+	public static final String NO_APPOINTMENT_FOR_YOU = "There is/was no appointment for you";
+	public static final String APPOINTMENT_LIST_SORTED_TIME = "Your appointment list (sorted acc to start time) is";
 }

@@ -1,15 +1,16 @@
 package forms;
 
-
 import helperclasses.RatingAndListOfEs;
-import helperclasses.STATUS;
 import helperclasses.SectionListOfPhotoNameAndURLPair;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.JsonObject;
 
 public class FlatData {
 
-	private  List<SectionListOfPhotoNameAndURLPair> picturelist;
+	private List<SectionListOfPhotoNameAndURLPair> picturelist;
 	private String flatnumber;
 	private Integer floornumber;
 	private Integer numOfBathrooms;
@@ -24,19 +25,17 @@ public class FlatData {
 	private List<String> availableFor;
 	private RatingAndListOfEs<String> amenities;
 	private String servicesyouwillbeinterestedin;
-	private STATUS status;
-	private String message;
-	
-	public FlatData(){
-		
+
+	public FlatData() {
+
 	}
-	
-	
+
 	public List<SectionListOfPhotoNameAndURLPair> getPicturelist() {
 		return picturelist;
 	}
 
-	public void setPicturelist(List<SectionListOfPhotoNameAndURLPair> picturelist) {
+	public void setPicturelist(
+			List<SectionListOfPhotoNameAndURLPair> picturelist) {
 		this.picturelist = picturelist;
 	}
 
@@ -153,32 +152,14 @@ public class FlatData {
 		this.servicesyouwillbeinterestedin = servicesyouwillbeinterestedin;
 	}
 
-	public STATUS getStatus() {
-		return status;
-	}
-
-	public void setStatus(STATUS status) {
-		this.status = status;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	
-
 	public FlatData(
 			// GET
 
-			List<SectionListOfPhotoNameAndURLPair> picturelist, String flatnumber,
-			Integer floornumber, Integer numOfBathrooms, Integer numOfBalconys,
-			String furnishingtype, String flattype, String facing,
-			Integer rent, Integer maintainancecharges, Integer deposit,
-			Boolean negotiable, List<String> availableFor,
+			List<SectionListOfPhotoNameAndURLPair> picturelist,
+			String flatnumber, Integer floornumber, Integer numOfBathrooms,
+			Integer numOfBalconys, String furnishingtype, String flattype,
+			String facing, Integer rent, Integer maintainancecharges,
+			Integer deposit, Boolean negotiable, List<String> availableFor,
 			RatingAndListOfEs<String> amenities,
 			String servicesyouwillbeinterestedin) {
 
@@ -197,15 +178,26 @@ public class FlatData {
 		this.availableFor = availableFor;
 		this.amenities = amenities;
 		this.servicesyouwillbeinterestedin = servicesyouwillbeinterestedin;
-		
 
 	}
-
-	public FlatData(STATUS status, String message) {
-		this.status = status;
-		this.message = message;
-
+	
+	private JsonObject defineError(String name, String val) {
+		JsonObject o = new JsonObject();
+		o.addProperty(name, val);
+		return o;
 	}
 
+	public List<JsonObject> validate() {
+		// TODO Auto-generated method stub
+		List<JsonObject> errors = new ArrayList<>();
 
+		if (flatnumber == null)
+			errors.add(defineError("flatnumber", FlatDataErrMsgs.FLATNUMBER_ERR));
+		return errors.size() > 0 ? errors : null;
+	}
+
+}
+
+class FlatDataErrMsgs {
+	public static final String FLATNUMBER_ERR = "flat number can't be left blank";
 }

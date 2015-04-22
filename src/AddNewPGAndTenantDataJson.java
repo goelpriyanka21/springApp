@@ -2,6 +2,7 @@ import forms.PGAndTenantData;
 import forms.PGData;
 import forms.PostForm;
 import forms.TenantData;
+import helperclasses.AddNewPGAndTenantDataAPIMsgs;
 import helperclasses.Commute;
 import helperclasses.ContactPerson;
 import helperclasses.FoodOptions;
@@ -83,14 +84,14 @@ public class AddNewPGAndTenantDataJson {
 		writer.append(addnewpgdatagetjson+"\n\n"); 
 		
 		//POST: Failure
-		PostForm addnewpgdatapost = new PostForm(STATUS.Failure, "Token Authentication failed");
+		PostForm addnewpgdatapost = new PostForm(STATUS.Failure, AddNewPGAndTenantDataAPIMsgs.TOKEN_AUTHENTICATION_FAILED);
 		String addnewpgdatapostjson = gson.toJson(addnewpgdatapost);
 		System.out.println(addnewpgdatapostjson);	  
 		writer.append("//POST: Failure\n");
 		writer.append(addnewpgdatapostjson+"\n\n");
 		
 		//Another POST: Success
-		PostForm addnewpgdatapost2 = new PostForm(STATUS.Success, "Data successfully stored on server: Dont forget to upload photos");
+		PostForm addnewpgdatapost2 = new PostForm(STATUS.Success, AddNewPGAndTenantDataAPIMsgs.DATA_SUCCESSFULLY_STORED);
 				String addnewpgdatapostjson2 = gson.toJson(addnewpgdatapost2);
 				System.out.println(addnewpgdatapostjson2);	  
 				writer.append("//Another POST Sample: Success\n");
