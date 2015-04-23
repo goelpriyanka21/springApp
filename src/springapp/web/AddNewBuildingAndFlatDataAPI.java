@@ -10,7 +10,6 @@ import java.util.List;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.FlatDataModel;
-import models.TenantDataModel;
 import models.TestingData;
 import models.UserNameToken;
 
@@ -31,7 +30,6 @@ import com.google.gson.JsonObject;
 import forms.BuildingAndFlatData;
 import forms.FlatData;
 import forms.PostForm;
-import forms.TenantData;
 
 @Controller
 public class AddNewBuildingAndFlatDataAPI {
