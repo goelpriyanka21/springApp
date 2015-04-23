@@ -13,7 +13,7 @@ public class PGAndTenantData {
 	private Location gpsLocation;
 	private String DeviceId;
 	private String token;
-	
+
 	private String propertyId;
 
 	private PGData pgdata;
@@ -94,10 +94,6 @@ public class PGAndTenantData {
 		this.propertyId = propertyId;
 	}
 
-	public List<TenantData> getpgtenantlist() {
-		return pgtenantlist;
-	}
-
 	public Location getgpslocation() {
 		return gpsLocation;
 	}
@@ -118,54 +114,57 @@ public class PGAndTenantData {
 	public void setPgdata(PGData pgdata) {
 		this.pgdata = pgdata;
 	}
-	
-	private JsonObject defineError(String name, String val){
+
+	private JsonObject defineError(String name, String val) {
 		JsonObject o = new JsonObject();
 		o.addProperty(name, val);
 		return o;
 	}
-	
-	public List<JsonObject> validate(){
+
+	public List<JsonObject> validate() {
 		List<JsonObject> errors = new ArrayList<>();
 
-		if (gpsLocation == null){
-			errors.add(defineError("gpsLocation", PGAndTenantDataErrMsgs.GPS_ERR));
+		if (gpsLocation == null) {
+			errors.add(defineError("gpsLocation",
+					PGAndTenantDataErrMsgs.GPS_ERR));
 		}
 
-		if (DeviceId == null){
-			errors.add(defineError("DeviceId", PGAndTenantDataErrMsgs.DEVICE_ID_ERR));
+		if (DeviceId == null) {
+			errors.add(defineError("DeviceId",
+					PGAndTenantDataErrMsgs.DEVICE_ID_ERR));
 		}
-		
-		if ((propertyId == null) || (propertyId.length() != 16)){
-			errors.add(defineError("propertyId", PGAndTenantDataErrMsgs.PROPERTY_ID_ERR));
+
+		if ((propertyId == null) || (propertyId.length() != 16)) {
+			errors.add(defineError("propertyId",
+					PGAndTenantDataErrMsgs.PROPERTY_ID_ERR));
 		}
-		
+
 		List<JsonObject> pgDataErrors = pgdata.validate();
-		if (pgDataErrors != null){
+		if (pgDataErrors != null) {
 			errors.addAll(pgDataErrors);
 		}
-		
-		List<JsonObject> locationErrors = gpsLocation.validate(pgdata.getSelectedLocation());
-		if (locationErrors != null){
+
+		List<JsonObject> locationErrors = gpsLocation.validate(pgdata
+				.getSelectedLocation());
+		if (locationErrors != null) {
 			errors.addAll(locationErrors);
 		}
 
 		for (TenantData tenantdata : pgtenantlist) {
 			List<JsonObject> tenantErrors = tenantdata.validate();
-			if (tenantErrors != null){
+			if (tenantErrors != null) {
 				errors.addAll(tenantErrors);
 			}
 		}
 
-		return errors.size()>0?errors:null;
+		return errors.size() > 0 ? errors : null;
 
 	}
 }
 
 class PGAndTenantDataErrMsgs {
 
-	static final String GPS_ERR= "Please provide gps location";
-	static final String DEVICE_ID_ERR= "Please provide deviceId";
-	static final String PROPERTY_ID_ERR= "PropertyId can't be blank & should be exactly 16 digits ";
+	static final String GPS_ERR = "Please provide gps location";
+	static final String DEVICE_ID_ERR = "Please provide deviceId";
+	static final String PROPERTY_ID_ERR = "PropertyId can't be blank & should be exactly 16 digits ";
 }
-

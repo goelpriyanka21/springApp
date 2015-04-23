@@ -8,5 +8,5 @@ public class AddNewPGAndTenantDataAPIMsgs {
 	public static final String DATA_VALIDATION_FAILED = "Data validation failed";
 	public static final String PG_ALREADY_EXIST = " PG Entry already exist and is locked u can add only tenant data";
 	public static final String DATA_SUCCESSFULLY_UPDATED = "PG Entry already exist and was unlocked, Data successfully updated on server";
-	public static final String DATA_SUCCESSFULLY_STORED = "Data successfully stored on server";
+	public static final String DATA_SUCCESSFULLY_STORED = "PG Data successfully stored on server";
 }

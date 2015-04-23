@@ -10,6 +10,7 @@ import java.util.List;
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
 import models.FlatDataModel;
+import models.TenantDataModel;
 import models.TestingData;
 import models.UserNameToken;
 
@@ -28,7 +29,9 @@ import validators.TokenValidator;
 import com.google.gson.JsonObject;
 
 import forms.BuildingAndFlatData;
+import forms.FlatData;
 import forms.PostForm;
+import forms.TenantData;
 
 @Controller
 public class AddNewBuildingAndFlatDataAPI {
@@ -110,17 +113,33 @@ public class AddNewBuildingAndFlatDataAPI {
 		// if is locked is true; status: entry already exist; u can add only
 		// tenant data; pg entry already exist & is locked
 
-		if (buildingAndFlatData.getFlatData() != null)
+		Query query = new Query();
+		query.addCriteria(Criteria.where("propertyId").is(
+				buildingAndFlatData.getPropertyId()));
+		if (buildingAndFlatData.getFlatData() != null) {
 			// save if non existing
-			mongoOperation.save(new FlatDataModel(buildingAndFlatData
-					.getPropertyId(), buildingAndFlatData.getFlatData()));
-		// update if existing
+			FlatDataModel flatDataModel = mongoOperation.findOne(query,
+					FlatDataModel.class);
+			if (flatDataModel == null) { // unique propertyId is not existing
+											// in db
+				mongoOperation.save(new FlatDataModel(buildingAndFlatData
+						.getPropertyId(), buildingAndFlatData.getFlatData()));
+			} else { // append if existing
+				List<FlatData> flatdatalist = flatDataModel
+						.getFlatdatalist();
+				flatdatalist.addAll(buildingAndFlatData.getFlatData());
+				Update update = new Update();
+				update.set("flatdatalist", flatdatalist);
+				mongoOperation
+						.updateFirst(query, update, FlatDataModel.class);
+
+			}
+			
+			// append if existing
+		}
 
 		if (buildingAndFlatData.getBuildingData() != null) { // has some
 																// building data
-			Query query = new Query();
-			query.addCriteria(Criteria.where("propertyId").is(
-					buildingAndFlatData.getPropertyId()));
 			BuildingDataModel buildingDataModel = mongoOperation.findOne(query,
 					BuildingDataModel.class);
 			if (buildingDataModel == null) // unique propertyId is not existing
@@ -175,5 +194,3 @@ public class AddNewBuildingAndFlatDataAPI {
 	}
 
 }
-
-

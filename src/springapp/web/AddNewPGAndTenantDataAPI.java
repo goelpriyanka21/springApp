@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import validators.TokenValidator;
 import forms.PGAndTenantData;
 import forms.PostForm;
+import forms.TenantData;
 
 @Controller
 public class AddNewPGAndTenantDataAPI {
@@ -44,7 +45,8 @@ public class AddNewPGAndTenantDataAPI {
 		// AuthenticationDetails Validators
 
 		if (pgAndTenantData.getUsername() == null) {
-			postform = new PostForm(STATUS.Failure, AddNewPGAndTenantDataAPIMsgs.BLANK_USER);
+			postform = new PostForm(STATUS.Failure,
+					AddNewPGAndTenantDataAPIMsgs.BLANK_USER);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 		}
@@ -55,18 +57,20 @@ public class AddNewPGAndTenantDataAPI {
 				AuthenticationDetails.class);
 
 		if (authenticationDetails == null) {
-			postform = new PostForm(STATUS.Failure, AddNewPGAndTenantDataAPIMsgs.USER_NOT_EXIST);
+			postform = new PostForm(STATUS.Failure,
+					AddNewPGAndTenantDataAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 		}
 
 		// TOKEN AUTHENTICATION FAILURE:
 		if (pgAndTenantData.getToken() == null) {
-			postform = new PostForm(STATUS.Failure, AddNewPGAndTenantDataAPIMsgs.BLANK_TOKEN);
+			postform = new PostForm(STATUS.Failure,
+					AddNewPGAndTenantDataAPIMsgs.BLANK_TOKEN);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 		}
-		
+
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(pgAndTenantData.getUsername())),
 				UserNameToken.class);
@@ -101,22 +105,39 @@ public class AddNewPGAndTenantDataAPI {
 		// data
 		// if is locked is true; status: entry already exist; u can add only
 		// tenant data; pg entry already exist & is locked
+		Query query = new Query();
+		query.addCriteria(Criteria.where("propertyId").is(
+				pgAndTenantData.getPropertyId()));
 
-		if (pgAndTenantData.getpgtenantlist() != null)
-			mongoOperation.save(new TenantDataModel(pgAndTenantData
-					.getpropertyId(), pgAndTenantData.getpgtenantlist()));
+		if (pgAndTenantData.getPgtenantlist() != null) {
+			TenantDataModel tenantDataModel = mongoOperation.findOne(query,
+					TenantDataModel.class);
+			if (tenantDataModel == null) { // unique propertyId is not existing
+											// in db
+				mongoOperation.save(new TenantDataModel(pgAndTenantData
+						.getpropertyId(), pgAndTenantData.getPgtenantlist()));
+			} else { // append if existing
+				List<TenantData> pgtenantlist = tenantDataModel
+						.getPgtenantlist();
+				pgtenantlist.addAll(pgAndTenantData.getPgtenantlist());
+				Update update = new Update();
+				update.set("pgtenantlist", pgtenantlist);
+				mongoOperation
+						.updateFirst(query, update, TenantDataModel.class);
+
+			}
+		}
 
 		if (pgAndTenantData.getPgdata() != null) { // has some pg data
-			Query query = new Query();
-			query.addCriteria(Criteria.where("propertyId").is(
-					pgAndTenantData.getPropertyId()));
+
 			PGDataModel pgDataModel = mongoOperation.findOne(query,
 					PGDataModel.class);
 			if (pgDataModel == null) // unique propertyId is not existing in db
+			{
 				mongoOperation.save(new PGDataModel(pgAndTenantData
 						.getpropertyId(), pgAndTenantData.getPgdata(),
 						pgAndTenantData.getUsername()));
-			else {
+			} else {
 				if (pgDataModel.getIsLocked() == true) {
 					postform = new PostForm(STATUS.Failure,
 							AddNewPGAndTenantDataAPIMsgs.PG_ALREADY_EXIST);
@@ -124,14 +145,7 @@ public class AddNewPGAndTenantDataAPI {
 					return postform;
 				} else // is locked is false; u can update pg data
 				{
-					// String createdBy_username=
-					// pgDataModel.getCreatedBy_username();
-					// Date createdDate= pgDataModel.getCreatedDate();
-					// mongoOperation.remove(query, PGDataModel.class);
-					// mongoOperation.save(new PGDataModel(pgAndTenantData
-					// .getpropertyId(), pgAndTenantData.getPgdata(),
-					// createdBy_username, createdDate,
-					// pgAndTenantData.getUsername()));
+
 					Update update = new Update();
 					update.set("modifiedBy_username",
 							pgAndTenantData.getUsername());
@@ -139,7 +153,8 @@ public class AddNewPGAndTenantDataAPI {
 					update.set("pgdata", pgAndTenantData.getPgdata());
 					mongoOperation
 							.updateFirst(query, update, PGDataModel.class);
-					postform = new PostForm(STATUS.Success,
+					postform = new PostForm(
+							STATUS.Success,
 							AddNewPGAndTenantDataAPIMsgs.DATA_SUCCESSFULLY_UPDATED);
 					mongoOperation.save(new TestingData(postform));
 					return postform;
@@ -151,8 +166,4 @@ public class AddNewPGAndTenantDataAPI {
 		mongoOperation.save(new TestingData(postform));
 		return postform;
 	}
-
 }
-
-
-
