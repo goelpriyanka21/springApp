@@ -95,7 +95,7 @@ public class AddPhotoAPI {
 		query.addCriteria(Criteria.where("propertyId").is(propertyId));
 
 		// PG
-		if (propertyType.equals("PG")) {
+		if (propertyType.equals(PropertyType.PG)) {
 			PGDataModel pgDataModel = mongoOperation.findOne(query,
 					PGDataModel.class);
 			if (pgDataModel == null)
@@ -171,7 +171,7 @@ public class AddPhotoAPI {
 		}
 
 		// Building
-		else if (propertyType.equals("Building")) {
+		else if (propertyType.equals(PropertyType.Building)) {
 			BuildingDataModel buildingDataModel = mongoOperation.findOne(query,
 					BuildingDataModel.class);
 			if (buildingDataModel == null)
@@ -250,7 +250,7 @@ public class AddPhotoAPI {
 			}
 			return new PostForm(STATUS.Failure,
 					AddPhotoAPIMsgs.NO_SUCH_SECTION);
-		} else if (propertyType.equals("Flat")) {
+		} else if (propertyType.equals(PropertyType.Flat)) {
 			if (flatnumber == null)
 				return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_FLAT_NUMBER);
 			// query.addCriteria(Criteria.where("flatdatalist.flatnumber").is(
@@ -384,3 +384,10 @@ class AddPhotoAPIMsgs{
 	public static final String FILE_UPLOADED_SUCCESSFULLY = "File uploaded successfully!";
 	public static final String FILE_UPLOADED_FAILED = "File upload failed!";
 }
+
+enum PropertyType {
+	PG,	
+	Building,
+	Flat;
+}
+
