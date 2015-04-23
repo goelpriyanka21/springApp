@@ -92,7 +92,7 @@ public class AddNewBuildingAndFlatDataAPI {
 
 		List<JsonObject> errors = buildingAndFlatData.validate();
 
-		if (errors.size() != 0) {
+		if (errors != null) {
 			postform = new PostForm(STATUS.Failure,
 					AddNewBuildingAndFlatDataAPIMsgs.DATA_VALIDATION_FAILED,
 					errors);

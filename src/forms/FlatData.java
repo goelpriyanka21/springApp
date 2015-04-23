@@ -222,7 +222,7 @@ public class FlatData {
 }
 
 class FlatDataErrMsgs {
-	public static final String FLATNUMBER_ERR = "flat number can't be left blank";
-	static final String PICTURE_LIST_ERR = "Picture list can't be blank/ size zero/ should contain at least 5 photo names";
-	static final String AVAILABLE_FOR_ERR = "availableFor can't be left blank/ size can't be zero";
+	public static final String FLATNUMBER_ERR = "flat number cannot be left blank";
+	static final String PICTURE_LIST_ERR = "Picture list cannot be blank/ size zero/ should contain at least 5 photo names";
+	static final String AVAILABLE_FOR_ERR = "availableFor cannot be left blank/ size cannot be zero";
 }

@@ -26,8 +26,11 @@ public class HomePageData {
 
 	}
 
-	public HomePageData(int numoftodayentries, int numofcurrentmonthentries,
+	public HomePageData(STATUS status, String message, int numoftodayentries, int numofcurrentmonthentries,
 			int targetforthemonth, Double targetachieved) {
+		
+		this.status = status;
+		this.message = message;
 		this.numoftodayentries = numoftodayentries;
 		this.numofcurrentmonthentries = numofcurrentmonthentries;
 		this.targetforthemonth = targetforthemonth;

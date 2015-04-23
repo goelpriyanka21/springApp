@@ -1,5 +1,6 @@
 package springapp.web;
 
+import helperclasses.HomePageAPIMsgs;
 import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 //import models.AttendenceModel;
@@ -94,7 +95,7 @@ public class HomePageAPI {
 		int monthsCount = (int) mongoOperation.count(monthq, PGDataModel.class);
 		monthsCount += (int) mongoOperation.count(monthq,
 				BuildingDataModel.class);
-		postForm = new HomePageData(
+		postForm = new HomePageData(STATUS.Success, HomePageAPIMsgs.HOMEPAGE_DATA,
 				todaysCount,
 				monthsCount,
 				TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH,
@@ -104,9 +105,4 @@ public class HomePageAPI {
 		return postForm;
 
 	}
-}
-
-class HomePageAPIMsgs{
-	public static final String USER_NOT_EXIST = "Username does not exist";
-	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
 }

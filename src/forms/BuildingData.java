@@ -215,8 +215,8 @@ public class BuildingData {
 }
 
 class BuildingDataErrMsgs {
-	static final String SOCIETY_NAME_ERR = "societyname can't be blank/ less than 2 or more characters";
-	static final String PICTURE_LIST_ERR = "Picture list can't be blank/ size zero/ should contain at least 5 photo names";
+	static final String SOCIETY_NAME_ERR = "societyname cannot be blank/ less than 2 or more characters";
+	static final String PICTURE_LIST_ERR = "Picture list cannot be blank/ size zero/ should contain at least 5 photo names";
 	static final String BUILDING_NAME_ERR = "buildingname name cant be left blank/ more than 50 characters";
 	static final String ADDRESSL1_ERR = "First Line Address can't be left blank/ more than 200 characters";
 	static final String ADDRESSL2_ERR = "Second Line Address cant be more than 200 characters";

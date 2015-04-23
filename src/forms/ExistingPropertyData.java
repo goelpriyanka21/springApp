@@ -19,9 +19,9 @@ public class ExistingPropertyData {
 
 	// POST
 	private STATUS status;
-	private PGDataModel pgDataModel;
-	private BuildingDataModel buildingDataModel;
 	private String message;
+	private PGData pgData;
+	private BuildingData buildingData;
 	// POST: on the basis of location
 	private List<PropertyNameTypeisLocked> propertyNameTypeisLocked;
 
@@ -38,17 +38,17 @@ public class ExistingPropertyData {
 	}
 
 	public ExistingPropertyData(STATUS status, String message,
-			PGDataModel pgDataModel) {
+			PGData pgData) {
 		this.status = status;
 		this.message = message;
-		this.pgDataModel = pgDataModel;
+		this.pgData = pgData;
 	}
 
 	public ExistingPropertyData(STATUS status, String message,
-			BuildingDataModel buildingDataModel) {
+			BuildingData buildingData) {
 		this.status = status;
 		this.message = message;
-		this.buildingDataModel = buildingDataModel;
+		this.buildingData = buildingData;
 	}
 
 	public ExistingPropertyData(STATUS status, String message,

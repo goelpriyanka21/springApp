@@ -84,11 +84,11 @@ public class ExistingPropertyAPI {
 
 				existingPropertyDataret = new ExistingPropertyData(
 						STATUS.Success, ExistingPropertyAPIMsgs.EXISTING_PROPERTY_LIST,
-						pgDataModel);
+						pgDataModel.getPgdata());
 			} else {
 				existingPropertyDataret = new ExistingPropertyData(
 						STATUS.Success, ExistingPropertyAPIMsgs.EXISTING_PROPERTY_LIST,
-						buildingDataModel);
+						buildingDataModel.getBuildingData());
 
 			}
 			mongoOperation.save(new TestingData(existingPropertyDataret));
@@ -103,7 +103,7 @@ public class ExistingPropertyAPI {
 class ExistingPropertyAPIMsgs {
 	public static final String USER_NOT_EXIST = "Username does not exist";
 	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
-	public static final String NO_PROPERTY_ID_PROVIDED = " propertyId can;t be left blank ";
+	public static final String NO_PROPERTY_ID_PROVIDED = " propertyId cannot be left blank ";
 	public static final String ENTRY_DOES_NOT_EXIST = "Entry does not exist call add entry API";
 	public static final String EXISTING_PROPERTY_LIST = "Existing property list is ";
 }

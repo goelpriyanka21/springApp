@@ -132,5 +132,5 @@ class BuildingAndFlatDataErrMsgs {
 
 	static final String GPS_ERR = "Please provide gps location";
 	static final String DEVICE_ID_ERR = "Please provide deviceId";
-	static final String PROPERTY_ID_ERR = "PropertyId can't be blank & should be exactly 16 digits ";
+	static final String PROPERTY_ID_ERR = "PropertyId cannott be blank and should be exactly 16 digits ";
 }
