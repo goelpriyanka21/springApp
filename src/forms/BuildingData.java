@@ -156,21 +156,21 @@ public class BuildingData {
 					BuildingDataErrMsgs.BUILDING_NAME_ERR));
 		}
 
-		if ((addressl1 == null) || (addressl1.length() > 100)) {
+		if ((addressl1 == null) || (addressl1.length() > 200)) {
 			errors.add(defineError("addressl1",
 					BuildingDataErrMsgs.ADDRESSL1_ERR));
 		}
 
-		if ((addressl2 != null) && (addressl2.length() > 100)) {
+		if ((addressl2 != null) && (addressl2.length() > 200)) {
 			errors.add(defineError("addressl2",
 					BuildingDataErrMsgs.ADDRESSL2_ERR));
 		}
 
-		if ((pincode == null) || (pincode > 999999)) {
+		if ((pincode == null) || (pincode < 100000) || (pincode > 999999)) {
 			errors.add(defineError("pincode", BuildingDataErrMsgs.PINCODE_ERR));
 		}
 
-		if ((landmark != null) && (landmark.length() > 100)) {
+		if ((landmark == null) || (landmark.length() > 200)) {
 			errors.add(defineError("landmark", BuildingDataErrMsgs.LANDMARK_ERR));
 		}
 
@@ -220,7 +220,7 @@ class BuildingDataErrMsgs {
 	static final String BUILDING_NAME_ERR = "buildingname name cant be left blank/ more than 50 characters";
 	static final String ADDRESSL1_ERR = "First Line Address can't be left blank/ more than 200 characters";
 	static final String ADDRESSL2_ERR = "Second Line Address cant be more than 200 characters";
-	static final String PINCODE_ERR = "Pincode can't be left blank/more than 6 characters";
+	static final String PINCODE_ERR = "Pincode can't be left blank/ should be 6 digits";
 	static final String LANDMARK_ERR = "landmark cant be left blank/more than 200 characters";
 	static final String RENT_ERR = "rent can't be left blank/ minlimit & maxlimit can't be left blank/ minlimit can't be greater than maxlimit";
 	static final String MAINTAINANCE_CHARGE_ERR = "maintainancecharge can't be left blank/ minlimit & maxlimit can't be left blank/ minlimit can't be greater than maxlimit";

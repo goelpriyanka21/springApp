@@ -15,7 +15,7 @@ public class TenantData {
 	public String tenantname;
 	public String contact;
 	public String emailId;
-	public int age;
+	public Integer age;
 	public String profession;
 	public String[] threeBestThingsAboutPG = new String[3];
 	public String[] threethingsyoudontlikeaboutPG = new String[3];
@@ -243,15 +243,16 @@ public class TenantData {
 					TenantDataErrMsgs.TENANTNAME_ERR));
 		}
 
-		if (contact == null) {
+		if (contact == null || contact.length() != 10) {
 			errors.add(defineError("contact", TenantDataErrMsgs.CONTACT_ERR));
 		}
 
-		if (emailId == null) {
+		StringBuilder emailstbuilder = new StringBuilder(emailId);
+		if (emailId == null || emailstbuilder.indexOf("@")== -1 || emailstbuilder.indexOf(".")== -1 || emailstbuilder.indexOf("@")> emailstbuilder.indexOf(".")) {
 			errors.add(defineError("emailId", TenantDataErrMsgs.EMAILID_ERR));
 		}
 
-		if ((age == 0) || (age < 10) || (age > 99)) {
+		if ((age == null) || (age < 10) || (age > 99)) {
 			errors.add(defineError("age", TenantDataErrMsgs.AGE_ERR));
 		}
 
@@ -263,7 +264,7 @@ public class TenantData {
 class TenantDataErrMsgs {
 
 	static final String TENANTNAME_ERR = "tenant name can't be left blank";
-	static final String CONTACT_ERR = "tenant cntact can't be left blank";
-	static final String EMAILID_ERR = "tenant emailId can't be left blank";
+	static final String CONTACT_ERR = "tenant contact left blank or is invalid";
+	static final String EMAILID_ERR = "tenant emailId invalid";
 	static final String AGE_ERR = "tenant age can't be left blank and should be a two digit number";
 }

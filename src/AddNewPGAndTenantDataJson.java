@@ -41,7 +41,9 @@ public class AddNewPGAndTenantDataJson {
 	    	
 	    	SectionListOfPhotoNameAndURLPair sfp1= new SectionListOfPhotoNameAndURLPair("Building",  Arrays.asList(new PhotoNameAndURLPair("srisaimanasabuilding")));
 	    	SectionListOfPhotoNameAndURLPair sfp2= new SectionListOfPhotoNameAndURLPair("Rooms",  Arrays.asList(new PhotoNameAndURLPair("srisaimanasaroom1"), new PhotoNameAndURLPair("srisaimanasaroom2")));
-			DepositAmount da= new DepositAmount(1000, false);
+	    	SectionListOfPhotoNameAndURLPair sfp3= new SectionListOfPhotoNameAndURLPair("Building",  Arrays.asList(new PhotoNameAndURLPair("srisaimanasaroom1"), new PhotoNameAndURLPair("srisaimanasaroom2")));
+			
+	    	DepositAmount da= new DepositAmount(1000, false);
 			ContactPerson contactperson= new ContactPerson("Person1", "+91-986667918", "Person2", "+91-986867918", "Person3", "+91-9866227918");
 			StudProfper spp= new StudProfper(30, 70);
 			TwoIntegerpair ab= new TwoIntegerpair(20, 35);
@@ -55,7 +57,7 @@ public class AddNewPGAndTenantDataJson {
 			RatingAndListOfEs<AmenityTypePricePair> ca= new RatingAndListOfEs<>(5, Arrays.asList(atpp1, atpp2));
 			RatingAndListOfEs<String> restrictions = new RatingAndListOfEs<String>(4, Arrays.asList("Guardian allowed", "Smoking allowed"));
 			Location selectedlocation= new Location(47.608942, -122.340145);
-			PGData pgdata= new PGData("Sri Sai Manasa PG", Arrays.asList(sfp1, sfp2), "#506", "Kormangala 5th block", "Bangalore", 274304, "Forum Mall", contactperson, da, Arrays.asList("Male", "Female"), spp, "IT", ab, true, true, typesandavailability, sa, fd, ca, restrictions, new EntryTime(7, 30, "pm"), 
+			PGData pgdata= new PGData("Sri Sai Manasa PG", Arrays.asList(sfp1, sfp2, sfp3), "#506", "Kormangala 5th block", "Bangalore", 274304, "Forum Mall", contactperson, da, Arrays.asList("Male", "Female"), spp, "IT", ab, true, true, typesandavailability, sa, fd, ca, restrictions, new EntryTime(7, 30, "pm"), 
 					selectedlocation);
 			
 			String[] threebestthings= {"neighbouhood", "owner behaviour", "facilities"};
@@ -76,7 +78,7 @@ public class AddNewPGAndTenantDataJson {
 			TenantData tenantData1= new TenantData("Ram", "+91-9877812345", "ram@gmail.com", 25, "Software Professional",  threebestthings, threethingsyoudontlikeaboutPG, safety, cleanliness, otherRoommates, commute, foodOptions, ownerAndServiceFeedBack, ownerInteractionReview,  ownerflexibility, rentPaymentMode, serviceReview, referralpossibilty, servicesInterested, additionalComments);  
 			TenantData tenantData2= new TenantData("Ashu", "+91-987781422", "ashu@gmail.com", 30, "Student",  threebestthings, threethingsyoudontlikeaboutPG, safety, cleanliness, otherRoommates, commute, foodOptions, ownerAndServiceFeedBack, ownerInteractionReview,  ownerflexibility, rentPaymentMode, serviceReview, referralpossibilty, servicesInterested, additionalComments);  
 			
-			PGAndTenantData addnewpgdata= new PGAndTenantData("User1",  "ba435a", gpslocation, "user1token", "SriSaiKormanagalaattimesatmp10:23", pgdata, Arrays.asList(tenantData1, tenantData2));
+			PGAndTenantData addnewpgdata= new PGAndTenantData("User1",  "ba435a", gpslocation, "user1token", "1234567890123456", pgdata, Arrays.asList(tenantData1, tenantData2));
 			
 		String addnewpgdatagetjson = gson.toJson(addnewpgdata);
 		System.out.println(addnewpgdatagetjson);

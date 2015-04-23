@@ -181,6 +181,16 @@ public class FlatData {
 
 	}
 	
+	private int totalPictures() {
+		int photocount = 0;
+		for (SectionListOfPhotoNameAndURLPair pair : picturelist) {
+			photocount += pair.getPhotonamelist().size();
+		}
+		return photocount;
+
+	}
+	
+
 	private JsonObject defineError(String name, String val) {
 		JsonObject o = new JsonObject();
 		o.addProperty(name, val);
@@ -191,8 +201,21 @@ public class FlatData {
 		// TODO Auto-generated method stub
 		List<JsonObject> errors = new ArrayList<>();
 
-		if (flatnumber == null)
+		if (flatnumber == null) {
 			errors.add(defineError("flatnumber", FlatDataErrMsgs.FLATNUMBER_ERR));
+		}
+		
+		if ((picturelist == null) || (picturelist.size() == 0)
+				|| (totalPictures() < 5)) {
+			errors.add(defineError("picturelist",
+					FlatDataErrMsgs.PICTURE_LIST_ERR));
+		}
+		
+		if ((availableFor == null) || (availableFor.size() == 0)) {
+			errors.add(defineError("availableFor",
+					FlatDataErrMsgs.AVAILABLE_FOR_ERR));
+		}
+
 		return errors.size() > 0 ? errors : null;
 	}
 
@@ -200,4 +223,6 @@ public class FlatData {
 
 class FlatDataErrMsgs {
 	public static final String FLATNUMBER_ERR = "flat number can't be left blank";
+	static final String PICTURE_LIST_ERR = "Picture list can't be blank/ size zero/ should contain at least 5 photo names";
+	static final String AVAILABLE_FOR_ERR = "availableFor can't be left blank/ size can't be zero";
 }
