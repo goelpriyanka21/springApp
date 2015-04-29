@@ -99,31 +99,35 @@ public class BuildingAndFlatData {
 			errors.add(defineError("deviceId",
 					BuildingAndFlatDataErrMsgs.DEVICE_ID_ERR));
 		}
-		
-		if ((propertyId == null) || (propertyId.length() != 16)){
-			errors.add(defineError("propertyId", BuildingAndFlatDataErrMsgs.PROPERTY_ID_ERR));
+
+		if ((propertyId == null) || (propertyId.length() != 16)) {
+			errors.add(defineError("propertyId",
+					BuildingAndFlatDataErrMsgs.PROPERTY_ID_ERR));
 		}
-		
-		
-		
-		List<JsonObject> buildingDataErrors = buildingData.validate();
-		if (buildingDataErrors != null){
-			errors.addAll(buildingDataErrors);
-		}
-		
-		List<JsonObject> locationErrors = gpslocation.validate(buildingData.getSelectedLocation());
-		if (locationErrors != null){
-			errors.addAll(locationErrors);
-		}
-		
-		for (FlatData flat : flatData) {
-			List<JsonObject> flatErrors = flat.validate();
-			if (flatErrors != null){
-				errors.addAll(flatErrors);
+
+		if (buildingData != null) {
+			List<JsonObject> buildingDataErrors = buildingData.validate();
+			if (buildingDataErrors != null) {
+				errors.addAll(buildingDataErrors);
+			}
+
+			List<JsonObject> locationErrors = gpslocation.validate(buildingData
+					.getSelectedLocation());
+			if (locationErrors != null) {
+				errors.addAll(locationErrors);
 			}
 		}
 
-		return errors.size()>0?errors:null;
+		if (flatData != null) {
+			for (FlatData flat : flatData) {
+				List<JsonObject> flatErrors = flat.validate();
+				if (flatErrors != null) {
+					errors.addAll(flatErrors);
+				}
+			}
+		}
+
+		return errors.size() > 0 ? errors : null;
 	}
 
 }

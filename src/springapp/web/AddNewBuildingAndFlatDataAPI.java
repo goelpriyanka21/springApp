@@ -90,7 +90,7 @@ public class AddNewBuildingAndFlatDataAPI {
 
 		List<JsonObject> errors = buildingAndFlatData.validate();
 
-		if (errors != null) {
+		if ((errors != null) && (errors.size() > 0)) {
 			postform = new PostForm(STATUS.Failure,
 					AddNewBuildingAndFlatDataAPIMsgs.DATA_VALIDATION_FAILED,
 					errors);
@@ -114,6 +114,7 @@ public class AddNewBuildingAndFlatDataAPI {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("propertyId").is(
 				buildingAndFlatData.getPropertyId()));
+
 		if (buildingAndFlatData.getFlatData() != null) {
 			// save if non existing
 			FlatDataModel flatDataModel = mongoOperation.findOne(query,
@@ -123,16 +124,14 @@ public class AddNewBuildingAndFlatDataAPI {
 				mongoOperation.save(new FlatDataModel(buildingAndFlatData
 						.getPropertyId(), buildingAndFlatData.getFlatData()));
 			} else { // append if existing
-				List<FlatData> flatdatalist = flatDataModel
-						.getFlatdatalist();
+				List<FlatData> flatdatalist = flatDataModel.getFlatdatalist();
 				flatdatalist.addAll(buildingAndFlatData.getFlatData());
 				Update update = new Update();
 				update.set("flatdatalist", flatdatalist);
-				mongoOperation
-						.updateFirst(query, update, FlatDataModel.class);
+				mongoOperation.updateFirst(query, update, FlatDataModel.class);
 
 			}
-			
+
 			// append if existing
 		}
 

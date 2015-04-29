@@ -102,10 +102,11 @@ public class AppointmentData implements Comparable<AppointmentData> {
 
 	@Override
 	public int compareTo(AppointmentData o) {
-		long startThis = appointmentStTime.getTime();
-		long startThat = o.appointmentStTime.getTime();
+		Long startThis = appointmentStTime.getTime();
+		Long startThat = o.appointmentStTime.getTime();
 		
-		return Long.compare(startThis, startThat);
+		return startThis.compareTo(startThat);
+//		return Long.compare(startThis, startThat);
 	}
 
 	public String getPropertyId() {

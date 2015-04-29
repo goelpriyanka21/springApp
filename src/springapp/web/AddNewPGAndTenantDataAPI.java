@@ -88,7 +88,7 @@ public class AddNewPGAndTenantDataAPI {
 		// DATA VALIDATION FAILURE:
 		List<JsonObject> errors = pgAndTenantData.validate();
 
-		if (errors != null) {
+		if ((errors != null) && (errors.size() > 0)) {
 			postform = new PostForm(STATUS.Failure,
 					AddNewPGAndTenantDataAPIMsgs.DATA_VALIDATION_FAILED, errors);
 			mongoOperation.save(new TestingData(postform));
