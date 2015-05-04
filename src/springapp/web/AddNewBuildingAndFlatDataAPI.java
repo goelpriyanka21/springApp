@@ -52,13 +52,7 @@ public class AddNewBuildingAndFlatDataAPI {
 			return postform;
 		}
 
-		if (buildingAndFlatData.getToken() == null) {
-			postform = new PostForm(STATUS.Failure,
-					AddNewBuildingAndFlatDataAPIMsgs.BLANK_TOKEN);
-			mongoOperation.save(new TestingData(postform));
-			return postform;
-		}
-
+		
 		// AuthenticationDetails Validator
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username").is(
@@ -72,10 +66,23 @@ public class AddNewBuildingAndFlatDataAPI {
 			return postform;
 		}
 
-		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(buildingAndFlatData.getUsername())),
 				UserNameToken.class);
+		
+		if (usernametoken == null) {
+			postform=new PostForm(STATUS.Failure, AddNewBuildingAndFlatDataAPIMsgs.USER_NOT_LOGGED_IN);
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+			}
+		
+		if (buildingAndFlatData.getToken() == null) {
+			postform = new PostForm(STATUS.Failure,
+					AddNewBuildingAndFlatDataAPIMsgs.BLANK_TOKEN);
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+		}
+
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				buildingAndFlatData.getToken())) {
@@ -115,7 +122,7 @@ public class AddNewBuildingAndFlatDataAPI {
 		query.addCriteria(Criteria.where("propertyId").is(
 				buildingAndFlatData.getPropertyId()));
 
-		if (buildingAndFlatData.getFlatData() != null) {
+		if ((buildingAndFlatData.getFlatData() != null) && (buildingAndFlatData.getFlatData().size()>0)) {
 			// save if non existing
 			FlatDataModel flatDataModel = mongoOperation.findOne(query,
 					FlatDataModel.class);

@@ -15,7 +15,7 @@
 			http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- the application context definition for the springapp DispatcherServlet -->
-
+	<mvc:resources mapping="/resources/**" location="/resources/" />
 	<mvc:annotation-driven />
 	<mongo:mongo host="127.0.0.1" port="27017" />
 	<mongo:db-factory dbname="dcdb" />

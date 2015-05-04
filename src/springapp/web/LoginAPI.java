@@ -3,6 +3,10 @@ package springapp.web;
 import helperclasses.LoginAPIMsgs;
 import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
 import models.AuthenticationDetails;
 import models.TestingData;
 import models.UserNameToken;
@@ -22,6 +26,8 @@ import forms.PostForm;
 
 @Controller
 public class LoginAPI {
+	
+	private static SecureRandom securerandom = new SecureRandom();
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody PostForm addNewPGandTenantData(
@@ -62,19 +68,19 @@ public class LoginAPI {
 			return postform;
 
 		}
-
-		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
-				.where("username").is(loginData.getUsername())),
+		// if already logged in; remove that token
+		mongoOperation.remove(new Query(Criteria.where("username")
+				.is(loginData.getUsername())),
 				UserNameToken.class);
+		
+		String token = new BigInteger(130,securerandom).toString(32);
+		mongoOperation.save(new UserNameToken(loginData.getUsername(), token));
 
 		postform = new PostForm(STATUS.Success,
-				LoginAPIMsgs.AUTHENTICATION_SUCCESSFUL,
-				usernametoken.gettoken());
+				LoginAPIMsgs.AUTHENTICATION_SUCCESSFUL, token);
 
 		mongoOperation.save(new TestingData(postform));
 		return postform;
 	}
 
 }
-
-

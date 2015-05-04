@@ -41,7 +41,8 @@ public class AddEntryAPI {
 		ExistingPropertyData existingPropertyData;
 		// AuthenticationDetails Validators
 		if (addEntryData.getUsername() == null) {
-			existingPropertyData = new ExistingPropertyData(STATUS.Failure, AddEntryAPIMsgs.BLANK_USER);
+			existingPropertyData = new ExistingPropertyData(STATUS.Failure,
+					AddEntryAPIMsgs.BLANK_USER);
 			mongoOperation.save(new TestingData(existingPropertyData));
 			return existingPropertyData;
 		}
@@ -51,7 +52,6 @@ public class AddEntryAPI {
 						addEntryData.getUsername())),
 				AuthenticationDetails.class);
 
-		
 		if (authenticationDetails == null) {
 			existingPropertyData = new ExistingPropertyData(STATUS.Failure,
 					AddEntryAPIMsgs.USER_NOT_EXIST);
@@ -59,17 +59,23 @@ public class AddEntryAPI {
 			return existingPropertyData;
 		}
 
-		// TOKEN AUTHENTICATION FAILURE:
-		if (addEntryData.getToken() == null) {
-			existingPropertyData = new ExistingPropertyData(STATUS.Failure, AddEntryAPIMsgs.BLANK_TOKEN);
-			mongoOperation.save(new TestingData(existingPropertyData));
-			return existingPropertyData;
-		}
-		
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(addEntryData.getUsername())),
 				UserNameToken.class);
 
+		if (usernametoken == null) {
+		existingPropertyData=new ExistingPropertyData(STATUS.Failure, AddEntryAPIMsgs.USER_NOT_LOGGED_IN);
+		mongoOperation.save(new TestingData(existingPropertyData));
+		return existingPropertyData;
+		}
+		
+		if (addEntryData.getToken() == null) {
+			existingPropertyData = new ExistingPropertyData(STATUS.Failure,
+					AddEntryAPIMsgs.BLANK_TOKEN);
+			mongoOperation.save(new TestingData(existingPropertyData));
+			return existingPropertyData;
+		}
+		
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				addEntryData.getToken())) {
 			existingPropertyData = new ExistingPropertyData(STATUS.Failure,
@@ -171,5 +177,3 @@ public class AddEntryAPI {
 	}
 
 }
-
-

@@ -32,13 +32,13 @@ public class ExistingPropertyAPI {
 
 		mongoOperation.save(new TestingData(existingPropertyData));
 
-		// AuthenticationDetails Validators
+		ExistingPropertyData existingPropertyDataret;
+
 		AuthenticationDetails authenticationDetails = mongoOperation.findOne(
 				new Query(Criteria.where("username").is(
 						existingPropertyData.getUsername())),
 				AuthenticationDetails.class);
 
-		ExistingPropertyData existingPropertyDataret;
 		if (authenticationDetails == null) {
 			existingPropertyDataret = new ExistingPropertyData(STATUS.Failure,
 					ExistingPropertyAPIMsgs.USER_NOT_EXIST);
@@ -50,6 +50,12 @@ public class ExistingPropertyAPI {
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(existingPropertyData.getUsername())),
 				UserNameToken.class);
+		
+		if (usernametoken == null) {
+			existingPropertyDataret=new ExistingPropertyData(STATUS.Failure, ExistingPropertyAPIMsgs.USER_NOT_LOGGED_IN);
+			mongoOperation.save(new TestingData(existingPropertyDataret));
+			return existingPropertyDataret;
+			}
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				existingPropertyData.getToken())) {
@@ -106,4 +112,5 @@ class ExistingPropertyAPIMsgs {
 	public static final String NO_PROPERTY_ID_PROVIDED = " propertyId cannot be left blank ";
 	public static final String ENTRY_DOES_NOT_EXIST = "Entry does not exist call add entry API";
 	public static final String EXISTING_PROPERTY_LIST = "Existing property list is ";
+	public static final String USER_NOT_LOGGED_IN = "user is not logged in";
 }

@@ -44,17 +44,23 @@ public class HomePageAPI {
 
 		HomePageData postForm;
 		if (authenticationDetails == null) {
-			postForm = new HomePageData(STATUS.Failure, HomePageAPIMsgs.USER_NOT_EXIST);
+			postForm = new HomePageData(STATUS.Failure,
+					HomePageAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 
 		}
 
-		// TOKEN AUTHENTICATION FAILURE:
-
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(homePageData.getUsername())),
 				UserNameToken.class);
+
+		if (usernametoken == null) {
+			postForm = new HomePageData(STATUS.Failure,
+					HomePageAPIMsgs.USER_NOT_LOGGED_IN);
+			mongoOperation.save(new TestingData(postForm));
+			return postForm;
+		}
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				homePageData.getToken())) {
@@ -95,7 +101,9 @@ public class HomePageAPI {
 		int monthsCount = (int) mongoOperation.count(monthq, PGDataModel.class);
 		monthsCount += (int) mongoOperation.count(monthq,
 				BuildingDataModel.class);
-		postForm = new HomePageData(STATUS.Success, HomePageAPIMsgs.HOMEPAGE_DATA,
+		postForm = new HomePageData(
+				STATUS.Success,
+				HomePageAPIMsgs.HOMEPAGE_DATA,
 				todaysCount,
 				monthsCount,
 				TARGET_FOR_EVERY_FOS_FOR_EVERY_MONTH,

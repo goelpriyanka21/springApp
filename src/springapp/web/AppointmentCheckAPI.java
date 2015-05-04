@@ -51,6 +51,12 @@ public class AppointmentCheckAPI {
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(username)), UserNameToken.class);
+		
+		if (usernametoken == null) {
+			appointmentAPIPost=new AppointmentAPIPost(STATUS.Failure, AppointmentCheckAPIMsgs.USER_NOT_LOGGED_IN);
+			mongoOperation.save(new TestingData(appointmentAPIPost));
+			return appointmentAPIPost;
+			}
 
 		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
 			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,

@@ -48,6 +48,12 @@ public class AppointmentListAPI {
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(username)), UserNameToken.class);
+		
+		if (usernametoken == null) {
+			appointmentAPIPost=new AppointmentAPIPost(STATUS.Failure, AppointmentListAPIMsgs.USER_NOT_LOGGED_IN);
+			mongoOperation.save(new TestingData(appointmentAPIPost));
+			return appointmentAPIPost;
+			}
 
 		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
 			appointmentAPIPost = new AppointmentAPIPost(STATUS.Failure,
@@ -93,4 +99,5 @@ class AppointmentListAPIMsgs {
 	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
 	public static final String NO_APPOINTMENT_FOR_YOU = "There is/was no appointment for you";
 	public static final String APPOINTMENT_LIST_SORTED_TIME = "Your appointment list (sorted acc to start time) is";
+	public static final String USER_NOT_LOGGED_IN = "user is not logged in";
 }

@@ -32,11 +32,4 @@ public class SectionListOfPhotoNameAndURLPair {
 		this.photonamelist = photonamelist;
 	}
 
-	// public SectionListOfFilePair(String section, MultipartFile file2){
-	// this.section=section;
-	//
-	// this.file2= file2;
-	//
-	// }
-
 }

@@ -13,15 +13,14 @@ import models.AppointmentDataModel;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Controller
 public class PopulateCollections {
 
-	@RequestMapping(value = "/populateappointments", method = RequestMethod.POST)
-	public @ResponseBody String populatecollections() throws Exception {
+	@RequestMapping(value = "/populateappointments")
+	public @ResponseBody String populateappointments() throws Exception {
 		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
 
 		mongoOperation.dropCollection("appointmentDetails");
@@ -83,7 +82,7 @@ public class PopulateCollections {
 		
 		mongoOperation.save(new AppointmentDataModel("User1", appointmentList));
 
-		return ("populate collections worked: appointment collection populated");
+		return ("appointment collection populated");
 
 	}
 

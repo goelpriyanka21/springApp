@@ -5,6 +5,7 @@ import helperclasses.STATUS;
 import helperclasses.XmlApplicationContext;
 import models.AuthenticationDetails;
 import models.TestingData;
+import models.UserNameToken;
 
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -44,6 +45,16 @@ public class LogoutAPI {
 			return postform;
 
 		}
+		
+		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
+				.where("username").is(logoutData.getUsername())),
+				UserNameToken.class);
+
+		if (usernametoken == null) {
+			postform=new PostForm(STATUS.Failure, LogoutAPIMsgs.USER_NOT_LOGGED_IN);
+		mongoOperation.save(new TestingData(postform));
+		return postform;
+		}
 
 		 if (!AuthenticationDetailsValidator.validatedeviceId(
 				authenticationDetails.getDeviceId(), logoutData.getDeviceId())) {
@@ -54,6 +65,9 @@ public class LogoutAPI {
 		}
 
 		else {
+			mongoOperation.remove(new Query(Criteria
+					.where("username").is(logoutData.getUsername())),
+					UserNameToken.class);
 			postform = new PostForm(STATUS.Success, LogoutAPIMsgs.LOGGED_OUT_SUCCESSFULLY);
 			mongoOperation.save(new TestingData(postform));
 			return postform;

@@ -63,17 +63,23 @@ public class AddNewPGAndTenantDataAPI {
 			return postform;
 		}
 
-		// TOKEN AUTHENTICATION FAILURE:
+		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
+				.where("username").is(pgAndTenantData.getUsername())),
+				UserNameToken.class);
+
+		if (usernametoken == null) {
+			postform = new PostForm(STATUS.Failure,
+					AddNewPGAndTenantDataAPIMsgs.USER_NOT_LOGGED_IN);
+			mongoOperation.save(new TestingData(postform));
+			return postform;
+		}
+
 		if (pgAndTenantData.getToken() == null) {
 			postform = new PostForm(STATUS.Failure,
 					AddNewPGAndTenantDataAPIMsgs.BLANK_TOKEN);
 			mongoOperation.save(new TestingData(postform));
 			return postform;
 		}
-
-		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
-				.where("username").is(pgAndTenantData.getUsername())),
-				UserNameToken.class);
 
 		if (!TokenValidator.validate(usernametoken.gettoken(),
 				pgAndTenantData.getToken())) {

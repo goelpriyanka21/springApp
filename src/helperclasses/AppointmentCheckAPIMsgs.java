@@ -6,4 +6,5 @@ public class AppointmentCheckAPIMsgs {
 	public static final String DATA_SUCCESSFULLY_UPDATED = "Data successfully updated on server";
 	public static final String NO_APPOINTMENT_FOR_YOU = "There is/was no appointment for you";
 	public static final String NO_SUCH_APPOINTMENT_FOR_YOU = "There was no such appointment ID for you";
+	public static final String USER_NOT_LOGGED_IN = "user is not logged in";
 }

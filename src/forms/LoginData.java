@@ -2,7 +2,6 @@ package forms;
 
 import helperclasses.Location;
 
-
 public class LoginData {
 	
 
