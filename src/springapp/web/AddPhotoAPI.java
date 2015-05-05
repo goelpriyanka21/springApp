@@ -1,11 +1,12 @@
 package springapp.web;
 
 import helperclasses.PhotoNameAndURLPair;
-import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.STATUS;
+import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.XmlApplicationContext;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import models.AuthenticationDetails;
@@ -62,7 +63,8 @@ public class AddPhotoAPI {
 
 		PostForm postForm;
 		if (authenticationDetails == null) {
-			postForm = new PostForm(STATUS.Failure, AddPhotoAPIMsgs.USER_NOT_EXIST);
+			postForm = new PostForm(STATUS.Failure,
+					AddPhotoAPIMsgs.USER_NOT_EXIST);
 			mongoOperation.save(new TestingData(postForm));
 			return postForm;
 		}
@@ -70,6 +72,13 @@ public class AddPhotoAPI {
 		// TOKEN AUTHENTICATION FAILURE:
 		UserNameToken usernametoken = mongoOperation.findOne(new Query(Criteria
 				.where("username").is(username)), UserNameToken.class);
+
+		if (usernametoken == null) {
+			postForm = new PostForm(STATUS.Failure,
+					AddPhotoAPIMsgs.USER_NOT_LOGGED_IN);
+			mongoOperation.save(new TestingData(postForm));
+			return postForm;
+		}
 
 		if (!TokenValidator.validate(usernametoken.gettoken(), token)) {
 			postForm = new PostForm(STATUS.Failure,
@@ -85,265 +94,142 @@ public class AddPhotoAPI {
 
 	}
 
+	@SuppressWarnings("rawtypes")
+	private static Map uploadToCloud(String propertyId, MultipartFile file) {
+		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name",
+				"grabhouse", "api_key", "573923864849251", "api_secret",
+				"U7q8f_oV0proD8NDPu3evypgV6M"));
+
+		Map params = ObjectUtils.asMap("folder", "/dc/" + propertyId);
+
+		Map result = null;
+		try {
+			result = cloudinary.uploader().upload(file.getBytes(), params);
+		} catch (IOException e) {
+			throw new RuntimeException(
+					"failed to load picture to cloud. exception received is "
+							+ e);
+		}
+		return result;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private static PostForm updateToCloudAndDB(
+			List<SectionListOfPhotoNameAndURLPair> sectionList, String section,
+			String photoname, String propertyId, MultipartFile file,
+			Query query, Class clazz, Object data, String fieldName) {
+		for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : sectionList) {
+			if (sectionListOfFileNamePair.getSection().equals(section)) {
+				for (PhotoNameAndURLPair dbphotonameandurl : sectionListOfFileNamePair
+						.getPhotonamelist()) {
+					if (dbphotonameandurl.getPhotoname().equals(photoname)) {
+						try {
+							Map uploadResult = uploadToCloud(propertyId, file);
+							
+							dbphotonameandurl.setUrl((String) uploadResult
+									.get("url"));
+							MongoOperations mongoOperation = XmlApplicationContext.CONTEXT
+									.getDB();
+							mongoOperation.updateFirst(query,
+									new Update().set(fieldName, data), clazz);
+
+							return new PostForm(STATUS.Success,
+									AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
+						} catch (RuntimeException e) {
+							return new PostForm(STATUS.Failure,
+									AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
+						}
+					}
+				}
+				return new PostForm(STATUS.Failure,
+						AddPhotoAPIMsgs.NO_SUCH_PHOTONAME);
+			}
+		}
+		return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_SUCH_SECTION);
+	}
+
+	private static PostForm uploadPGPhoto(String section, String photoname,
+			String propertyId, MultipartFile file) {
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
+		Query query = new Query();
+		query.addCriteria(Criteria.where("propertyId").is(propertyId));
+		PGDataModel pgDataModel = mongoOperation.findOne(query,
+				PGDataModel.class);
+		if (pgDataModel == null) {
+			return new PostForm(STATUS.Failure,
+					AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
+		} else {
+			return updateToCloudAndDB(pgDataModel.getPgdata().getPicturelist(),
+					section, photoname, propertyId, file, query,
+					PGDataModel.class, pgDataModel.getPgdata(), "pgdata");
+		}
+	}
+
+	private static PostForm uploadBuildingPhoto(String section,
+			String photoname, String propertyId, MultipartFile file) {
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
+		Query query = new Query();
+		query.addCriteria(Criteria.where("propertyId").is(propertyId));
+		BuildingDataModel buildingDataModel = mongoOperation.findOne(query,
+				BuildingDataModel.class);
+		if (buildingDataModel == null) {
+			return new PostForm(STATUS.Failure,
+					AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
+		} else {
+			return updateToCloudAndDB(buildingDataModel.getBuildingData()
+					.getPicturelist(), section, photoname, propertyId, file,
+					query, BuildingDataModel.class,
+					buildingDataModel.getBuildingData(), "buildingdata");
+		}
+	}
+
+	private static PostForm uploadFlatPhoto(String section, String flatnumber,
+			String photoname, String propertyId, MultipartFile file) {
+		if (flatnumber == null) {
+			return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_FLAT_NUMBER);
+		}
+
+		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
+		Query query = new Query();
+		query.addCriteria(Criteria.where("propertyId").is(propertyId));
+		FlatDataModel flatDataModel = mongoOperation.findOne(query,
+				FlatDataModel.class);
+		if (flatDataModel == null) {
+			return new PostForm(STATUS.Failure,
+					AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
+		}
+
+		for (FlatData flatData : flatDataModel.getFlatdatalist()) {
+			if (flatData.getFlatnumber().equals(flatnumber)) {
+				return updateToCloudAndDB(flatData.getPicturelist(), section,
+						photoname, propertyId, file, query,
+						FlatDataModel.class, flatDataModel.getFlatdatalist(),
+						"flatdatalist");
+			}
+		}
+		return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_SUCH_FLAT_NUMBER);
+	}
+
 	public static PostForm validateAndUploadPhoto(String propertyId,
 			String flatnumber, String propertyType, String section,
 			String photoname, MultipartFile file) {
-		// Validations of fields
-		MongoOperations mongoOperation = XmlApplicationContext.CONTEXT.getDB();
-
-		Query query = new Query();
-		query.addCriteria(Criteria.where("propertyId").is(propertyId));
-
-		// PG
-		if (propertyType.equals("PG")) {
-			PGDataModel pgDataModel = mongoOperation.findOne(query,
-					PGDataModel.class);
-			if (pgDataModel == null)
-				return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
-
-			for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : pgDataModel
-					.getPgdata().getPicturelist()) {
-				if (sectionListOfFileNamePair.getSection().equals(section)) {
-					for (PhotoNameAndURLPair dbphotonameandurl : sectionListOfFileNamePair
-							.getPhotonamelist()) {
-						if (dbphotonameandurl.getPhotoname().equals(photoname)) {
-							try {
-								// TODO : Make this configurable. Separate
-								// accounts for production and dev - shetty
-								// 10-apr-15
-
-								// THIS IS FOR DEVELOPEMNT
-								/*
-								 * Cloudinary cloudinary = new
-								 * Cloudinary(ObjectUtils.asMap( "cloud_name",
-								 * "grbh", "api_key", "266747318345815",
-								 * "api_secret",
-								 * "NID3oheFJGcg1Sisu2hTgePpiv0"));
-								 */
-								// PRODUCTION SETTINGS
-								Cloudinary cloudinary = new Cloudinary(
-										ObjectUtils.asMap("cloud_name",
-												"grabhouse", "api_key",
-												"573923864849251",
-												"api_secret",
-												"U7q8f_oV0proD8NDPu3evypgV6M"));
-
-								Map params = ObjectUtils.asMap("folder", "/dc/"
-										+ propertyId);
-								Map uploadResult = cloudinary.uploader()
-										.upload(file.getBytes(), params);
-								try {
-									dbphotonameandurl
-											.setUrl((String) uploadResult
-													.get("url"));
-									mongoOperation.updateFirst(query,
-											new Update().set("pgdata",
-													pgDataModel.getPgdata()),
-											PGDataModel.class);
-
-									// mongoOperation.save(new
-									// PhotoModel(propertyId, propertyType,
-									// section, photoname, (String)
-									// uploadResult.get("url")));
-									return new PostForm(STATUS.Success,
-											AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
-								} catch (Exception e) {
-									e.printStackTrace();
-									return new PostForm(STATUS.Failure,
-											
-											AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
-								}
-							} catch (RuntimeException e) {
-								return new PostForm(STATUS.Failure,
-										AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-					}
-					return new PostForm(STATUS.Failure,
-							AddPhotoAPIMsgs.NO_SUCH_PHOTONAME);
-				}
-			}
-			return new PostForm(STATUS.Failure,
-					AddPhotoAPIMsgs.NO_SUCH_SECTION);
-		}
-
-		// Building
-		else if (propertyType.equals("Building")) {
-			BuildingDataModel buildingDataModel = mongoOperation.findOne(query,
-					BuildingDataModel.class);
-			if (buildingDataModel == null)
-				return new PostForm(STATUS.Failure,
-						AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
-
-			for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : buildingDataModel
-					.getBuildingData().getPicturelist()) {
-				if (sectionListOfFileNamePair.getSection().equals(section)) {
-					for (PhotoNameAndURLPair dbphotonameandurl : sectionListOfFileNamePair
-							.getPhotonamelist()) {
-						if (dbphotonameandurl.getPhotoname().equals(photoname)) {
-							try {
-								// TODO : Make this configurable. Separate
-								// accounts for production and dev - shetty
-								// 10-apr-15
-
-								// THIS IS FOR DEVELOPEMNT
-								/*
-								 * Cloudinary cloudinary = new
-								 * Cloudinary(ObjectUtils.asMap( "cloud_name",
-								 * "grbh", "api_key", "266747318345815",
-								 * "api_secret",
-								 * "NID3oheFJGcg1Sisu2hTgePpiv0"));
-								 */
-								// PRODUCTION SETTINGS
-								Cloudinary cloudinary = new Cloudinary(
-										ObjectUtils.asMap("cloud_name",
-												"grabhouse", "api_key",
-												"573923864849251",
-												"api_secret",
-												"U7q8f_oV0proD8NDPu3evypgV6M"));
-
-								Map params = ObjectUtils.asMap("folder", "/dc/"
-										+ propertyId);
-								Map uploadResult = cloudinary.uploader()
-										.upload(file.getBytes(), params);
-								try {
-									dbphotonameandurl
-											.setUrl((String) uploadResult
-													.get("url"));
-									mongoOperation
-											.updateFirst(
-													query,
-													new Update()
-															.set("buildingData",
-																	buildingDataModel
-																			.getBuildingData()),
-													BuildingDataModel.class);
-
-									// mongoOperation.save(new
-									// PhotoModel(propertyId, propertyType,
-									// section, photoname, (String)
-									// uploadResult.get("url")));
-									return new PostForm(STATUS.Success,
-											AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
-								} catch (Exception e) {
-									e.printStackTrace();
-									return new PostForm(STATUS.Failure,
-											AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
-								}
-							} catch (RuntimeException e) {
-								return new PostForm(STATUS.Failure,
-										AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
-							} catch (IOException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}
-
-					}
-
-					return new PostForm(STATUS.Failure,
-							AddPhotoAPIMsgs.NO_SUCH_PHOTONAME);
-				}
-			}
-			return new PostForm(STATUS.Failure,
-					AddPhotoAPIMsgs.NO_SUCH_SECTION);
-		} else if (propertyType.equals("Flat")) {
-			if (flatnumber == null)
-				return new PostForm(STATUS.Failure, AddPhotoAPIMsgs.NO_FLAT_NUMBER);
-			// query.addCriteria(Criteria.where("flatdatalist.flatnumber").is(
-			// flatnumber));
-			FlatDataModel flatDataModel = mongoOperation.findOne(query,
-					FlatDataModel.class);
-			if (flatDataModel == null)
-				return new PostForm(STATUS.Failure,
-						AddPhotoAPIMsgs.NO_SUCH_PROPERTY_ID);
-			for (FlatData flatData : flatDataModel.getFlatdatalist()) {
-				if (flatData.getFlatnumber().equals(flatnumber)) {
-					for (SectionListOfPhotoNameAndURLPair sectionListOfFileNamePair : flatData
-							.getPicturelist()) {
-						if (sectionListOfFileNamePair.getSection().equals(
-								section)) {
-							for (PhotoNameAndURLPair dbphotonameandurl : sectionListOfFileNamePair
-									.getPhotonamelist()) {
-								if (dbphotonameandurl.getPhotoname().equals(
-										photoname)) {
-									try {
-										// TODO : Make this configurable.
-										// Separate accounts for production and
-										// dev - shetty 10-apr-15
-
-										// THIS IS FOR DEVELOPEMNT
-										/*
-										 * Cloudinary cloudinary = new
-										 * Cloudinary(ObjectUtils.asMap(
-										 * "cloud_name", "grbh", "api_key",
-										 * "266747318345815", "api_secret",
-										 * "NID3oheFJGcg1Sisu2hTgePpiv0"));
-										 */
-										// PRODUCTION SETTINGS
-										Cloudinary cloudinary = new Cloudinary(
-												ObjectUtils
-														.asMap("cloud_name",
-																"grabhouse",
-																"api_key",
-																"573923864849251",
-																"api_secret",
-																"U7q8f_oV0proD8NDPu3evypgV6M"));
-
-										Map params = ObjectUtils.asMap(
-												"folder", "/dc/" + propertyId);
-										Map uploadResult = cloudinary
-												.uploader()
-												.upload(file.getBytes(), params);
-										try {
-											dbphotonameandurl
-													.setUrl((String) uploadResult
-															.get("url"));
-											mongoOperation.updateFirst(query,
-													new Update().set(
-															"flatdatalist",
-															flatDataModel),
-													FlatDataModel.class);
-
-											// mongoOperation.save(new
-											// PhotoModel(propertyId,
-											// propertyType,
-											// section, photoname, (String)
-											// uploadResult.get("url")));
-											return new PostForm(STATUS.Success,
-													AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
-										} catch (Exception e) {
-											e.printStackTrace();
-											return new PostForm(STATUS.Failure,
-													AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
-										}
-									} catch (RuntimeException e) {
-										return new PostForm(STATUS.Failure,
-												AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
-									} catch (IOException e1) {
-										// TODO Auto-generated catch block
-										e1.printStackTrace();
-									}
-								}
-							}
-							return new PostForm(STATUS.Failure,
-									AddPhotoAPIMsgs.NO_SUCH_PHOTONAME);
-						}
-					}
-					return new PostForm(STATUS.Failure,
-							AddPhotoAPIMsgs.NO_SUCH_SECTION);
-				}
-			}
-			return new PostForm(STATUS.Failure,
-					AddPhotoAPIMsgs.NO_SUCH_FLAT_NUMBER);
-
-		} else
-			return new PostForm(STATUS.Failure,
+		PostForm retVal = null;
+		switch (propertyType) {
+		case "PG":
+			retVal = uploadPGPhoto(section, photoname, propertyId, file);
+			break;
+		case "Building":
+			retVal = uploadBuildingPhoto(section, photoname, propertyId, file);
+			break;
+		case "Flat":
+			retVal = uploadFlatPhoto(section, flatnumber, photoname,
+					propertyId, file);
+			break;
+		default:
+			retVal = new PostForm(STATUS.Failure,
 					AddPhotoAPIMsgs.NO_SUCH_PROPERTY_TYPE);
-
+		}
+		return retVal;
 	}
 
 	class AddPhotoData {
@@ -372,7 +258,7 @@ public class AddPhotoAPI {
 	}
 }
 
-class AddPhotoAPIMsgs{
+class AddPhotoAPIMsgs {
 	public static final String USER_NOT_EXIST = "Username does not exist";
 	public static final String TOKEN_AUTHENTICATION_FAILED = "Token authentication failed";
 	public static final String NO_SUCH_PROPERTY_ID = "There is no such propertyId existing on server";
@@ -383,11 +269,9 @@ class AddPhotoAPIMsgs{
 	public static final String NO_SUCH_PROPERTY_TYPE = "There is no such propertyType: propertyType can only be PG/Building?Flat";
 	public static final String FILE_UPLOADED_SUCCESSFULLY = "File uploaded successfully!";
 	public static final String FILE_UPLOADED_FAILED = "File upload failed!";
+	public static final String USER_NOT_LOGGED_IN = "user is not logged in";
 }
 
 enum PropertyType {
-	PG,	
-	Building,
-	Flat;
+	PG, Building, Flat;
 }
-
