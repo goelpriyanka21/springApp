@@ -6,8 +6,10 @@ import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.XmlApplicationContext;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import models.AuthenticationDetails;
 import models.BuildingDataModel;
@@ -37,6 +39,25 @@ import forms.PostForm;
 
 @Controller
 public class AddPhotoAPI {
+
+	static class ConfigProperties {
+		static Properties prop;
+
+		static void loadPropertiesFile() throws IOException {
+			prop = new Properties();
+//			InputStream input = new FileInputStream("config.properties");
+			InputStream input = AddPhotoAPI.class.getClassLoader().getResourceAsStream("config.properties");
+			prop.load(input);
+			input.close();
+		}
+
+		static Properties getproperties() throws IOException {
+			if (prop == null) {
+				loadPropertiesFile();
+			}
+			return prop;
+		}
+	}
 
 	@RequestMapping(value = "/uploadphoto", method = RequestMethod.POST)
 	public @ResponseBody PostForm addphoto(
@@ -96,14 +117,15 @@ public class AddPhotoAPI {
 
 	@SuppressWarnings("rawtypes")
 	private static Map uploadToCloud(String propertyId, MultipartFile file) {
-		Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap("cloud_name",
-				"grabhouse", "api_key", "573923864849251", "api_secret",
-				"U7q8f_oV0proD8NDPu3evypgV6M"));
 
 		Map params = ObjectUtils.asMap("folder", "/dc/" + propertyId);
-
 		Map result = null;
 		try {
+			Properties prop = ConfigProperties.getproperties();
+			Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+					"cloud_name", prop.getProperty("cloud_name"), "api_key",
+					prop.getProperty("api_key"), "api_secret",
+					prop.getProperty("api_secret")));
 			result = cloudinary.uploader().upload(file.getBytes(), params);
 		} catch (IOException e) {
 			throw new RuntimeException(
@@ -125,7 +147,7 @@ public class AddPhotoAPI {
 					if (dbphotonameandurl.getPhotoname().equals(photoname)) {
 						try {
 							Map uploadResult = uploadToCloud(propertyId, file);
-							
+
 							dbphotonameandurl.setUrl((String) uploadResult
 									.get("url"));
 							MongoOperations mongoOperation = XmlApplicationContext.CONTEXT
@@ -137,7 +159,7 @@ public class AddPhotoAPI {
 									AddPhotoAPIMsgs.FILE_UPLOADED_SUCCESSFULLY);
 						} catch (RuntimeException e) {
 							return new PostForm(STATUS.Failure,
-									AddPhotoAPIMsgs.FILE_UPLOADED_FAILED);
+									e.getMessage());
 						}
 					}
 				}
