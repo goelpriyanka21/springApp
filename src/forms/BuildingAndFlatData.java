@@ -111,11 +111,11 @@ public class BuildingAndFlatData {
 				errors.addAll(buildingDataErrors);
 			}
 
-			List<JsonObject> locationErrors = gpslocation.validate(buildingData
-					.getSelectedLocation());
-			if (locationErrors != null) {
-				errors.addAll(locationErrors);
-			}
+//			List<JsonObject> locationErrors = gpslocation.validate(buildingData
+//					.getSelectedLocation());
+//			if (locationErrors != null) {
+//				errors.addAll(locationErrors);
+//			}
 		}
 
 		if (flatData != null) {

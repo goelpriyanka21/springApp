@@ -162,11 +162,11 @@ public class PGAndTenantData {
 				errors.addAll(pgDataErrors);
 			}
 
-			List<JsonObject> locationErrors = gpsLocation.validate(pgdata
-					.getSelectedLocation());
-			if (locationErrors != null) {
-				errors.addAll(locationErrors);
-			}
+//			List<JsonObject> locationErrors = gpsLocation.validate(pgdata
+//					.getSelectedLocation());
+//			if (locationErrors != null) {
+//				errors.addAll(locationErrors);
+//			}
 		}
 
 		if (pgtenantlist != null) {

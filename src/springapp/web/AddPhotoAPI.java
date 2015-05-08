@@ -4,7 +4,6 @@ import helperclasses.PhotoNameAndURLPair;
 import helperclasses.STATUS;
 import helperclasses.SectionListOfPhotoNameAndURLPair;
 import helperclasses.XmlApplicationContext;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

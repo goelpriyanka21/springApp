@@ -9,6 +9,7 @@ import forms.FlatData;
 @Document(collection = "flatdata")
 public class FlatDataModel {
 
+	@SuppressWarnings("unused")
 	private String propertyId;
 	private List<FlatData> flatdatalist;
 
