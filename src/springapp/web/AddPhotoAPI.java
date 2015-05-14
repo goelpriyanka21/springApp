@@ -200,7 +200,7 @@ public class AddPhotoAPI {
 			return updateToCloudAndDB(buildingDataModel.getBuildingData()
 					.getPicturelist(), section, photoname, propertyId, file,
 					query, BuildingDataModel.class,
-					buildingDataModel.getBuildingData(), "buildingdata");
+					buildingDataModel.getBuildingData(), "buildingData");
 		}
 	}
 
