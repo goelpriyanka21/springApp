@@ -195,7 +195,7 @@ class PGDataErrMsgs {
 
 	public static final String AGEBAND_ERR = "age band min limit cannot be greater than max limit";
 	public static final String CONTACTPERSON_ERR = "Please provide 3 contact details";
-	static final String PICTURELIST_ERR = "Picture list can't be blank/ size zero/ should contain at least 5 photo names";
+	static final String PICTURELIST_ERR = "Picture list cannot be blank/ size zero/ should contain at least 5 photo names";
 	static final String PGNAME_ERR = "pg name can't be left blank/ more than 50 characters";
 	static final String BUILDINGNAME_ERR = "buildingname name cant be null & more than 50 characters";
 	static final String ADDRESSL1_ERR = "First Line Address can't be left blank/ more than 200 characters";
