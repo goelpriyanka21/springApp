@@ -7,7 +7,6 @@ public class AmenityTypePricePair {
 	public AmenityTypePricePair(String amenitytype, int price) {
 		this.amenitytype=amenitytype;
 		this.price=price;
-		// TODO Auto-generated constructor stub
 	}
 	
 }

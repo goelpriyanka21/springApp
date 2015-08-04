@@ -23,7 +23,7 @@ public class ExistingPropertyDataAPIJson {
 		
 		//POST: will be all the details on server for this property name
 		
-		writer.append("//POST: will be all the deatils on server for this property name\n");
+		writer.append("//POST: will be all the details on server for this property name\n");
 		
 		
 		

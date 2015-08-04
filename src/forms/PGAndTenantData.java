@@ -135,7 +135,6 @@ public class PGAndTenantData {
 			ann = PGAndTenantData.class.getDeclaredField(name).getAnnotation(
 					MyAnnotation.class);
 		} catch (NoSuchFieldException | SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return ann;

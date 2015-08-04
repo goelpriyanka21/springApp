@@ -20,7 +20,6 @@ public class TenantData {
 	public String[] threeBestThingsAboutPG = new String[3];
 	public String[] threethingsyoudontlikeaboutPG = new String[3];
 	RatingAndListOfEsAndString<String> safety;
-
 	RatingAndListOfEs<String> cleanliness;
 	List<String> otherRoommates;
 	Commute<String> commute;
@@ -241,15 +240,35 @@ public class TenantData {
 		if (tenantname == null) {
 			errors.add(defineError("tenantname",
 					TenantDataErrMsgs.TENANTNAME_ERR));
+		} else { // trimmed string should not be empty
+			tenantname = tenantname.trim();
+			if (tenantname.equals("")) {
+				errors.add(defineError("tenantname",
+						TenantDataErrMsgs.TENANTNAME_ERR));
+			}
 		}
 
-		if (contact == null || contact.length() != 10) {
+		if (contact == null) {
 			errors.add(defineError("contact", TenantDataErrMsgs.CONTACT_ERR));
+		} else {
+			contact = contact.trim();
+			if (contact.length() != 10) { // empty string is taken care in this
+											// check
+				errors.add(defineError("contact", TenantDataErrMsgs.CONTACT_ERR));
+			}
 		}
 
-		StringBuilder emailstbuilder = new StringBuilder(emailId);
-		if (emailId == null || emailstbuilder.indexOf("@")== -1 || emailstbuilder.indexOf(".")== -1 || emailstbuilder.indexOf("@")> emailstbuilder.indexOf(".")) {
+		if (emailId == null) {
 			errors.add(defineError("emailId", TenantDataErrMsgs.EMAILID_ERR));
+		} else {
+			StringBuilder emailstbuilder = new StringBuilder(emailId);
+			if (emailstbuilder.indexOf("@") == -1 // empty string is taken care
+													// in this check
+					|| emailstbuilder.indexOf(".") == -1
+					|| emailstbuilder.lastIndexOf("@") > emailstbuilder
+							.lastIndexOf(".")) {
+				errors.add(defineError("emailId", TenantDataErrMsgs.EMAILID_ERR));
+			}
 		}
 
 		if ((age == null) || (age < 10) || (age > 99)) {
@@ -263,8 +282,11 @@ public class TenantData {
 
 class TenantDataErrMsgs {
 
-	static final String TENANTNAME_ERR = "tenant name can't be left blank";
-	static final String CONTACT_ERR = "tenant contact left blank or is invalid";
-	static final String EMAILID_ERR = "tenant emailId invalid";
-	static final String AGE_ERR = "tenant age can't be left blank and should be a two digit number";
+	public static final String THREETHINGSYOUDONTLIKEABOUTPG_ERR = "threethingsyoudontlikeaboutPG strings cant be empty strings";
+	public static final String THREEBESTTHINGSABOUTPG_ERR = "threeBestThingsAboutPG strings cant be empty strings";
+	public static final String PROFESSION_ERR = "profession cant be empty string";
+	static final String TENANTNAME_ERR = "tenant name cant be null/empty string";
+	static final String CONTACT_ERR = "tenant contact is null/ invalid";
+	static final String EMAILID_ERR = "tenant emailId is invalid";
+	static final String AGE_ERR = "tenant age cant be null and should be a two digit number";
 }

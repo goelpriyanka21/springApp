@@ -9,7 +9,6 @@ public class AdminAuthenticationDetails {
 	private String fosadmin_password;
 
 	public AdminAuthenticationDetails(String fosadmin_username, String fosadmin_password) {
-		// TODO Auto-generated constructor stub
 		this.fosadmin_username = fosadmin_username;
 		this.fosadmin_password = fosadmin_password;
 	}
