@@ -160,14 +160,14 @@
 			$('.add-user-button').click(
 					function() {
 						$('.form').attr('action',
-								'http://localhost:8080/dcapi/adduser');
+								'http://85.159.208.122:8080/dcapi/adduser');
 						$('.form').attr('method', 'post');
 					});
 
 			$('.delete-user-button').click(
 					function() {
 						$('.form').attr('action',
-								'http://localhost:8080/dcapi/deleteuser');
+								'http://85.159.208.122:8080/dcapi/deleteuser');
 						$('.form').attr('method', 'post');
 					});
 
@@ -181,7 +181,7 @@
 			$('.add-appointment-button').click(
 					function() {
 						$('.add-appointment-form').attr('action',
-								'http://localhost:8080/dcapi/addappointment');
+								'http://85.159.208.122:8080/dcapi/addappointment');
 						$('.add-appointment-form').attr('method', 'post');
 					});
 			$('.unlock-entry-btn').click(
@@ -193,7 +193,7 @@
 			$('.unlock-entry-button').click(
 					function() {
 						$('.unlock-entry-form').attr('action',
-								'http://localhost:8080/dcapi/unlockentry');
+								'http://85.159.208.122:8080/dcapi/unlockentry');
 						$('.unlock-entry-form').attr('method', 'post');
 					});
 

@@ -50,7 +50,7 @@ public class FOSAdminOptions {
 		if (!adminAuthenticationDetails.getPassword().equals(fosadmin_password))
 			return "Unauthorized login attempt (Invalid credentials)";
 
-		response.sendRedirect("http://localhost:8080/dcapi/pages/fosoptions.jsp");
+		response.sendRedirect("http://85.159.208.122:8080/dcapi/pages/fosoptions.jsp");
 		return "";
 
 	}

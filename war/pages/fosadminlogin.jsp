@@ -1,7 +1,7 @@
 <html>
   <head><title>FOS Admin Login</title></head>
   <body>
-  <form method="post" action="http://localhost:8080/dcapi/fosadminlogin">
+  <form method="post" action="http://85.159.208.122:8080/dcapi/fosadminlogin">
 Username <br>
 <input type="text" name="fosadmin_username" >
 <br>
